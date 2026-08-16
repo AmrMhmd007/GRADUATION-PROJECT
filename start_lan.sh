@@ -29,7 +29,7 @@ fi
 
 # --- 2. Backend (FastAPI/uvicorn) ---
 echo "Starting backend..."
-cd backend
+cd "Source Code/backend"
 PORT=8000
 PID=$(lsof -ti tcp:$PORT || true)
 if [ -n "$PID" ]; then
@@ -71,7 +71,7 @@ cleanup() {
 }
 trap cleanup EXIT
 
-cd dashboard
+cd "Source Code/dashboard"
 # --host exposes the dev server on the LAN too (default is localhost-only).
 # VITE_API_BASE_URL points the dashboard's own API calls at this Mac's LAN
 # IP instead of "localhost" — otherwise your friend's browser would try to

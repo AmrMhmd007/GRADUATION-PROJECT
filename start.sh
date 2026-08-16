@@ -20,7 +20,7 @@ fi
 
 # --- 2. Backend (FastAPI/uvicorn) ---
 echo "Starting backend..."
-cd backend
+cd "Source Code/backend"
 PORT=8000
 PID=$(lsof -ti tcp:$PORT || true)
 if [ -n "$PID" ]; then
@@ -51,5 +51,5 @@ cleanup() {
 }
 trap cleanup EXIT
 
-cd dashboard
+cd "Source Code/dashboard"
 npm run dev

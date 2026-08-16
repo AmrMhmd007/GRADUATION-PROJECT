@@ -20,7 +20,7 @@ The system controls physical door access across a university building using DESF
 - **Security** — JWT authentication, bcrypt password hashing, DESFire AES mutual authentication at the door node, tamper lockout, and encrypted credentials at rest.
 - **Resilient firmware** — RS-485 as the primary link with automatic Wi-Fi fallback, plus offline event buffering when disconnected from the gateway.
 - **Account self-service** — users can update their name/email, change their password, and upload a profile photo; admins can create additional admin accounts.
-- **LAN sharing** — helper scripts (`start_lan.sh`, `backend/restart_lan.sh`) to expose the running system to other devices on the same network for demos.
+- **LAN sharing** — helper scripts (`start_lan.sh`, `Source Code/backend/restart_lan.sh`) to expose the running system to other devices on the same network for demos.
 
 ## Architecture
 
@@ -33,20 +33,19 @@ Door Node (ESP32 + RFID/DESFire)
                                    SQLite / PostgreSQL
 ```
 
-Full design rationale, the database ERD, and the REST/MQTT API spec are in [`System_Design_Document.docx`](./System_Design_Document.docx).
+Full design rationale, the database ERD, and the REST/MQTT API spec are in [`Documents/System_Design_Document.docx`](./Documents/System_Design_Document.docx).
 
 ## Project structure
 
 ```
-backend/              FastAPI backend (REST API, MQTT listener, auth, scheduling)
-dashboard/             React + Vite admin dashboard
-door_node_firmware/    ESP32 firmware (PlatformIO project)
-GRADUATION_PROJECT_ALL/  Packaged docs + source snapshot (full deliverable archive)
-start.sh                Start the full stack locally (mosquitto + backend + dashboard)
-start_lan.sh             Same, but reachable from other devices on the same network
+Source Code/
+  backend/              FastAPI backend (REST API, MQTT listener, auth, scheduling)
+  dashboard/             React + Vite admin dashboard
+  door_node_firmware/    ESP32 firmware (PlatformIO project)
+Documents/                Design docs, reports, and Excel import templates
+start.sh                  Start the full stack locally (mosquitto + backend + dashboard)
+start_lan.sh               Same, but reachable from other devices on the same network
 ```
-
-Design docs, security review, deployment guide, and the final graduation report are included at the repo root as `.docx`/`.pdf` files.
 
 ## Getting started
 
@@ -64,7 +63,7 @@ This starts mosquitto (if installed), the backend on `:8000`, and the dashboard 
 
 ```bash
 # Backend
-cd backend
+cd "Source Code/backend"
 python3 -m venv venv && source venv/bin/activate
 pip install -r requirements.txt
 cp .env.example .env
@@ -72,7 +71,7 @@ python -m scripts.seed_db        # creates tables + a sample admin account
 uvicorn app.main:app --reload
 
 # Dashboard (in a separate terminal)
-cd dashboard
+cd "Source Code/dashboard"
 npm install
 cp .env.example .env
 npm run dev
@@ -94,11 +93,11 @@ To let someone else on the same network open the dashboard (e.g. for a demo), us
 
 ## Documentation
 
-- [System Design Document](./System_Design_Document.docx)
-- [Security Review](./Phase5_Security_Review.pdf)
-- [Multi-Node Deployment Guide](./Phase6_Multi_Node_Deployment_Guide.pdf)
-- [System Test Report](./Phase7_System_Test_Report.pdf)
-- [Study Guide](./Study_Guide_Access_Control_Project.pdf)
+- [System Design Document](./Documents/System_Design_Document.docx)
+- [Security Review](./Documents/Phase5_Security_Review.pdf)
+- [Multi-Node Deployment Guide](./Documents/Phase6_Multi_Node_Deployment_Guide.pdf)
+- [System Test Report](./Documents/Phase7_System_Test_Report.pdf)
+- [Study Guide](./Documents/Study_Guide_Access_Control_Project.pdf)
 
 ## Author
 
