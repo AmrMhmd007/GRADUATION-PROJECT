@@ -18,6 +18,8 @@ template (`fp_template_hash`), consistent with the Phase 1 System Design
 Document's schema and the Phase 2 firmware README's note that biometric
 matching happens on the sensor module itself.
 """
+from __future__ import annotations
+
 import base64
 import hashlib
 import hmac

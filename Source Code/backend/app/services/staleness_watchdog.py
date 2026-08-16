@@ -21,6 +21,8 @@ door still marked online whose last_seen is older than
 simple backstop, not a replacement for the existing LWT/explicit-offline
 paths (those are still faster when they do fire).
 """
+from __future__ import annotations
+
 import datetime
 import logging
 import threading

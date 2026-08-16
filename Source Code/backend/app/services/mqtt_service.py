@@ -16,6 +16,8 @@ Runs as a background thread started from main.py's startup event, kept
 deliberately separate from the request/response cycle so a broker outage
 doesn't take the REST API down with it.
 """
+from __future__ import annotations
+
 import json
 import logging
 import threading
