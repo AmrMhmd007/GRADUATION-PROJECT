@@ -1,0 +1,25 @@
+# --- OS junk ---
+.DS_Store
+**/.DS_Store
+
+# --- Backend (Python) --- (recursive so it also catches copies, e.g. GRADUATION_PROJECT_ALL/)
+**/venv/
+**/__pycache__/
+*.pyc
+**/.env
+**/*.db
+**/*.db-journal
+**/media/
+**/.pytest_cache/
+backend.log
+
+# --- Dashboard (Node) ---
+**/node_modules/
+**/dist/
+*.log
+npm-debug.log*
+
+# --- Editor/misc ---
+.vscode/*
+!.vscode/extensions.json
+.idea
