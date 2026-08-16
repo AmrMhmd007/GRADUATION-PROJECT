@@ -43,9 +43,9 @@ fi
 source venv/bin/activate
 # --host 0.0.0.0 makes it listen on every network interface, not just
 # localhost, so another device on the same Wi-Fi can actually reach it.
-uvicorn app.main:app --reload --host 0.0.0.0 --port $PORT > ../backend.log 2>&1 &
+uvicorn app.main:app --reload --host 0.0.0.0 --port $PORT > ../../backend.log 2>&1 &
 BACKEND_PID=$!
-cd ..
+cd ../..
 echo "Backend starting (pid $BACKEND_PID) — logging to backend.log"
 
 # Give it a moment, then sanity-check it actually came up.

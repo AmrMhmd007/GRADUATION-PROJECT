@@ -29,9 +29,9 @@ if [ -n "$PID" ]; then
   sleep 1
 fi
 source venv/bin/activate
-uvicorn app.main:app --reload --port $PORT > ../backend.log 2>&1 &
+uvicorn app.main:app --reload --port $PORT > ../../backend.log 2>&1 &
 BACKEND_PID=$!
-cd ..
+cd ../..
 echo "Backend starting (pid $BACKEND_PID) — logging to backend.log"
 
 # Give it a moment, then sanity-check it actually came up.
