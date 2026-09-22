@@ -88,6 +88,7 @@ def change_my_password(payload: schemas.PasswordChange, db: Session = Depends(ge
     if len(payload.new_password) < 6:
         raise HTTPException(status_code=400, detail="New password must be at least 6 characters")
     user.password_hash = security.hash_password(payload.new_password)
+    user.must_change_password = False
     db.commit()
 
 

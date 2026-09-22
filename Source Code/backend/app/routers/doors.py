@@ -39,11 +39,25 @@ def create_door(payload: schemas.DoorCreate, db: Session = Depends(get_db),
     if existing:
         raise HTTPException(status_code=409, detail=f"A door with code '{payload.code}' already exists")
 
+    # ac_enabled/light_enabled/plugs only make sense for Rooms (access_service)
+    # — a critical/main door quietly ignores them rather than erroring, since
+    # the "+Add Room" form only sends them when that category is selected.
+    is_room = payload.category == "access_service"
     door = models.Door(
         code=payload.code, name=payload.name, building=payload.building, floor=payload.floor,
         fail_mode=payload.fail_mode, category=payload.category, online=False, locked=True,
+        ac_enabled=is_room and payload.ac_enabled,
+        light_enabled=is_room and payload.light_enabled,
     )
     db.add(door)
+    db.flush()  # assigns door.door_id, needed for the plugs' FK below
+
+    if is_room:
+        for label in payload.plug_labels:
+            label = label.strip()
+            if label:
+                db.add(models.Plug(door_id=door.door_id, label=label))
+
     db.commit()
     db.refresh(door)
     return door
@@ -228,6 +242,95 @@ def override_door(door_id: int, payload: schemas.DoorOverrideRequest, db: Sessio
     db.commit()
 
     return {"door_id": door_id, "action": payload.action, "mqtt_delivered": sent}
+
+
+@router.post("/{door_id}/ac", response_model=schemas.DoorOut)
+def toggle_ac(door_id: int, payload: schemas.DeviceToggle, db: Session = Depends(get_db),
+              user=Depends(security.get_current_user)):
+    """Admin, or a doctor assigned to this room, turns its AC on/off."""
+    door = db.query(models.Door).filter(models.Door.door_id == door_id).first()
+    if not door:
+        raise HTTPException(status_code=404, detail="Door not found")
+    if not door.ac_enabled:
+        raise HTTPException(status_code=400, detail="This room has no AC control configured")
+    security.require_room_control(door, user, db)
+
+    mqtt_service.publish_ac(door.code, "on" if payload.on else "off")
+    door.ac_on = payload.on
+    db.commit()
+    db.refresh(door)
+    return door
+
+
+@router.post("/{door_id}/light", response_model=schemas.DoorOut)
+def toggle_light(door_id: int, payload: schemas.DeviceToggle, db: Session = Depends(get_db),
+                  user=Depends(security.get_current_user)):
+    """Admin, or a doctor assigned to this room, turns its light on/off."""
+    door = db.query(models.Door).filter(models.Door.door_id == door_id).first()
+    if not door:
+        raise HTTPException(status_code=404, detail="Door not found")
+    if not door.light_enabled:
+        raise HTTPException(status_code=400, detail="This room has no light control configured")
+    security.require_room_control(door, user, db)
+
+    mqtt_service.publish_light(door.code, "on" if payload.on else "off")
+    door.light_on = payload.on
+    db.commit()
+    db.refresh(door)
+    return door
+
+
+@router.post("/{door_id}/plugs", response_model=schemas.PlugOut, status_code=201)
+def add_plug(door_id: int, payload: schemas.PlugCreate, db: Session = Depends(get_db),
+             _admin=Depends(security.require_admin)):
+    """Admin adds another plug to a room — separate from room creation so
+    plugs can be added later without recreating the room."""
+    door = db.query(models.Door).filter(models.Door.door_id == door_id).first()
+    if not door:
+        raise HTTPException(status_code=404, detail="Door not found")
+    if door.category != "access_service":
+        raise HTTPException(status_code=400, detail="Only rooms (access_service) can have plugs")
+
+    plug = models.Plug(door_id=door.door_id, label=(payload.label.strip() or "Plug"))
+    db.add(plug)
+    db.commit()
+    db.refresh(plug)
+    return plug
+
+
+@router.post("/{door_id}/plugs/{plug_id}", response_model=schemas.PlugOut)
+def toggle_plug(door_id: int, plug_id: int, payload: schemas.DeviceToggle, db: Session = Depends(get_db),
+                 user=Depends(security.get_current_user)):
+    """Admin, or a doctor assigned to this room, turns one plug on/off — the
+    same command channel that would eventually carry a remote cutoff once a
+    plug's own current sensor flags something left switched on."""
+    door = db.query(models.Door).filter(models.Door.door_id == door_id).first()
+    if not door:
+        raise HTTPException(status_code=404, detail="Door not found")
+    plug = db.query(models.Plug).filter(
+        models.Plug.plug_id == plug_id, models.Plug.door_id == door_id
+    ).first()
+    if not plug:
+        raise HTTPException(status_code=404, detail="Plug not found")
+    security.require_room_control(door, user, db)
+
+    mqtt_service.publish_plug(door.code, plug.plug_id, "on" if payload.on else "off")
+    plug.on = payload.on
+    db.commit()
+    db.refresh(plug)
+    return plug
+
+
+@router.delete("/{door_id}/plugs/{plug_id}", status_code=204)
+def delete_plug(door_id: int, plug_id: int, db: Session = Depends(get_db),
+                 _admin=Depends(security.require_admin)):
+    plug = db.query(models.Plug).filter(
+        models.Plug.plug_id == plug_id, models.Plug.door_id == door_id
+    ).first()
+    if not plug:
+        raise HTTPException(status_code=404, detail="Plug not found")
+    db.delete(plug)
+    db.commit()
 
 
 @router.post("/{door_id}/status", response_model=schemas.DoorOut)
