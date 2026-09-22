@@ -1,7 +1,7 @@
 import datetime
 
 from sqlalchemy import (
-    Boolean, CheckConstraint, Column, DateTime, ForeignKey, Integer, SmallInteger,
+    Boolean, CheckConstraint, Column, DateTime, Float, ForeignKey, Integer, SmallInteger,
     String, Time,
 )
 from sqlalchemy.orm import relationship
@@ -47,6 +47,12 @@ class User(Base):
     # Relative URL under /media (e.g. "/media/avatars/3-ab12cd34.jpg"), served
     # as a static file — see app/main.py's StaticFiles mount.
     photo_url = Column(String(255), nullable=True)
+    # Set when an admin approves a password-reset request (see
+    # PasswordResetRequest below) — the dashboard checks this on login and
+    # forces the user to pick their own password before it lets them past
+    # that screen, instead of leaving the admin's temp password in place
+    # indefinitely. Cleared as soon as they successfully change it.
+    must_change_password = Column(Boolean, default=False, nullable=False)
 
     __table_args__ = (CheckConstraint("role IN ('admin','instructor','doctor')", name="ck_user_role"),)
 
@@ -103,6 +109,17 @@ class Door(Base):
     # a door shows up under.
     category = Column(String(20), nullable=False, default="access_service")
 
+    # Room device controls — only meaningful for category == 'access_service'
+    # ("Rooms"): Main Doors stay lock-only and never set these. *_enabled is
+    # decided once by the admin when the room is created (whether that room
+    # even has an AC unit / controllable light wired up); *_on is the live
+    # state, updated either optimistically on command or by a real status
+    # message from the node over MQTT (see services/mqtt_service.py).
+    ac_enabled = Column(Boolean, default=False, nullable=False)
+    ac_on = Column(Boolean, default=False, nullable=False)
+    light_enabled = Column(Boolean, default=False, nullable=False)
+    light_on = Column(Boolean, default=False, nullable=False)
+
     __table_args__ = (
         CheckConstraint("fail_mode IN ('safe','secure')", name="ck_door_fail_mode"),
         CheckConstraint("category IN ('critical','access_service')", name="ck_door_category"),
@@ -111,6 +128,29 @@ class Door(Base):
     schedules = relationship("Schedule", back_populates="door")
     access_events = relationship("AccessEvent", back_populates="door")
     alerts = relationship("Alert", back_populates="door")
+    plugs = relationship("Plug", back_populates="door", cascade="all, delete-orphan")
+
+
+class Plug(Base):
+    """A single smart plug inside a Room (an access_service Door). Hardware
+    isn't built yet — the user's own words: "we will built it in the plug" —
+    but the plan is a plug with a built-in current sensor, so a forgotten
+    charger or appliance left running can be spotted (current_amps stays
+    nonzero with nothing useful happening) and cut remotely. `on` is the
+    commanded/last-known state; `current_amps` and `last_seen` are only ever
+    set by a real MQTT status message from the plug itself, never guessed.
+    A room can have any number of plugs (e.g. "Plug 1", "Projector outlet").
+    """
+    __tablename__ = "plugs"
+
+    plug_id = Column(Integer, primary_key=True, index=True)
+    door_id = Column(Integer, ForeignKey("doors.door_id"), nullable=False)
+    label = Column(String(60), nullable=False, default="Plug")
+    on = Column(Boolean, default=False, nullable=False)
+    current_amps = Column(Float, nullable=True)  # only set once a real plug reports a reading over MQTT
+    last_seen = Column(DateTime, nullable=True)
+
+    door = relationship("Door", back_populates="plugs")
 
 
 class DoorAssignment(Base):
@@ -189,3 +229,47 @@ class Alert(Base):
     @property
     def requested_by_name(self):
         return self.requester.name if self.requester else None
+
+
+class PasswordResetRequest(Base):
+    """A "forgot password" request awaiting admin review.
+
+    This deployment has no mail server, so there's no reset link to email.
+    Instead: the browser that submits the forgot-password form gets back an
+    opaque `request_token` and sits on a "waiting for approval" screen,
+    polling with it. An admin approves or denies from the dashboard's
+    account menu — no password is generated or relayed by the admin at all.
+    Once approved, that same browser (and only it, since it's the only
+    holder of the token) uses the token to set its own new password
+    directly, at which point `password_set` flips to True and the token is
+    spent.
+    """
+    __tablename__ = "password_reset_requests"
+
+    request_id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.user_id"), nullable=False)
+    request_token = Column(String(64), unique=True, index=True, nullable=True)
+    requested_at = Column(DateTime, default=datetime.datetime.utcnow)
+    status = Column(String(10), nullable=False, default="pending")  # 'pending' | 'approved' | 'denied'
+    password_set = Column(Boolean, default=False, nullable=False)
+    resolved_at = Column(DateTime, nullable=True)
+    resolved_by = Column(Integer, ForeignKey("users.user_id"), nullable=True)
+
+    __table_args__ = (
+        CheckConstraint("status IN ('pending','approved','denied')", name="ck_password_reset_status"),
+    )
+
+    user = relationship("User", foreign_keys=[user_id])
+    resolver = relationship("User", foreign_keys=[resolved_by])
+
+    @property
+    def user_name(self):
+        return self.user.name if self.user else None
+
+    @property
+    def user_email(self):
+        return self.user.email if self.user else None
+
+    @property
+    def resolved_by_name(self):
+        return self.resolver.name if self.resolver else None

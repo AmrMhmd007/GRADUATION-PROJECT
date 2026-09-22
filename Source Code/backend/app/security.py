@@ -57,3 +57,30 @@ def require_admin(user: models.User = Depends(get_current_user)) -> models.User:
     if user.role != "admin":
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Admin role required")
     return user
+
+
+def require_room_control(door: models.Door, user: models.User, db: Session) -> None:
+    """Gate for the AC/light/plug endpoints (routers/doors.py).
+
+    Unlike the door lock itself — which stays admin-direct / doctor-request
+    only, unchanged — a doctor gets to flip these directly for a Room they've
+    actually been assigned (same assignment table request-access already
+    uses), since a classroom's AC/lights/plugs are lower-stakes than its
+    lock. Admin can always do this; instructors never can (only doctors were
+    asked for this control).
+    """
+    if user.role == "admin":
+        return
+    if user.role == "doctor":
+        assigned = (
+            db.query(models.DoorAssignment)
+            .filter(
+                models.DoorAssignment.door_id == door.door_id,
+                models.DoorAssignment.instructor_id == user.user_id,
+            )
+            .first()
+        )
+        if assigned:
+            return
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="You aren't assigned to this room")
+    raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not allowed to control this room")

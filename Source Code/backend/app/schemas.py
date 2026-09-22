@@ -1,5 +1,5 @@
 import datetime
-from typing import Optional
+from typing import List, Optional
 
 from pydantic import BaseModel, EmailStr, ConfigDict
 
@@ -25,6 +25,7 @@ class UserOut(BaseModel):
     faculty_id: Optional[int] = None
     faculty_name: Optional[str] = None
     photo_url: Optional[str] = None
+    must_change_password: bool = False
 
 
 class UserCreate(BaseModel):
@@ -86,7 +87,28 @@ class CredentialCreate(BaseModel):
     fp_template_hash: Optional[str] = None
 
 
-# ---------- Doors ----------
+# ---------- Doors / Rooms ----------
+# "Room" is the dashboard-facing name for an access_service Door once it has
+# device controls attached — Main Doors (category == 'critical') stay plain
+# doors and never populate ac_enabled/light_enabled/plugs.
+class PlugOut(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+    plug_id: int
+    door_id: int
+    label: str
+    on: bool
+    current_amps: Optional[float] = None
+    last_seen: Optional[datetime.datetime] = None
+
+
+class PlugCreate(BaseModel):
+    label: str = "Plug"
+
+
+class DeviceToggle(BaseModel):
+    on: bool
+
+
 class DoorOut(BaseModel):
     model_config = ConfigDict(from_attributes=True)
     door_id: int
@@ -99,6 +121,11 @@ class DoorOut(BaseModel):
     locked: bool
     last_seen: Optional[datetime.datetime]
     category: str  # "critical" | "access_service"
+    ac_enabled: bool = False
+    ac_on: bool = False
+    light_enabled: bool = False
+    light_on: bool = False
+    plugs: List[PlugOut] = []
 
 
 class DoorOverrideRequest(BaseModel):
@@ -116,6 +143,11 @@ class DoorCreate(BaseModel):
     floor: Optional[str] = None
     fail_mode: str = "secure"  # "secure" | "safe"
     category: str = "access_service"  # "critical" | "access_service"
+    # Only meaningful (and only accepted) when category == 'access_service' —
+    # the room's device capabilities, decided once at creation time.
+    ac_enabled: bool = False
+    light_enabled: bool = False
+    plug_labels: List[str] = []
 
 
 # ---------- Door assignments (which TA can request which door) ----------
@@ -167,6 +199,40 @@ class AccessEventOut(BaseModel):
     event_time: datetime.datetime
     method: str
     result: str
+
+
+# ---------- Password resets (no-email "forgot password" flow) ----------
+class ForgotPasswordRequest(BaseModel):
+    email: EmailStr
+
+
+class ForgotPasswordResponse(BaseModel):
+    detail: str
+    # Opaque token handed back to the requesting browser only — it's what
+    # that tab polls with, and later uses to set its own new password. Not
+    # shown to the admin; the admin only ever sees the request's identity.
+    request_token: str
+
+
+class PasswordResetStatusOut(BaseModel):
+    status: str  # 'pending' | 'approved' | 'denied' | 'used'
+
+
+class ResetPasswordRequest(BaseModel):
+    request_token: str
+    new_password: str
+
+
+class PasswordResetRequestOut(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+    request_id: int
+    user_id: int
+    user_name: Optional[str] = None
+    user_email: Optional[str] = None
+    requested_at: datetime.datetime
+    status: str
+    resolved_at: Optional[datetime.datetime] = None
+    resolved_by_name: Optional[str] = None
 
 
 # ---------- Alerts ----------
