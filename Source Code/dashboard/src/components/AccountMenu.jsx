@@ -34,6 +34,110 @@ export default function AccountMenu() {
   const [addAdminOk, setAddAdminOk] = useState(null);
   const [savingAdmin, setSavingAdmin] = useState(false);
 
+  const [showResets, setShowResets] = useState(false);
+  const [resets, setResets] = useState([]);
+  const [resetsErr, setResetsErr] = useState(null);
+  const [loadingResets, setLoadingResets] = useState(false);
+
+  const [showBuildings, setShowBuildings] = useState(false);
+  const [buildings, setBuildings] = useState([]);
+  const [loadingBuildings, setLoadingBuildings] = useState(false);
+  const [buildingErr, setBuildingErr] = useState(null);
+  const [buildingOk, setBuildingOk] = useState(null);
+  const [newBuildingName, setNewBuildingName] = useState("");
+
+  async function loadResets() {
+    setLoadingResets(true);
+    setResetsErr(null);
+    try {
+      const list = await api.listPasswordResets();
+      setResets(list);
+    } catch (e) {
+      setResetsErr(e instanceof ApiError ? e.message : "Could not load reset requests.");
+    } finally {
+      setLoadingResets(false);
+    }
+  }
+
+  function openResets() {
+    setShowResets(true);
+    loadResets();
+  }
+
+  async function handleApproveReset(requestId) {
+    setResetsErr(null);
+    try {
+      // No password is generated here — the user's own browser (already
+      // polling with its request_token) picks this up and lets them set
+      // their own new password directly.
+      await api.approvePasswordReset(requestId);
+      await loadResets();
+    } catch (e) {
+      setResetsErr(e instanceof ApiError ? e.message : "Could not approve this request.");
+    }
+  }
+
+  async function handleDenyReset(requestId) {
+    setResetsErr(null);
+    try {
+      await api.denyPasswordReset(requestId);
+      await loadResets();
+    } catch (e) {
+      setResetsErr(e instanceof ApiError ? e.message : "Could not deny this request.");
+    }
+  }
+
+  async function loadBuildingsList() {
+    setLoadingBuildings(true);
+    setBuildingErr(null);
+    try {
+      const list = await api.listBuildings();
+      setBuildings(list);
+    } catch (e) {
+      setBuildingErr(e instanceof ApiError ? e.message : "Could not load buildings.");
+    } finally {
+      setLoadingBuildings(false);
+    }
+  }
+
+  function openBuildings() {
+    setShowBuildings(true);
+    setBuildingOk(null);
+    loadBuildingsList();
+  }
+
+  async function handleAddBuilding(e) {
+    e.preventDefault();
+    setBuildingErr(null);
+    setBuildingOk(null);
+    const name = newBuildingName.trim();
+    if (!name) {
+      setBuildingErr("Enter a building name.");
+      return;
+    }
+    try {
+      await api.createBuilding(name);
+      setBuildingOk(`Added "${name}".`);
+      setNewBuildingName("");
+      await loadBuildingsList();
+    } catch (e) {
+      setBuildingErr(e instanceof ApiError ? e.message : "Could not add building.");
+    }
+  }
+
+  async function handleRemoveBuilding(buildingId, name) {
+    setBuildingErr(null);
+    setBuildingOk(null);
+    if (!window.confirm(`Remove building "${name}"?`)) return;
+    try {
+      await api.deleteBuilding(buildingId);
+      setBuildingOk(`Removed "${name}".`);
+      await loadBuildingsList();
+    } catch (e) {
+      setBuildingErr(e instanceof ApiError ? e.message : "Could not remove building.");
+    }
+  }
+
   async function handleAddAdmin(e) {
     e.preventDefault();
     setAddAdminErr(null);
@@ -246,7 +350,97 @@ export default function AccountMenu() {
 
           {user?.role === "admin" && (
             <>
-              <div style={{ borderTop: "1px solid #F1F5F9", margin: "8px 0" }} />
+              <div style={{ borderTop: "1px solid var(--border)", margin: "8px 0" }} />
+
+              {!showResets ? (
+                <button type="button" className="account-dropdown-action" onClick={openResets}>
+                  Password reset requests
+                </button>
+              ) : (
+                <div className="account-password-form">
+                  {loadingResets && <p className="muted" style={{ margin: 0 }}>Loading…</p>}
+                  {resetsErr && <div className="form-error">{resetsErr}</div>}
+                  {!loadingResets && resets.length === 0 && (
+                    <p className="muted" style={{ margin: 0 }}>No pending requests.</p>
+                  )}
+                  {resets.map((r) => (
+                    <div
+                      key={r.request_id}
+                      style={{ borderBottom: "1px solid var(--border)", paddingBottom: "8px" }}
+                    >
+                      <strong style={{ fontSize: "13px" }}>{r.user_name || r.user_email}</strong>
+                      <div className="muted" style={{ fontSize: "12px" }}>{r.user_email}</div>
+                      <div style={{ display: "flex", gap: "8px", marginTop: "4px" }}>
+                        <button type="button" onClick={() => handleApproveReset(r.request_id)}>
+                          Approve
+                        </button>
+                        <button
+                          type="button"
+                          className="secondary"
+                          onClick={() => handleDenyReset(r.request_id)}
+                        >
+                          Deny
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                  <button type="button" className="secondary" onClick={() => setShowResets(false)}>
+                    Close
+                  </button>
+                </div>
+              )}
+
+              <div style={{ borderTop: "1px solid var(--border)", margin: "8px 0" }} />
+
+              {!showBuildings ? (
+                <button type="button" className="account-dropdown-action" onClick={openBuildings}>
+                  Manage buildings
+                </button>
+              ) : (
+                <div className="account-password-form">
+                  {loadingBuildings && <p className="muted" style={{ margin: 0 }}>Loading…</p>}
+                  <ul style={{ listStyle: "none", margin: 0, padding: 0, maxHeight: "160px", overflowY: "auto" }}>
+                    {buildings.map((b) => (
+                      <li
+                        key={b.building_id}
+                        style={{
+                          display: "flex", alignItems: "center", justifyContent: "space-between",
+                          padding: "6px 0", borderBottom: "1px solid var(--border)", fontSize: "13px",
+                        }}
+                      >
+                        <span>{b.name}</span>
+                        <button
+                          type="button"
+                          className="link-button"
+                          onClick={() => handleRemoveBuilding(b.building_id, b.name)}
+                        >
+                          Remove
+                        </button>
+                      </li>
+                    ))}
+                    {!loadingBuildings && buildings.length === 0 && (
+                      <li className="muted" style={{ padding: "4px 0" }}>No buildings yet.</li>
+                    )}
+                  </ul>
+                  <form onSubmit={handleAddBuilding} style={{ display: "flex", gap: "6px" }}>
+                    <input
+                      placeholder="New building name"
+                      value={newBuildingName}
+                      onChange={(e) => setNewBuildingName(e.target.value)}
+                      style={{ flex: 1 }}
+                    />
+                    <button type="submit">Add</button>
+                  </form>
+                  {buildingErr && <div className="form-error">{buildingErr}</div>}
+                  {buildingOk && <div className="form-success">{buildingOk}</div>}
+                  <button type="button" className="secondary" onClick={() => setShowBuildings(false)}>
+                    Close
+                  </button>
+                </div>
+              )}
+
+              <div style={{ borderTop: "1px solid var(--border)", margin: "8px 0" }} />
+
               {!showAddAdminForm ? (
                 <button
                   type="button"

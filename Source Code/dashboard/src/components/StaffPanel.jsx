@@ -322,7 +322,7 @@ export default function StaffPanel({ role, roleLabel, doors, suggestEmail }) {
       )}
 
       <section style={{ margin: "16px 0" }}>
-        <div style={{ border: "1px solid #e5e7eb", borderRadius: "8px", padding: "12px" }}>
+        <div style={{ border: "1px solid var(--border)", borderRadius: "12px", padding: "14px" }}>
           {!loading && staffList.length === 0 && (
             <p className="muted">No {roleLabel}s yet &mdash; add one above.</p>
           )}
@@ -354,7 +354,7 @@ export default function StaffPanel({ role, roleLabel, doors, suggestEmail }) {
             <div style={{ marginTop: "12px" }}>
               <strong>Assigned doors:</strong>
               {assignedDoors.length === 0 ? (
-                <p style={{ color: "#6b7280" }}>No doors assigned yet.</p>
+                <p style={{ color: "var(--muted)" }}>No doors assigned yet.</p>
               ) : (
                 <ul>
                   {assignedDoors.map((a) => (
