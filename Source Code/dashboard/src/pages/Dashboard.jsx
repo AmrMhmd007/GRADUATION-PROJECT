@@ -6,6 +6,7 @@ import AlertBanner from "../components/AlertBanner";
 import LogsTable from "../components/LogsTable";
 import StaffPanel from "../components/StaffPanel";
 import AccountMenu from "../components/AccountMenu";
+import RoomProfile from "../components/RoomProfile";
 
 const POLL_MS = 5000;
 
@@ -43,11 +44,15 @@ export default function Dashboard() {
   const [showAddDoor, setShowAddDoor] = useState(false);
   const [newDoor, setNewDoor] = useState({
     code: "", name: "", building: "", floor: "", fail_mode: "secure", category: "critical",
+    ac_enabled: false, light_enabled: false,
   });
+  // Plug labels for a new Room — a simple growable list of text inputs
+  // ("Plug 1", "Projector outlet", ...), only shown for access_service.
+  const [plugLabels, setPlugLabels] = useState([]);
   const [addDoorErr, setAddDoorErr] = useState(null);
+  // Populated for the "Add Door" building select — building management
+  // itself (add/remove) lives in the account menu now, not here.
   const [buildings, setBuildings] = useState([]);
-  const [showNewBuilding, setShowNewBuilding] = useState(false);
-  const [newBuildingName, setNewBuildingName] = useState("");
 
   const [importBusy, setImportBusy] = useState(false);
   const [importResult, setImportResult] = useState(null);
@@ -55,10 +60,25 @@ export default function Dashboard() {
   const importInputRef = useRef(null);
 
   const [doorSearch, setDoorSearch] = useState("");
+  // Which building to narrow the Access Service tab down to — "" means all
+  // buildings. Only meaningful there (Main Doors is usually just a handful
+  // of entrances/critical doors, not worth filtering by building).
+  const [buildingFilter, setBuildingFilter] = useState("");
+
+  // Which Room's profile is currently open (door lock + AC + light + plugs
+  // + history, all in one place) — separate from selectedDoorId, which
+  // still drives the plain History panel used by Main Doors.
+  const [roomProfileId, setRoomProfileId] = useState(null);
+  const [roomLogs, setRoomLogs] = useState([]);
+  const roomProfileDoor = doors.find((d) => d.door_id === roomProfileId) || null;
 
   const canOverride = user?.role === "admin";
   const canRequestAccess = user?.role === "instructor" || user?.role === "doctor";
+  // AC/light/plugs — unlike the lock itself, a doctor can flip these
+  // directly for a room they're assigned to (server checks the assignment).
+  const canControlRoom = user?.role === "admin" || user?.role === "doctor";
   const isDoorTab = activeTab === "critical" || activeTab === "access";
+  const isRoomTab = activeTab === "access";
 
   const refresh = useCallback(async () => {
     try {
@@ -97,6 +117,32 @@ export default function Dashboard() {
     refreshLogs(selectedDoorId);
   }, [selectedDoorId, refreshLogs]);
 
+  const refreshRoomLogs = useCallback(async (doorId) => {
+    // History is admin-only (see RoomProfile) — don't even fetch it for
+    // TAs/doctors opening their own room's profile.
+    if (doorId == null || !canOverride) {
+      setRoomLogs([]);
+      return;
+    }
+    try {
+      setRoomLogs(await api.doorLogs(doorId));
+    } catch (e) {
+      setErr(e.message);
+    }
+  }, [canOverride]);
+
+  useEffect(() => {
+    refreshRoomLogs(roomProfileId);
+  }, [roomProfileId, refreshRoomLogs]);
+
+  function openRoomProfile(doorId) {
+    setRoomProfileId(doorId);
+  }
+
+  function closeRoomProfile() {
+    setRoomProfileId(null);
+  }
+
   const loadBuildings = useCallback(async () => {
     try {
       const list = await api.listBuildings();
@@ -115,6 +161,7 @@ export default function Dashboard() {
       await api.overrideDoor(doorId, action);
       await refresh();
       if (selectedDoorId === doorId) await refreshLogs(doorId);
+      if (roomProfileId === doorId) await refreshRoomLogs(doorId);
     } catch (e) {
       setErr(e.message);
     }
@@ -164,11 +211,18 @@ export default function Dashboard() {
       return;
     }
     try {
-      await api.createDoor(newDoor);
+      await api.createDoor({
+        ...newDoor,
+        plug_labels: newDoor.category === "access_service"
+          ? plugLabels.map((l) => l.trim()).filter(Boolean)
+          : [],
+      });
       setNewDoor({
         code: "", name: "", building: "", floor: "", fail_mode: "secure",
         category: activeTab === "access" ? "access_service" : "critical",
+        ac_enabled: false, light_enabled: false,
       });
+      setPlugLabels([]);
       setShowAddDoor(false);
       await refresh();
     } catch (e) {
@@ -176,17 +230,60 @@ export default function Dashboard() {
     }
   }
 
-  async function handleAddBuilding(e) {
-    e.preventDefault();
-    if (!newBuildingName.trim()) return;
+  function addPlugLabelField() {
+    setPlugLabels((labels) => [...labels, `Plug ${labels.length + 1}`]);
+  }
+
+  function updatePlugLabelField(index, value) {
+    setPlugLabels((labels) => labels.map((l, i) => (i === index ? value : l)));
+  }
+
+  function removePlugLabelField(index) {
+    setPlugLabels((labels) => labels.filter((_, i) => i !== index));
+  }
+
+  async function handleToggleAc(doorId, on) {
     try {
-      const created = await api.createBuilding(newBuildingName.trim());
-      setNewBuildingName("");
-      setShowNewBuilding(false);
-      await loadBuildings();
-      setNewDoor((d) => ({ ...d, building: created.name }));
+      await api.toggleAc(doorId, on);
+      await refresh();
     } catch (e) {
-      setAddDoorErr(e.message);
+      setErr(e.message);
+    }
+  }
+
+  async function handleToggleLight(doorId, on) {
+    try {
+      await api.toggleLight(doorId, on);
+      await refresh();
+    } catch (e) {
+      setErr(e.message);
+    }
+  }
+
+  async function handleTogglePlug(doorId, plugId, on) {
+    try {
+      await api.togglePlug(doorId, plugId, on);
+      await refresh();
+    } catch (e) {
+      setErr(e.message);
+    }
+  }
+
+  async function handleAddPlug(doorId, label) {
+    try {
+      await api.addPlug(doorId, label);
+      await refresh();
+    } catch (e) {
+      setErr(e.message);
+    }
+  }
+
+  async function handleDeletePlug(doorId, plugId) {
+    try {
+      await api.deletePlug(doorId, plugId);
+      await refresh();
+    } catch (e) {
+      setErr(e.message);
     }
   }
 
@@ -212,8 +309,12 @@ export default function Dashboard() {
   function openAddDoor() {
     setShowAddDoor(true);
     setAddDoorErr(null);
-    setShowNewBuilding(false);
-    setNewDoor((d) => ({ ...d, category: activeTab === "access" ? "access_service" : "critical" }));
+    setPlugLabels([]);
+    setNewDoor((d) => ({
+      ...d,
+      category: activeTab === "access" ? "access_service" : "critical",
+      ac_enabled: false, light_enabled: false,
+    }));
   }
 
   function selectTab(key) {
@@ -221,20 +322,31 @@ export default function Dashboard() {
     setShowAddDoor(false);
     setAddDoorErr(null);
     setDoorSearch("");
+    setBuildingFilter("");
+    setPlugLabels([]);
   }
 
   const visibleDoors = (canOverride
     ? doors.filter((d) => d.category === (activeTab === "access" ? "access_service" : "critical"))
     : doors // instructors/doctors only ever see the doors assigned to them
-  ).filter((d) => {
-    const q = doorSearch.trim().toLowerCase();
-    if (!q) return true;
-    return (
-      d.name.toLowerCase().includes(q) ||
-      d.code.toLowerCase().includes(q) ||
-      d.building.toLowerCase().includes(q)
-    );
-  });
+  )
+    .filter((d) => (activeTab === "access" && buildingFilter ? d.building === buildingFilter : true))
+    .filter((d) => {
+      const q = doorSearch.trim().toLowerCase();
+      if (!q) return true;
+      return (
+        d.name.toLowerCase().includes(q) ||
+        d.code.toLowerCase().includes(q) ||
+        d.building.toLowerCase().includes(q)
+      );
+    });
+
+  // Buildings that actually have an access-service door right now — pulled
+  // from the doors themselves (not the admin's full `buildings` list) so the
+  // filter never offers a building with nothing to show.
+  const accessServiceBuildings = Array.from(
+    new Set(doors.filter((d) => d.category === "access_service").map((d) => d.building))
+  ).sort();
 
   return (
     <div className="dashboard">
@@ -274,8 +386,20 @@ export default function Dashboard() {
               {!showAddDoor ? (
                 <div style={{ display: "flex", gap: "8px", alignItems: "center", flexWrap: "wrap" }}>
                   <button className="secondary" onClick={openAddDoor}>
-                    + Add Door
+                    {isRoomTab ? "+ Add Room" : "+ Add Door"}
                   </button>
+                  {activeTab === "access" && accessServiceBuildings.length > 0 && (
+                    <select
+                      value={buildingFilter}
+                      onChange={(e) => setBuildingFilter(e.target.value)}
+                      aria-label="Filter by building"
+                    >
+                      <option value="">All buildings</option>
+                      {accessServiceBuildings.map((b) => (
+                        <option key={b} value={b}>{b}</option>
+                      ))}
+                    </select>
+                  )}
                   <label className="secondary" style={{ display: "inline-block", cursor: "pointer" }}>
                     {importBusy ? "Importing…" : "Import from Excel"}
                     <input
@@ -303,34 +427,18 @@ export default function Dashboard() {
                     value={newDoor.name}
                     onChange={(e) => setNewDoor({ ...newDoor, name: e.target.value })}
                   />
-                  {!showNewBuilding ? (
-                    <select
-                      value={newDoor.building}
-                      onChange={(e) => {
-                        if (e.target.value === "__new__") {
-                          setShowNewBuilding(true);
-                        } else {
-                          setNewDoor({ ...newDoor, building: e.target.value });
-                        }
-                      }}
-                    >
-                      <option value="">Select a building&hellip;</option>
-                      {buildings.map((b) => (
-                        <option key={b.building_id} value={b.name}>{b.name}</option>
-                      ))}
-                      <option value="__new__">+ New building&hellip;</option>
-                    </select>
-                  ) : (
-                    <span style={{ display: "flex", gap: "4px" }}>
-                      <input
-                        placeholder="New building name"
-                        value={newBuildingName}
-                        onChange={(e) => setNewBuildingName(e.target.value)}
-                      />
-                      <button type="button" onClick={handleAddBuilding}>Add</button>
-                      <button type="button" className="secondary" onClick={() => { setShowNewBuilding(false); setNewBuildingName(""); }}>
-                        Cancel
-                      </button>
+                  <select
+                    value={newDoor.building}
+                    onChange={(e) => setNewDoor({ ...newDoor, building: e.target.value })}
+                  >
+                    <option value="">Select a building&hellip;</option>
+                    {buildings.map((b) => (
+                      <option key={b.building_id} value={b.name}>{b.name}</option>
+                    ))}
+                  </select>
+                  {buildings.length === 0 && (
+                    <span className="hint" style={{ marginTop: 0 }}>
+                      No buildings yet — use "Manage buildings" in the account menu first.
                     </span>
                   )}
                   <input
@@ -353,8 +461,50 @@ export default function Dashboard() {
                     <option value="critical">Main / critical door</option>
                     <option value="access_service">Access service (hall / section room)</option>
                   </select>
+                  {newDoor.category === "access_service" && (
+                    <div style={{ display: "flex", flexDirection: "column", gap: "8px", width: "100%" }}>
+                      <div style={{ display: "flex", gap: "16px", alignItems: "center" }}>
+                        <label style={{ display: "flex", gap: "6px", alignItems: "center", fontSize: "13px" }}>
+                          <input
+                            type="checkbox"
+                            checked={newDoor.ac_enabled}
+                            onChange={(e) => setNewDoor({ ...newDoor, ac_enabled: e.target.checked })}
+                          />
+                          AC control
+                        </label>
+                        <label style={{ display: "flex", gap: "6px", alignItems: "center", fontSize: "13px" }}>
+                          <input
+                            type="checkbox"
+                            checked={newDoor.light_enabled}
+                            onChange={(e) => setNewDoor({ ...newDoor, light_enabled: e.target.checked })}
+                          />
+                          Light control
+                        </label>
+                      </div>
+                      <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+                        <span className="hint" style={{ marginTop: 0 }}>
+                          Plugs (each with its own current-sensor cutoff once wired up):
+                        </span>
+                        {plugLabels.map((label, i) => (
+                          <div key={i} style={{ display: "flex", gap: "6px" }}>
+                            <input
+                              placeholder="Plug label"
+                              value={label}
+                              onChange={(e) => updatePlugLabelField(i, e.target.value)}
+                            />
+                            <button type="button" className="danger" onClick={() => removePlugLabelField(i)}>
+                              Remove
+                            </button>
+                          </div>
+                        ))}
+                        <button type="button" className="secondary" onClick={addPlugLabelField} style={{ alignSelf: "flex-start" }}>
+                          + Add plug
+                        </button>
+                      </div>
+                    </div>
+                  )}
                   <button type="submit">Save</button>
-                  <button type="button" className="secondary" onClick={() => { setShowAddDoor(false); setAddDoorErr(null); }}>
+                  <button type="button" className="secondary" onClick={() => { setShowAddDoor(false); setAddDoorErr(null); setPlugLabels([]); }}>
                     Cancel
                   </button>
                   {addDoorErr && <div className="form-error">{addDoorErr}</div>}
@@ -403,19 +553,26 @@ export default function Dashboard() {
                   onSetStatus={handleSetStatus}
                   onViewLogs={setSelectedDoorId}
                   onDelete={handleDeleteDoor}
+                  onOpenRoom={openRoomProfile}
                 />
               ))}
               {visibleDoors.length === 0 && (
                 <p className="muted">
-                  {doorSearch.trim() ? "No doors match your search." : 'No doors in this category yet — use "+ Add Door" above.'}
+                  {doorSearch.trim()
+                    ? "No doors match your search."
+                    : isRoomTab
+                      ? 'No rooms in this category yet — use "+ Add Room" above.'
+                      : 'No doors in this category yet — use "+ Add Door" above.'}
                 </p>
               )}
             </section>
 
-            <LogsTable
-              logs={logs}
-              title={selectedDoorId ? `Access Events — Door #${selectedDoorId}` : "Select a door to view history"}
-            />
+            {!isRoomTab && (
+              <LogsTable
+                logs={logs}
+                title={selectedDoorId ? `Access Events — Door #${selectedDoorId}` : "Select a door to view history"}
+              />
+            )}
           </>
         )}
 
@@ -450,6 +607,7 @@ export default function Dashboard() {
                   onRequestAccess={handleRequestAccess}
                   onSetStatus={handleSetStatus}
                   onViewLogs={setSelectedDoorId}
+                  onOpenRoom={openRoomProfile}
                 />
               ))}
               {doors.length === 0 && (
@@ -462,6 +620,24 @@ export default function Dashboard() {
           </>
         )}
       </main>
+
+      {roomProfileDoor && (
+        <RoomProfile
+          door={roomProfileDoor}
+          logs={roomLogs}
+          onClose={closeRoomProfile}
+          canOverride={canOverride}
+          canRequestAccess={canRequestAccess}
+          onOverride={handleOverride}
+          onRequestAccess={handleRequestAccess}
+          canControlRoom={canControlRoom}
+          onToggleAc={handleToggleAc}
+          onToggleLight={handleToggleLight}
+          onTogglePlug={handleTogglePlug}
+          onAddPlug={canOverride ? handleAddPlug : undefined}
+          onDeletePlug={canOverride ? handleDeletePlug : undefined}
+        />
+      )}
     </div>
   );
 }
