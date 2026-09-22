@@ -1,7 +1,16 @@
 // Thin fetch wrapper around the Phase 3 backend's REST API.
 // Matches the endpoint spec in Section 5 of the System Design Document.
 
-const BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
+// VITE_API_BASE_URL (.env) wins if set — that's for a real deployment with a
+// fixed domain (e.g. a uni server where the API isn't on the same host/port
+// as the dashboard). Otherwise, default to whatever host the dashboard
+// itself was loaded from, on port 8000: opened as localhost:5173 on this
+// Mac, the API is localhost:8000; opened as 192.168.1.23:5173 from a TA's
+// phone on the same network, the API is 192.168.1.23:8000 automatically —
+// no per-device or per-network config needed to test on the LAN.
+const BASE_URL =
+  import.meta.env.VITE_API_BASE_URL ||
+  `${window.location.protocol}//${window.location.hostname}:8000`;
 const TOKEN_KEY = "access_control_token";
 
 export function getToken() {
@@ -20,6 +29,17 @@ class ApiError extends Error {
   }
 }
 
+// Fires when an *authenticated* request comes back 401 — i.e. the session's
+// token was rejected (expired/invalid), not just a wrong password on the
+// login screen itself (that request is sent with auth:false). AuthContext
+// registers itself here so an expired session logs the user out and sends
+// them back to the login screen instead of the dashboard silently retrying
+// the same 401'd request forever (e.g. the 5s door/alert polling).
+let unauthorizedHandler = null;
+export function onUnauthorized(handler) {
+  unauthorizedHandler = handler;
+}
+
 async function request(path, { method = "GET", body, auth = true } = {}) {
   const headers = { "Content-Type": "application/json" };
   if (auth) {
@@ -31,6 +51,10 @@ async function request(path, { method = "GET", body, auth = true } = {}) {
     headers,
     body: body ? JSON.stringify(body) : undefined,
   });
+
+  if (resp.status === 401 && auth) {
+    unauthorizedHandler?.();
+  }
 
   if (resp.status === 204) return null;
 
@@ -61,6 +85,11 @@ async function uploadRequest(path, file, extraFields = {}) {
   }
 
   const resp = await fetch(`${BASE_URL}${path}`, { method: "POST", headers, body: form });
+
+  if (resp.status === 401) {
+    unauthorizedHandler?.();
+  }
+
   const text = await resp.text();
   let data = null;
   if (text) {
@@ -83,6 +112,22 @@ export function mediaUrl(path) {
 export const api = {
   login: (email, password) =>
     request("/api/auth/login", { method: "POST", body: { email, password }, auth: false }),
+  forgotPassword: (email) =>
+    request("/api/auth/forgot-password", { method: "POST", body: { email }, auth: false }),
+  checkPasswordResetStatus: (token) =>
+    request(`/api/auth/forgot-password/status?token=${encodeURIComponent(token)}`, { auth: false }),
+  resetPassword: (token, newPassword) =>
+    request("/api/auth/reset-password", {
+      method: "POST",
+      body: { request_token: token, new_password: newPassword },
+      auth: false,
+    }),
+
+  listPasswordResets: () => request("/api/password-resets"),
+  approvePasswordReset: (requestId) =>
+    request(`/api/password-resets/${requestId}/approve`, { method: "POST" }),
+  denyPasswordReset: (requestId) =>
+    request(`/api/password-resets/${requestId}/deny`, { method: "POST" }),
 
   listUsers: () => request("/api/users"),
   createUser: (user) => request("/api/users", { method: "POST", body: user }),
@@ -100,6 +145,14 @@ export const api = {
   requestDoorAccess: (doorId) => request(`/api/doors/${doorId}/request-access`, { method: "POST" }),
   setDoorStatus: (doorId, online) =>
     request(`/api/doors/${doorId}/status`, { method: "POST", body: { online } }),
+  toggleAc: (doorId, on) => request(`/api/doors/${doorId}/ac`, { method: "POST", body: { on } }),
+  toggleLight: (doorId, on) => request(`/api/doors/${doorId}/light`, { method: "POST", body: { on } }),
+  addPlug: (doorId, label) =>
+    request(`/api/doors/${doorId}/plugs`, { method: "POST", body: { label } }),
+  togglePlug: (doorId, plugId, on) =>
+    request(`/api/doors/${doorId}/plugs/${plugId}`, { method: "POST", body: { on } }),
+  deletePlug: (doorId, plugId) =>
+    request(`/api/doors/${doorId}/plugs/${plugId}`, { method: "DELETE" }),
 
   listDoorAssignments: (userId) => request(`/api/users/${userId}/doors`),
   addDoorAssignment: (userId, doorId) =>
@@ -119,6 +172,7 @@ export const api = {
 
   listBuildings: () => request("/api/buildings"),
   createBuilding: (name) => request("/api/buildings", { method: "POST", body: { name } }),
+  deleteBuilding: (buildingId) => request(`/api/buildings/${buildingId}`, { method: "DELETE" }),
 
   getMe: () => request("/api/users/me"),
   updateProfile: (fields) => request("/api/users/me/profile", { method: "PATCH", body: fields }),
