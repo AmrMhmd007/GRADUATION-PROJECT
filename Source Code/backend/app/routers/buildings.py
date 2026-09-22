@@ -28,3 +28,23 @@ def create_building(payload: schemas.BuildingCreate, db: Session = Depends(get_d
     db.commit()
     db.refresh(building)
     return building
+
+
+@router.delete("/{building_id}", status_code=204)
+def delete_building(building_id: int, db: Session = Depends(get_db), _admin=Depends(security.require_admin)):
+    building = db.query(models.Building).filter(models.Building.building_id == building_id).first()
+    if not building:
+        raise HTTPException(status_code=404, detail="Building not found")
+
+    # Door.building is a plain string, not a foreign key (see models.py), so
+    # this delete can't cascade — block it instead of silently leaving doors
+    # pointing at a building that's no longer in the picker.
+    in_use = db.query(models.Door).filter(models.Door.building == building.name).count()
+    if in_use > 0:
+        raise HTTPException(
+            status_code=400,
+            detail=f"{in_use} door{'s' if in_use != 1 else ''} still use \"{building.name}\" — reassign or delete them first.",
+        )
+
+    db.delete(building)
+    db.commit()

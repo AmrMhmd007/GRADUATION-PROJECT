@@ -20,10 +20,12 @@ export default function DoorCard({
   onRequestAccess,
   onSetStatus,
   onDelete,
+  onOpenRoom,
 }) {
   const [busy, setBusy] = useState(false);
   const [requested, setRequested] = useState(false);
   const status = statusOf(door);
+  const isRoom = door.category === "access_service";
 
   async function handle(action) {
     setBusy(true);
@@ -75,25 +77,31 @@ export default function DoorCard({
         <span style={{ color: status.color, fontWeight: 600 }}>{status.label}</span>
       </div>
       <div className="door-actions">
-        {canOverride && (
-          <button
-            disabled={busy}
-            onClick={() => handle(door.locked ? "unlock" : "lock")}
-          >
-            {door.locked ? "Unlock" : "Lock"}
-          </button>
+        {isRoom && onOpenRoom ? (
+          // Rooms open a single profile with the door lock, AC, light,
+          // plugs, and history together — see RoomProfile.
+          <button onClick={() => onOpenRoom(door.door_id)}>View Room</button>
+        ) : (
+          canOverride && (
+            <button
+              disabled={busy}
+              onClick={() => handle(door.locked ? "unlock" : "lock")}
+            >
+              {door.locked ? "Unlock" : "Lock"}
+            </button>
+          )
         )}
         {canOverride && (
           <button className="secondary" disabled={busy} onClick={handleToggleStatus}>
             Mark {door.online ? "Offline" : "Online"}
           </button>
         )}
-        {canRequestAccess && (
+        {canRequestAccess && !isRoom && (
           <button disabled={busy || requested} onClick={handleRequest}>
             {requested ? "Requested ✓" : "Request Access"}
           </button>
         )}
-        {canOverride && (
+        {canOverride && !isRoom && (
           <button className="secondary" onClick={() => onViewLogs(door.door_id)}>
             History
           </button>

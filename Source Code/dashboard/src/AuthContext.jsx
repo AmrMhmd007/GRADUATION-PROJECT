@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useCallback, useEffect } from "react";
-import { api, getToken, setToken } from "./api/client";
+import { api, getToken, setToken, onUnauthorized } from "./api/client";
 
 function decodeJwtRole(token) {
   try {
@@ -55,6 +55,13 @@ export function AuthProvider({ children }) {
     setToken(null);
     setUser(null);
   }, []);
+
+  // If any authenticated request comes back 401 (expired/invalid token),
+  // log out immediately instead of leaving the dashboard stuck retrying —
+  // this is what sends the user back to the login screen.
+  useEffect(() => {
+    onUnauthorized(logout);
+  }, [logout]);
 
   return (
     <AuthContext.Provider value={{ user, login, logout, error, refreshProfile }}>

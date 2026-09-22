@@ -29,7 +29,9 @@ if [ -n "$PID" ]; then
   sleep 1
 fi
 source venv/bin/activate
-uvicorn app.main:app --reload --port $PORT > ../../backend.log 2>&1 &
+# --host 0.0.0.0 so TAs/doctors on the same network (or eventually the real
+# uni server) can reach the backend too, not just this machine.
+uvicorn app.main:app --reload --host 0.0.0.0 --port $PORT > ../../backend.log 2>&1 &
 BACKEND_PID=$!
 cd ../..
 echo "Backend starting (pid $BACKEND_PID) — logging to backend.log"

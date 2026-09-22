@@ -7,7 +7,9 @@ from fastapi.staticfiles import StaticFiles
 
 from . import models
 from .database import Base, engine
-from .routers import auth, users, credentials, doors, schedules, alerts, faculties, buildings
+from .routers import (
+    auth, users, credentials, doors, schedules, alerts, faculties, buildings, password_resets,
+)
 from .services import mqtt_service, staleness_watchdog
 
 MEDIA_DIR = Path(__file__).resolve().parent.parent / "media"
@@ -50,6 +52,7 @@ app.include_router(schedules.router)
 app.include_router(alerts.router)
 app.include_router(faculties.router)
 app.include_router(buildings.router)
+app.include_router(password_resets.router)
 
 app.mount("/media", StaticFiles(directory=str(MEDIA_DIR)), name="media")
 
