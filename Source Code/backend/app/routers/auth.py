@@ -5,6 +5,7 @@ from sqlalchemy.orm import Session
 
 from .. import models, schemas, security, rate_limit
 from ..database import get_db
+from ..services import audit_service
 
 router = APIRouter(prefix="/api/auth", tags=["auth"])
 
@@ -21,9 +22,14 @@ def login(payload: schemas.LoginRequest, db: Session = Depends(get_db)):
     user = db.query(models.User).filter(models.User.email == payload.email).first()
     if not user or not security.verify_password(payload.password, user.password_hash):
         rate_limit.record_failure(payload.email)
+        audit_service.log(
+            db, actor=None, actor_email=payload.email, action="login_failed",
+            resource_type="auth", result="failure", description="Incorrect email or password",
+        )
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Incorrect email or password")
 
     rate_limit.record_success(payload.email)
+    audit_service.log(db, actor=user, action="login_success", resource_type="auth", resource_id=user.user_id)
     token = security.create_access_token(subject=user.email, role=user.role)
     return schemas.TokenResponse(access_token=token)
 

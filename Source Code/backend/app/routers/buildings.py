@@ -5,6 +5,7 @@ from sqlalchemy.orm import Session
 
 from .. import models, schemas, security
 from ..database import get_db
+from ..services import audit_service
 
 router = APIRouter(prefix="/api/buildings", tags=["buildings"])
 
@@ -27,6 +28,8 @@ def create_building(payload: schemas.BuildingCreate, db: Session = Depends(get_d
     db.add(building)
     db.commit()
     db.refresh(building)
+    audit_service.log(db, actor=_admin, action="create", resource_type="building", resource_id=building.building_id,
+                       resource_label=building.name)
     return building
 
 
@@ -45,6 +48,21 @@ def delete_building(building_id: int, db: Session = Depends(get_db), _admin=Depe
             status_code=400,
             detail=f"{in_use} door{'s' if in_use != 1 else ''} still use \"{building.name}\" — reassign or delete them first.",
         )
+    # Phase 12 fix: OperationalScope.building_id IS a real FK (unlike
+    # Door.building above), but SQLite here doesn't enforce FKs (no PRAGMA
+    # foreign_keys=ON — see database.py), so deleting a building still
+    # referenced by an OperationalScope would silently orphan that scope's
+    # building_id rather than raise. Same dependent-blocking pattern as the
+    # door check just above.
+    scopes_in_use = db.query(models.OperationalScope).filter(models.OperationalScope.building_id == building_id).count()
+    if scopes_in_use > 0:
+        raise HTTPException(
+            status_code=400,
+            detail=f"{scopes_in_use} operational scope(s) still use \"{building.name}\" — reassign or delete them first.",
+        )
 
+    building_id_val, building_name = building.building_id, building.name
     db.delete(building)
     db.commit()
+    audit_service.log(db, actor=_admin, action="delete", resource_type="building", resource_id=building_id_val,
+                       resource_label=building_name)

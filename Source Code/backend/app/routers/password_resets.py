@@ -6,6 +6,7 @@ from sqlalchemy.orm import Session
 
 from .. import models, schemas, security
 from ..database import get_db
+from ..services import audit_service
 
 router = APIRouter(prefix="/api/password-resets", tags=["password-resets"])
 
@@ -44,6 +45,8 @@ def approve_password_reset(
     req.resolved_at = datetime.datetime.utcnow()
     req.resolved_by = admin.user_id
     db.commit()
+    audit_service.log(db, actor=admin, action="approve", resource_type="password_reset_request",
+                       resource_id=req.request_id, resource_label=req.user.email if req.user else None)
 
 
 @router.post("/{request_id}/deny", status_code=204)
@@ -62,3 +65,5 @@ def deny_password_reset(
     req.resolved_at = datetime.datetime.utcnow()
     req.resolved_by = admin.user_id
     db.commit()
+    audit_service.log(db, actor=admin, action="deny", resource_type="password_reset_request",
+                       resource_id=req.request_id, resource_label=req.user.email if req.user else None)

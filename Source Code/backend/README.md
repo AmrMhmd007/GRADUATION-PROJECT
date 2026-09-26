@@ -15,11 +15,29 @@ This has been run and tested in a real Python environment (FastAPI +
 SQLite), not just written and assumed correct — see "What's been verified"
 below.
 
+## Requirements
+
+**Python 3.10 or newer.** The codebase uses PEP 604 union type hints
+(`datetime.datetime | None`, etc.) directly in function signatures across
+several modules (`app/models.py`, `app/schemas.py`,
+`app/services/*.py`) — this syntax raises
+`TypeError: unsupported operand type(s) for |: 'type' and 'NoneType'` on
+Python 3.9 or older, since `|` on bare types wasn't supported until 3.10.
+There's no code path that needs 3.9 support, so the fix is to run this
+project on 3.10+ rather than rewrite the type hints — see `.python-version`
+(pinned to 3.10). If `python3 --version` on your machine reports 3.9,
+install a newer interpreter first, e.g. via Homebrew:
+
+```bash
+brew install python@3.11
+python3.11 -m venv venv && source venv/bin/activate
+```
+
 ## Setup
 
 ```bash
 cd backend
-python3 -m venv venv && source venv/bin/activate    # optional but recommended
+python3 -m venv venv && source venv/bin/activate    # use a 3.10+ interpreter — see Requirements above
 pip install -r requirements.txt
 cp .env.example .env                                 # edit as needed
 python -m scripts.seed_db                             # creates tables + sample data
