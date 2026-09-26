@@ -54,6 +54,21 @@ def sweep_once(db) -> list[str]:
     for door in stale_doors:
         door.online = False
         codes.append(door.code)
+        # Real, persisted alert for the anomaly/alert system (final hardening
+        # pass, Phase 7) — this is a genuine unexpected-offline event (the
+        # watchdog only ever fires for a door that stopped reporting, not a
+        # deliberate operator action), not a synthetic/demo alert. Guarded
+        # against duplicates: skip if this door already has an unresolved
+        # "offline" alert so a door stuck offline across many sweep cycles
+        # doesn't spam one alert per sweep interval.
+        already_alerted = (
+            db.query(models.Alert)
+            .filter(models.Alert.door_id == door.door_id, models.Alert.type == "offline",
+                    models.Alert.resolved.is_(False))
+            .first()
+        )
+        if not already_alerted:
+            db.add(models.Alert(door_id=door.door_id, type="offline", severity="WARNING"))
     if stale_doors:
         db.commit()
         logger.warning("Marked %d door(s) offline (stale last_seen): %s", len(stale_doors), codes)

@@ -70,3 +70,36 @@ def test_already_offline_door_is_not_reported_again(db_session):
 
     marked = staleness_watchdog.sweep_once(db_session)
     assert marked == []
+
+
+# ---------------------------------------------------------------------------
+# Final hardening pass, Phase 7 — a stale door going offline must produce a
+# REAL, persisted Alert row (not just a UI-only indicator).
+# ---------------------------------------------------------------------------
+def test_stale_door_creates_a_real_offline_alert(db_session):
+    door = db_session.query(models.Door).filter(models.Door.code == "A101").first()
+    _set_last_seen(db_session, door.door_id, datetime.datetime.utcnow() - datetime.timedelta(minutes=5))
+
+    staleness_watchdog.sweep_once(db_session)
+
+    alert = db_session.query(models.Alert).filter(
+        models.Alert.door_id == door.door_id, models.Alert.type == "offline"
+    ).first()
+    assert alert is not None
+    assert alert.severity == "WARNING"
+    assert alert.resolved is False
+
+
+def test_stale_door_does_not_duplicate_alert_across_sweeps(db_session):
+    door = db_session.query(models.Door).filter(models.Door.code == "A101").first()
+    _set_last_seen(db_session, door.door_id, datetime.datetime.utcnow() - datetime.timedelta(minutes=5))
+
+    staleness_watchdog.sweep_once(db_session)
+    # Door stays stale (last_seen unchanged) — a second sweep must not add a
+    # second unresolved "offline" alert for the same door.
+    staleness_watchdog.sweep_once(db_session)
+
+    count = db_session.query(models.Alert).filter(
+        models.Alert.door_id == door.door_id, models.Alert.type == "offline", models.Alert.resolved.is_(False)
+    ).count()
+    assert count == 1

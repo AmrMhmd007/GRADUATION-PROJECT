@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import datetime
 import io
+import json
 from typing import List
 
 from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
@@ -10,7 +11,7 @@ from sqlalchemy.orm import Session
 
 from .. import models, schemas, security
 from ..database import get_db
-from ..services import mqtt_service
+from ..services import mqtt_service, audit_service
 
 router = APIRouter(prefix="/api/doors", tags=["doors"])
 
@@ -178,7 +179,7 @@ async def import_doors(file: UploadFile = File(...), db: Session = Depends(get_d
 
 
 @router.delete("/{door_id}", status_code=204)
-def delete_door(door_id: int, db: Session = Depends(get_db), _admin=Depends(security.require_admin)):
+def delete_door(door_id: int, db: Session = Depends(get_db), admin=Depends(security.require_admin)):
     """Removes a door entirely. Drops door_assignments and alerts tied to it
     (meaningless once the door is gone), but leaves access_events alone —
     that's the audit trail and should survive even if the door itself is
@@ -189,28 +190,80 @@ def delete_door(door_id: int, db: Session = Depends(get_db), _admin=Depends(secu
     if not door:
         raise HTTPException(status_code=404, detail="Door not found")
 
+    door_code, door_name = door.code, door.name
     db.query(models.DoorAssignment).filter(models.DoorAssignment.door_id == door_id).delete()
     db.query(models.Alert).filter(models.Alert.door_id == door_id).delete()
     db.query(models.Schedule).filter(models.Schedule.door_id == door_id).delete()
     db.delete(door)
     db.commit()
+    audit_service.log(db, actor=admin, action="delete", resource_type="door", resource_id=door_id,
+                       resource_label=f"{door_name} ({door_code})")
+
+
+def _require_door_visible(door: "models.Door", user: "models.User", db: Session) -> None:
+    """Stage F / F3 hardening: list_doors already restricts an
+    instructor/doctor to doors an admin explicitly assigned them
+    (DoorAssignment) — but the single-door GET and its logs endpoint below
+    had no equivalent check at all, so any authenticated instructor/doctor
+    could read any OTHER door's full detail or access history by guessing/
+    enumerating door_id, regardless of assignment. This is the exact
+    list-vs-detail IDOR pattern already fixed elsewhere in this codebase
+    (get_door_anomalies, access-windows) — same fix shape: the object itself
+    must be authorized, not just the list. Admin is unaffected (doors have
+    no scope mapping, same as everywhere else in this codebase)."""
+    if user.role not in ("instructor", "doctor"):
+        return
+    assigned = (
+        db.query(models.DoorAssignment)
+        .filter(models.DoorAssignment.door_id == door.door_id, models.DoorAssignment.instructor_id == user.user_id)
+        .first()
+    )
+    if not assigned:
+        raise HTTPException(status_code=403, detail="You aren't assigned to this door")
 
 
 @router.get("/{door_id}", response_model=schemas.DoorOut)
-def get_door(door_id: int, db: Session = Depends(get_db), _user=Depends(security.get_current_user)):
+def get_door(door_id: int, db: Session = Depends(get_db), user=Depends(security.get_current_user)):
     door = db.query(models.Door).filter(models.Door.door_id == door_id).first()
     if not door:
         raise HTTPException(status_code=404, detail="Door not found")
+    _require_door_visible(door, user, db)
     return door
 
 
 @router.get("/{door_id}/logs", response_model=List[schemas.AccessEventOut])
-def door_logs(door_id: int, db: Session = Depends(get_db), _user=Depends(security.get_current_user)):
+def door_logs(door_id: int, db: Session = Depends(get_db), user=Depends(security.get_current_user)):
+    door = db.get(models.Door, door_id)
+    if not door:
+        raise HTTPException(status_code=404, detail="Door not found")
+    _require_door_visible(door, user, db)
     return (
         db.query(models.AccessEvent)
         .filter(models.AccessEvent.door_id == door_id)
         .order_by(models.AccessEvent.event_time.desc())
         .limit(200)
+        .all()
+    )
+
+
+@router.get("/{door_id}/assignments", response_model=List[schemas.DoorAssignmentOut])
+def list_assignments_for_door(door_id: int, db: Session = Depends(get_db),
+                               admin=Depends(security.require_admin)):
+    """Who has PERMANENT access to this door (DoorAssignment) — the
+    counterpart to GET /api/access-windows?door_id=, which lists the
+    scheduled/temporary side. Together these two real, already-existing
+    tables are the full "Authorization Source" picture for a room (Stage B):
+    no invented "authorized users" list, just what these two tables already
+    say. Reuses the existing DoorAssignmentOut schema/list_door_assignments
+    RBAC pattern (require_admin) — there was previously no way to look this
+    up starting from the door instead of the staff member.
+    """
+    door = db.get(models.Door, door_id)
+    if not door:
+        raise HTTPException(status_code=404, detail="Door not found")
+    return (
+        db.query(models.DoorAssignment)
+        .filter(models.DoorAssignment.door_id == door_id)
         .all()
     )
 
@@ -227,12 +280,18 @@ def override_door(door_id: int, payload: schemas.DoorOverrideRequest, db: Sessio
     sent = mqtt_service.publish_override(door.code, payload.action)
 
     # Log the override attempt regardless of delivery, so there's an audit
-    # trail even if the broker/node didn't acknowledge it.
+    # trail even if the broker/node didn't acknowledge it. Evidence marks
+    # this explicitly as an admin override, not a WHO/WHEN authorization
+    # decision — see access_authorization_service.build_override_evidence.
+    from ..services import access_authorization_service
+    evidence = access_authorization_service.build_override_evidence(action=payload.action, actor=admin)
     event = models.AccessEvent(
         door_id=door.door_id,
         credential_id=None,
         method="override",
         result="sent" if sent else "queued_no_broker",
+        user_id=admin.user_id,
+        evidence_snapshot=json.dumps(evidence, default=str),
     )
     db.add(event)
     if payload.action == "unlock":
@@ -240,6 +299,9 @@ def override_door(door_id: int, payload: schemas.DoorOverrideRequest, db: Sessio
     else:
         door.locked = True
     db.commit()
+    audit_service.log(db, actor=admin, action=payload.action, resource_type="door", resource_id=door_id,
+                       resource_label=f"{door.name} ({door.code})",
+                       description="MQTT delivered" if sent else "queued — no broker connected")
 
     return {"door_id": door_id, "action": payload.action, "mqtt_delivered": sent}
 
