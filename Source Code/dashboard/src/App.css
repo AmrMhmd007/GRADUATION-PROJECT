@@ -109,6 +109,162 @@ button.tab:hover:not(:disabled) { background: none; color: var(--text); }
 .tab.active { color: var(--navy); border-bottom-color: var(--red); }
 button.tab.active:hover:not(:disabled) { background: none; color: var(--navy); }
 
+.system-home { margin-top: 8px; }
+
+/* ---------------------------------------------------------------------
+   Application shell: fixed left Sidebar (Home / Workspaces / contextual
+   modules) + main content area. Replaces the old top-of-page domain button
+   row and the .domain-subnav module row (both removed) with a single,
+   always-visible navigation column — one canonical place for workspace and
+   module switching, per the "no duplicated navigation" requirement.
+
+   Layout approach: a flex row (.shell-body) with the sidebar as a
+   fixed-width item using `position: sticky; top: 0; height: 100vh`. This
+   reads and behaves exactly like a "fixed" sidebar while scrolling — it
+   never moves — without the extra bookkeeping of position:fixed (manual
+   content margin-left offset kept in sync, z-index stacking against the
+   topbar, etc.). <main> is the other flex item and simply flexes to fill
+   the remaining width; its existing `max-width: 1100px; margin: 0 auto`
+   rule still centers its content within that remaining space.
+   ------------------------------------------------------------------- */
+.shell-body { display: flex; align-items: flex-start; }
+
+.app-sidebar {
+  flex: 0 0 240px;
+  width: 240px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  background: linear-gradient(180deg, var(--navy-dark) 0%, #17153e 100%);
+  color: rgba(255, 255, 255, 0.92);
+  padding: 20px 14px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  box-shadow: 2px 0 10px rgba(15, 14, 40, 0.15);
+  z-index: 10;
+}
+
+.sidebar-home,
+.sidebar-workspace-btn,
+.sidebar-module {
+  font-family: var(--font-sans);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  border-radius: var(--radius-sm);
+  color: rgba(255, 255, 255, 0.85);
+  cursor: pointer;
+}
+
+.sidebar-home {
+  padding: 10px 12px;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 14px;
+}
+.sidebar-home svg { flex-shrink: 0; }
+.sidebar-home:hover { background: rgba(255, 255, 255, 0.08); color: white; }
+.sidebar-home.active { background: rgba(255, 255, 255, 0.12); color: white; }
+.sidebar-home:focus-visible,
+.sidebar-workspace-btn:focus-visible,
+.sidebar-module:focus-visible {
+  outline: 2px solid var(--red);
+  outline-offset: 2px;
+}
+
+.sidebar-section-label {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45); padding: 0 12px 8px; margin-top: 6px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 16px;
+}
+
+.sidebar-workspaces { display: flex; flex-direction: column; gap: 2px; }
+
+.sidebar-workspace-btn {
+  padding: 9px 12px;
+  font-size: 13.5px;
+  font-weight: 600;
+}
+.sidebar-workspace-btn svg { flex-shrink: 0; opacity: 0.85; }
+.sidebar-workspace-btn:hover { background: rgba(255, 255, 255, 0.08); color: white; }
+.sidebar-workspace.active .sidebar-workspace-btn {
+  background: rgba(168, 26, 31, 0.22);
+  color: white;
+  box-shadow: inset 3px 0 0 var(--red);
+}
+.sidebar-workspace.active .sidebar-workspace-btn svg { opacity: 1; }
+
+.sidebar-modules {
+  display: flex; flex-direction: column; gap: 1px;
+  margin: 2px 0 8px 30px;
+  padding-left: 10px;
+  border-left: 1px solid rgba(255, 255, 255, 0.14);
+}
+.sidebar-module {
+  padding: 7px 10px;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.65);
+}
+.sidebar-module:hover { background: rgba(255, 255, 255, 0.07); color: white; }
+.sidebar-module.active { background: rgba(255, 255, 255, 0.1); color: white; font-weight: 600; }
+
+.shell-body main { flex: 1; min-width: 0; }
+
+/* Narrow-width menu button (hamburger) — hidden entirely above the drawer
+   breakpoint, since the sidebar is always visible there already. */
+.sidebar-menu-btn {
+  display: none;
+  flex-direction: column; justify-content: center; gap: 4px;
+  width: 34px; height: 34px; padding: 0; margin-right: 4px;
+  background: none; border: 1px solid rgba(255, 255, 255, 0.35); border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+.sidebar-menu-btn span { display: block; height: 2px; width: 18px; margin: 0 auto; background: white; border-radius: 1px; }
+.sidebar-menu-btn:hover { background: rgba(255, 255, 255, 0.12); }
+.sidebar-menu-btn:focus-visible { outline: 2px solid white; outline-offset: 2px; }
+
+.sidebar-backdrop {
+  position: fixed; inset: 0; background: rgba(15, 14, 40, 0.45);
+  border: none; padding: 0; margin: 0; cursor: pointer; z-index: 40;
+}
+
+@media (max-width: 900px) {
+  .shell-body { display: block; }
+  .app-sidebar {
+    position: fixed; top: 0; left: 0; height: 100vh; width: 260px;
+    transform: translateX(-100%);
+    transition: transform 0.2s ease;
+    z-index: 50;
+  }
+  .app-sidebar.open { transform: translateX(0); box-shadow: 4px 0 24px rgba(15, 14, 40, 0.35); }
+  .sidebar-menu-btn { display: flex; }
+  .shell-body main { max-width: 100%; }
+}
+
+/* Shared workspace header (Home -> Workspace -> Module -> Entity shell) —
+   same institutional palette as the rest of the app (navy title, muted
+   subtitle, thin border), applied consistently across every workspace
+   instead of each screen styling its own title block. */
+.workspace-header { margin-bottom: 4px; }
+.workspace-header-row {
+  display: flex; justify-content: space-between; align-items: flex-end; gap: 12px;
+  flex-wrap: wrap; padding-bottom: 14px; border-bottom: 1px solid var(--border); margin-bottom: 16px;
+}
+.workspace-title { margin: 0; font-size: 22px; font-weight: 700; color: var(--navy); letter-spacing: -0.01em; }
+.workspace-subtitle { margin: 4px 0 0; font-size: 13px; color: var(--muted); }
+.workspace-header-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+@media (max-width: 700px) {
+  .tab-nav { overflow-x: auto; flex-wrap: nowrap; -webkit-overflow-scrolling: touch; }
+  .tab-nav .tab { white-space: nowrap; }
+}
+
 .staff-row-list { list-style: none; margin: 0; padding: 0; }
 .staff-row {
   display: flex; align-items: center; justify-content: space-between; gap: 8px;
@@ -135,10 +291,50 @@ button.tab.active:hover:not(:disabled) { background: none; color: var(--navy); }
 .door-status { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; font-size: 12px; }
 .dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
 .door-actions {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+  /* Only the card's one primary action lives here now (Unlock/Lock, View
+     Room, or Request Access — never more than one at a time), so this is a
+     single column rather than the former 2-up grid; the routine/secondary
+     actions moved to .door-actions-secondary below. */
+  display: grid; grid-template-columns: 1fr; gap: 8px;
 }
 .door-actions button {
   width: 100%; padding: 8px 6px; font-size: 12.5px; white-space: normal; line-height: 1.3;
+}
+/* Routine/destructive actions converge on the same lightweight text-link
+   treatment Academic Administration's cards already use (see
+   .aa-card-footer-actions) — a bordered "footer" row rather than another
+   bank of filled/outlined buttons. */
+.door-actions-secondary {
+  display: flex; flex-wrap: wrap; gap: 12px; margin-top: 12px; padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+.door-actions-secondary .link-button { font-size: 12px; padding: 0; }
+
+/* Building Grid — Stage B "Building-first" step for the Access Service tab:
+   pick a building, then drill into its rooms (see BuildingGrid.jsx). Cards
+   reuse the same visual language as .door-card rather than inventing a new
+   card style. */
+.building-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px; margin-bottom: 28px;
+}
+.building-card {
+  background: white; border: 1px solid var(--border); border-radius: 12px; padding: 18px;
+  box-shadow: 0 1px 2px rgba(31, 32, 51, 0.04); text-align: left; cursor: pointer;
+  display: flex; flex-direction: column; gap: 10px; font: inherit; color: inherit;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.building-card:hover, .building-card:focus-visible {
+  border-color: var(--accent, #2563EB); box-shadow: 0 2px 8px rgba(31, 32, 51, 0.08);
+}
+.building-card h3 { margin: 0; font-size: 15px; }
+.building-card-stats { display: flex; gap: 18px; flex-wrap: wrap; }
+.building-card-stats > div { display: flex; flex-direction: column; }
+.building-card-stats .value { font-size: 18px; font-weight: 700; line-height: 1.2; }
+.building-card-stats .label { font-size: 11px; color: var(--muted-2); text-transform: uppercase; letter-spacing: 0.03em; }
+.building-card-alert {
+  font-size: 12px; font-weight: 600; color: var(--red-dark, #B91C1C);
+  background: rgba(185, 28, 28, 0.08); border-radius: 6px; padding: 4px 8px; align-self: flex-start;
 }
 
 .logs-panel { background: white; border: 1px solid var(--border); border-radius: 12px; padding: 18px; }
@@ -183,4 +379,684 @@ button.tab.active:hover:not(:disabled) { background: none; color: var(--navy); }
 .room-profile-section td.bad { color: var(--red-dark); font-weight: 600; }
 .room-profile-plug-row {
   display: flex; align-items: center; gap: 10px; margin-bottom: 6px;
+}
+
+/* ============================================================================
+   Smart Building — occupancy/energy/automation dashboard tab. Reuses the
+   same tokens/card/table/modal patterns as the rest of the app (door-grid,
+   logs-panel, room-profile-*) rather than inventing a second visual
+   language.
+   ============================================================================ */
+.sb-occupancy-state { color: var(--muted-2); }
+.sb-occupancy-state[data-state="OCCUPIED"] { color: var(--green-dark); }
+.sb-occupancy-state[data-state="EMPTY"] { color: var(--muted); }
+.sb-occupancy-state[data-state="VERIFYING"] { color: #B45309; }
+.sb-occupancy-state[data-state="UNKNOWN"] { color: var(--muted-2); }
+
+.sb-dot[data-state="OCCUPIED"] { background: var(--green-dark); }
+.sb-dot[data-state="EMPTY"] { background: var(--muted-2); }
+.sb-dot[data-state="VERIFYING"] { background: #B45309; }
+.sb-dot[data-state="UNKNOWN"] { background: var(--border-strong); }
+.sb-dot[data-state="OFFLINE"] { background: var(--red); }
+.sb-dot[data-state="WARNING"] { background: #B45309; }
+
+/* Top building-status header */
+.sb-header {
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-dark) 100%);
+  border-radius: var(--radius-lg); padding: 22px 26px; color: white;
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 18px;
+  margin-bottom: 20px;
+}
+.sb-header-state { display: flex; align-items: center; gap: 12px; }
+.sb-header-state .sb-dot { width: 14px; height: 14px; }
+.sb-header-state h2 { margin: 0; font-size: 22px; letter-spacing: 0.02em; }
+.sb-header-state .sb-occupancy-state { font-size: 22px; font-weight: 700; }
+.sb-header-sub { font-size: 12px; color: rgba(255, 255, 255, 0.65); margin-top: 2px; }
+.sb-header-metrics { display: flex; gap: 26px; flex-wrap: wrap; }
+.sb-header-metric { text-align: right; }
+.sb-header-metric .value { font-size: 20px; font-weight: 700; display: block; }
+.sb-header-metric .label { font-size: 11px; color: rgba(255, 255, 255, 0.65); text-transform: uppercase; letter-spacing: 0.04em; }
+button.cc-metric-clickable {
+  background: none; border: none; padding: 0; font: inherit; color: inherit; cursor: pointer;
+}
+button.cc-metric-clickable:hover:not(:disabled) { opacity: 0.8; }
+button.cc-metric-clickable:disabled { cursor: default; opacity: 0.55; }
+button.cc-metric-clickable:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+
+/* Summary stat cards */
+.sb-stat-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 14px; margin-bottom: 24px;
+}
+.sb-stat-card {
+  background: white; border: 1px solid var(--border); border-radius: 12px; padding: 16px 18px;
+  box-shadow: 0 1px 2px rgba(31, 32, 51, 0.04);
+}
+.sb-stat-card .value { font-size: 22px; font-weight: 700; color: var(--text); display: block; }
+.sb-stat-card .label { font-size: 12px; color: var(--muted); margin-top: 2px; }
+.sb-stat-card.accent-green .value { color: var(--green-dark); }
+.sb-stat-card.accent-amber .value { color: #B45309; }
+.sb-stat-card.accent-red .value { color: var(--red); }
+
+.sb-section { background: white; border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px; margin-bottom: 20px; }
+.sb-section h3, .sb-section h4 {
+  font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); margin: 0 0 14px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+
+/* A wide data table (e.g. Access Events) can legitimately need more width
+   than a narrow viewport offers — the fix is to let the TABLE scroll
+   sideways within its own box, never the page. Without this, a bare
+   <table> wider than the viewport forces the whole document (topbar,
+   sidebar included) to pan horizontally on mobile. */
+.table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 0 -2px; }
+.table-scroll table { min-width: 640px; }
+
+/* Automation status card */
+.sb-automation-card {
+  border-left: 4px solid var(--navy); padding-left: 16px;
+}
+.sb-automation-card.is-active { border-left-color: #B45309; }
+.sb-automation-row { display: flex; flex-wrap: wrap; gap: 24px; margin-bottom: 6px; }
+.sb-automation-field .label { font-size: 11px; color: var(--muted-2); text-transform: uppercase; letter-spacing: 0.03em; }
+.sb-automation-field .value { font-size: 14px; font-weight: 600; color: var(--text); }
+.sb-automation-idle { color: var(--muted-2); font-size: 13px; }
+
+/* Safety sequence strip */
+.sb-safety-flow { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; font-size: 12px; }
+.sb-safety-step {
+  background: #F4F4FB; border: 1px solid var(--border); border-radius: 999px;
+  padding: 6px 12px; color: var(--muted); white-space: nowrap;
+}
+.sb-safety-step.done { background: #E6F5EE; color: var(--green-dark); border-color: rgba(15, 110, 86, 0.25); }
+.sb-safety-step.active { background: #FDF2E3; color: #B45309; border-color: rgba(180, 83, 9, 0.3); font-weight: 700; }
+.sb-safety-arrow { color: var(--muted-2); }
+
+/* Zone grid / building map */
+.sb-zone-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; }
+.sb-zone-card {
+  background: white; border: 1px solid var(--border); border-left: 4px solid var(--border-strong);
+  border-radius: 12px; padding: 14px 16px; cursor: pointer; transition: box-shadow 0.15s ease, transform 0.1s ease;
+  text-align: left; font-family: var(--font-sans);
+}
+.sb-zone-card:hover { box-shadow: var(--shadow-card); transform: translateY(-1px); }
+.sb-zone-card[data-state="OCCUPIED"] { border-left-color: var(--green-dark); }
+.sb-zone-card[data-state="EMPTY"] { border-left-color: var(--border-strong); }
+.sb-zone-card[data-state="VERIFYING"] { border-left-color: #B45309; }
+.sb-zone-card[data-state="UNKNOWN"] { border-left-color: var(--muted-2); }
+.sb-zone-card-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+.sb-zone-card h4 { margin: 0 0 2px; font-size: 14px; }
+.sb-zone-type { font-size: 11px; color: var(--muted-2); text-transform: uppercase; letter-spacing: 0.03em; }
+.sb-zone-metrics { display: flex; gap: 14px; margin-top: 12px; font-size: 12px; flex-wrap: wrap; }
+.sb-zone-metric { color: var(--muted); }
+.sb-zone-metric strong { color: var(--text); }
+.sb-zone-devices { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 6px; }
+.sb-device-chip {
+  font-size: 11px; padding: 3px 8px; border-radius: 999px; background: #F4F4FB; color: var(--muted); border: 1px solid var(--border);
+}
+.sb-device-chip.on { background: #E6F5EE; color: var(--green-dark); border-color: rgba(15, 110, 86, 0.25); }
+.sb-device-chip.critical { border-style: dashed; }
+.sb-zone-sensor-warning { color: var(--red); font-size: 11px; margin-top: 8px; font-weight: 600; }
+
+/* Zone detail modal (mirrors .room-profile-*) */
+.sb-detail-devices { display: flex; flex-direction: column; gap: 8px; }
+.sb-detail-device-row {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  padding: 8px 10px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 13px;
+}
+.sb-detail-device-row .name { font-weight: 600; }
+.sb-detail-device-row .meta { font-size: 11px; color: var(--muted-2); }
+
+/* Automation log feed */
+.sb-log-feed { list-style: none; margin: 0; padding: 0; max-height: 420px; overflow-y: auto; }
+.sb-log-item { padding: 12px 0; border-bottom: 1px solid var(--border); }
+.sb-log-item:last-child { border-bottom: none; }
+.sb-log-top { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.sb-log-time { font-size: 11px; color: var(--muted-2); font-variant-numeric: tabular-nums; }
+.sb-log-zone { font-weight: 700; font-size: 13px; }
+.sb-log-decision {
+  font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em;
+  padding: 2px 8px; border-radius: 999px; background: #F4F4FB; color: var(--muted);
+}
+.sb-log-decision[data-decision="SHUTDOWN_NON_CRITICAL"] { background: var(--red-tint); color: var(--red-dark); }
+.sb-log-decision[data-decision="VERIFICATION_STARTED"] { background: #FDF2E3; color: #B45309; }
+.sb-log-decision[data-decision="VERIFICATION_CANCELLED"] { background: #E6F5EE; color: var(--green-dark); }
+.sb-log-decision[data-decision="SHUTDOWN_SKIPPED_UNCERTAIN"] { background: var(--red-tint); color: var(--red-dark); }
+.sb-log-reason { font-size: 12.5px; color: var(--muted); margin-top: 4px; }
+.sb-log-devices { font-size: 12px; color: var(--muted); margin-top: 4px; }
+
+/* Mini bar chart (no charting dependency) */
+.sb-chart { display: flex; flex-direction: column; gap: 8px; }
+.sb-chart-row { display: grid; grid-template-columns: 110px 1fr 60px; align-items: center; gap: 10px; font-size: 12px; }
+.sb-chart-label { color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sb-chart-track { background: #F0F0F6; border-radius: 999px; height: 10px; overflow: hidden; }
+.sb-chart-bar { height: 100%; background: var(--navy); border-radius: 999px; transition: width 0.4s ease; }
+.sb-chart-bar.accent-red { background: var(--red); }
+.sb-chart-value { color: var(--text); font-weight: 600; text-align: right; }
+
+.sb-empty-state {
+  text-align: center; color: var(--muted-2); padding: 40px 20px; font-size: 13px;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Academic Administration: College -> Department -> Doctors/TAs/Courses  */
+/* ---------------------------------------------------------------------- */
+.aa-breadcrumb {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 4px;
+  font-size: 12px; color: var(--muted); margin: 18px 0 14px; letter-spacing: 0.02em;
+}
+.aa-breadcrumb-root { font-weight: 700; color: var(--navy); text-transform: uppercase; letter-spacing: 0.04em; }
+.aa-breadcrumb-root-link {
+  background: none; border: none; padding: 0; cursor: pointer; font: inherit;
+}
+.aa-breadcrumb-root-link:hover { color: var(--red-dark); }
+.aa-breadcrumb-sep { margin: 0 6px; color: var(--border-strong); }
+.aa-breadcrumb-link {
+  background: none; border: none; color: var(--navy); cursor: pointer; padding: 0; font-size: 12px;
+  text-decoration: underline;
+}
+.aa-breadcrumb-current { color: var(--text); font-weight: 600; }
+
+.aa-section-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
+.aa-title { margin: 4px 0 2px; font-size: 20px; color: var(--text); }
+.aa-subtitle { margin: 0; font-size: 13px; color: var(--muted); }
+
+.aa-inline-form { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+.aa-inline-form input { min-width: 240px; }
+
+.aa-card-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; margin-top: 4px;
+}
+.aa-scope-card {
+  display: flex; align-items: center; gap: 14px; text-align: left;
+  background: white; border: 1px solid var(--border); border-radius: var(--radius-lg);
+  padding: 18px; cursor: pointer; transition: box-shadow 0.15s ease, border-color 0.15s ease;
+  font-family: inherit;
+}
+.aa-scope-card:hover { box-shadow: var(--shadow-card); border-color: var(--border-strong); }
+.aa-scope-card-icon { width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; color: var(--navy); flex-shrink: 0; }
+.aa-scope-card-icon svg { flex-shrink: 0; }
+.aa-scope-card-body { flex: 1; min-width: 0; }
+.aa-scope-card-body h3 { margin: 0 0 4px; font-size: 15px; color: var(--text); }
+.aa-scope-card-meta { margin: 0; font-size: 12px; color: var(--muted); }
+.aa-scope-card-arrow { color: var(--border-strong); font-size: 18px; }
+
+.aa-dept-summary {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; margin-bottom: 16px;
+}
+.aa-dept-stat {
+  background: white; border: 1px solid var(--border); border-radius: 12px; padding: 12px 14px; text-align: center;
+}
+.aa-dept-stat .value { display: block; font-size: 20px; font-weight: 700; color: var(--text); }
+.aa-dept-stat .label { display: block; font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.03em; margin-top: 2px; }
+
+.aa-tabs { display: flex; gap: 4px; margin-bottom: 14px; border-bottom: 1px solid var(--border); }
+.aa-tab {
+  background: none; border: none; padding: 10px 14px; font-size: 13px; color: var(--muted);
+  cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px;
+}
+.aa-tab.active { color: var(--navy); border-bottom-color: var(--navy); font-weight: 600; }
+
+.aa-toolbar { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; }
+.aa-search { min-width: 240px; }
+
+.aa-staff-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
+.aa-staff-card {
+  display: flex; align-items: center; gap: 12px; text-align: left;
+  background: white; border: 1px solid var(--border); border-radius: 12px; padding: 14px;
+  cursor: pointer; font-family: inherit; transition: box-shadow 0.15s ease;
+}
+.aa-staff-card:hover { box-shadow: var(--shadow-card); }
+.aa-staff-card-avatar {
+  width: 38px; height: 38px; border-radius: 50%; background: var(--navy); color: white;
+  display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; flex-shrink: 0;
+}
+.aa-staff-card-avatar.large { width: 56px; height: 56px; font-size: 18px; }
+.aa-staff-card-body { flex: 1; min-width: 0; }
+.aa-staff-card-body h4 { margin: 0 0 2px; font-size: 14px; color: var(--text); }
+.aa-staff-card-role { margin: 0; font-size: 12px; color: var(--muted); }
+.aa-staff-card-courses { margin: 4px 0 0; font-size: 11px; color: var(--muted-2); }
+
+.aa-status-pill {
+  font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 999px; white-space: nowrap;
+}
+.aa-status-pill.active { background: #E6F5EE; color: var(--green-dark); }
+.aa-status-pill.pending { background: #FDF2E3; color: #B45309; }
+.aa-status-pill.expired { background: var(--red-tint); color: var(--red-dark); }
+
+/* Phase 8: college/department "scope card" with an inline edit/status footer
+   below the clickable zone — .aa-scope-card-block turns the card itself into
+   a plain column container (overriding the flex-row/cursor-pointer button
+   styling above, which non-block .aa-scope-card usages still keep), while
+   .aa-scope-card-clickzone reproduces that original row layout for the
+   actual clickable area inside it. */
+.aa-summary-row {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; margin-bottom: 16px;
+}
+.aa-summary-stat {
+  background: white; border: 1px solid var(--border); border-radius: 12px; padding: 12px 14px; text-align: center;
+}
+.aa-summary-stat .value { display: block; font-size: 20px; font-weight: 700; color: var(--text); }
+.aa-summary-stat .label { display: block; font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.03em; margin-top: 2px; }
+.aa-summary-stat-clickable {
+  cursor: pointer; font-family: inherit; transition: box-shadow 0.15s ease, border-color 0.15s ease;
+}
+.aa-summary-stat-clickable:hover { box-shadow: var(--shadow-card); border-color: var(--border-strong); }
+.aa-scope-card-nav { width: 100%; }
+.aa-clickable-row { cursor: pointer; }
+.aa-clickable-row:hover { background: var(--bg-subtle, #FAFBFC); }
+.form-success {
+  background: #E6F5EE; color: var(--green-dark); border: 1px solid #BFE6D2; border-radius: 8px;
+  padding: 8px 12px; font-size: 13px; margin-bottom: 10px;
+}
+.aa-empty-state {
+  text-align: center; padding: 32px 16px; color: var(--muted); background: white;
+  border: 1px dashed var(--border-strong); border-radius: var(--radius-lg);
+}
+.aa-empty-state p { margin: 0 0 12px; }
+.aa-danger-modal .aa-modal { border-top: 4px solid var(--red-dark, #B42318); }
+/* High-risk actions (College Delete's final confirm button) get a stronger,
+   solid treatment than the ordinary outlined `.danger` button (see
+   index.css) used for routine destructive actions like "Delete Department" —
+   deliberately distinct per the action-hierarchy requirement: Danger vs High
+   Risk aren't the same visual weight. Scoped to its own class so it never
+   overrides the shared `.danger` style used elsewhere. */
+button.danger-highrisk {
+  background: var(--red-dark); color: white; border: 1px solid var(--red-dark);
+}
+button.danger-highrisk:hover:not(:disabled) { background: var(--red); border-color: var(--red); }
+button.danger-highrisk:disabled { background: var(--border-strong); border-color: var(--border-strong); color: var(--muted-2); cursor: not-allowed; }
+.aa-danger-text { color: var(--red-dark); }
+.aa-impact-list { list-style: none; padding: 0; margin: 10px 0; }
+.aa-impact-list li { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+.aa-impact-list li strong { font-variant-numeric: tabular-nums; }
+.aa-danger-banner {
+  background: var(--red-tint, #FDECEA); color: var(--red-dark, #B42318); border: 1px solid var(--red-dark, #B42318);
+  border-radius: 8px; padding: 10px 12px; font-size: 13px; font-weight: 600; margin: 10px 0;
+}
+
+.aa-inline-form-wide input { flex: 1; }
+
+.aa-scope-card-block {
+  display: block; cursor: default; padding: 0; overflow: hidden;
+}
+.aa-scope-card-clickzone {
+  display: flex; align-items: center; gap: 14px; text-align: left; width: 100%;
+  background: none; border: none; padding: 18px; cursor: pointer; font-family: inherit;
+}
+.aa-scope-card-clickzone:hover { background: var(--bg-hover, #F7F8FA); }
+.aa-code-badge {
+  display: inline-block; margin-left: 8px; font-size: 11px; font-weight: 600; color: var(--muted);
+  background: var(--bg-subtle, #F1F3F6); border-radius: 6px; padding: 2px 7px; vertical-align: middle;
+}
+.aa-scope-card-desc { margin: 0 0 4px; font-size: 12px; color: var(--muted); }
+.aa-inline-edit {
+  display: flex; flex-direction: column; gap: 8px; padding: 16px;
+}
+.aa-inline-edit input { width: 100%; }
+.aa-card-footer {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  padding: 10px 18px; border-top: 1px solid var(--border); background: var(--bg-subtle, #FAFBFC);
+}
+.aa-card-footer-actions { display: flex; gap: 12px; }
+.aa-card-footer-actions .link-button { font-size: 12px; padding: 0; }
+
+.aa-access-window-list { list-style: none; margin: 8px 0 0; padding: 0; }
+.aa-access-window-row {
+  display: flex; align-items: center; gap: 10px; padding: 10px 0;
+  border-bottom: 1px solid var(--border); font-size: 13px;
+}
+.aa-access-window-row:last-child { border-bottom: none; }
+.aa-access-window-row > div:first-child { flex: 1; min-width: 0; }
+
+.aa-course-list { margin: 0; padding-left: 18px; font-size: 13px; }
+.aa-course-list li { margin-bottom: 4px; }
+
+.aa-modal-backdrop {
+  position: fixed; inset: 0; background: rgba(20, 20, 40, 0.45); display: flex;
+  align-items: center; justify-content: center; z-index: 50; padding: 20px;
+}
+.aa-modal {
+  background: white; border-radius: var(--radius-lg); box-shadow: var(--shadow-card);
+  max-width: 520px; width: 100%; max-height: 85vh; overflow-y: auto; padding: 28px; position: relative;
+}
+.aa-modal-close {
+  position: absolute; top: 14px; right: 16px; background: none; border: none; font-size: 22px;
+  line-height: 1; color: var(--muted); cursor: pointer;
+}
+.aa-modal-wide { max-width: 860px; }
+
+/* Phase 8: table-based views for administrative data (staff/courses/
+   assignments) per the explicit "tables, not cards, for this data"
+   instruction — cards stay reserved for college/department summaries. */
+.aa-data-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 4px; }
+.aa-data-table th {
+  text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: 0.03em;
+  color: var(--muted); padding: 8px 10px; border-bottom: 1px solid var(--border-strong);
+}
+.aa-data-table td { padding: 10px; border-bottom: 1px solid var(--border); vertical-align: middle; color: var(--text); }
+.aa-data-table tbody tr:hover { background: var(--bg-subtle, #FAFBFC); }
+.aa-clickable-row { cursor: pointer; }
+.aa-data-table .aa-inline-edit { padding: 12px 0; }
+.aa-profile-header { display: flex; align-items: center; gap: 16px; margin-bottom: 18px; }
+.aa-profile-header h2 { margin: 0 0 4px; font-size: 18px; }
+.aa-profile-role { margin: 0 0 6px; font-size: 12px; color: var(--muted); }
+.aa-profile-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 10px 20px; margin: 0 0 18px;
+  padding: 14px; background: var(--page-bg); border-radius: 10px;
+}
+.aa-profile-grid dt { font-size: 10px; text-transform: uppercase; letter-spacing: 0.03em; color: var(--muted-2); margin: 0; }
+.aa-profile-grid dd { margin: 2px 0 0; font-size: 13px; color: var(--text); }
+.aa-profile-section { margin-bottom: 16px; }
+.aa-profile-section h3 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.03em; color: var(--muted); margin: 0 0 8px; }
+
+.aa-manage-modal { max-width: 780px; }
+.aa-manage-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 16px; }
+.aa-manage-column h4 { margin: 0 0 10px; font-size: 13px; text-transform: uppercase; letter-spacing: 0.03em; color: var(--muted); }
+.aa-manage-list { list-style: none; margin: 10px 0 0; padding: 0; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+.aa-manage-row {
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  padding: 9px 12px; border-bottom: 1px solid var(--border); font-size: 13px;
+}
+.aa-manage-row:last-child { border-bottom: none; }
+.aa-manage-row.active { background: var(--page-bg); }
+.aa-manage-row-label { background: none; border: none; padding: 0; font-size: 13px; color: var(--text); cursor: pointer; text-align: left; flex: 1; }
+.aa-manage-row-actions { display: flex; gap: 4px; flex-shrink: 0; }
+.aa-manage-row input { font-size: 13px; padding: 4px 6px; flex: 1; }
+
+.aa-confirm-modal { max-width: 420px; }
+.aa-confirm-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 18px; }
+.aa-danger-button {
+  background: var(--red); color: white; border: none; border-radius: var(--radius-sm);
+  padding: 9px 16px; font-size: 13px; font-weight: 600; cursor: pointer;
+}
+.aa-danger-button:hover:not(:disabled) { background: var(--red-dark); }
+.aa-danger-button:disabled { opacity: 0.6; cursor: default; }
+.aa-danger-text { color: var(--red); align-self: flex-start; }
+.aa-danger-text:hover { color: var(--red-dark); }
+
+/* ---------------------------------------------------------------------- */
+/* Feature #8 — Emergency Access / Override. Visually distinct (amber/red   */
+/* accent border, warning glyph) from the plain Lock/Unlock button above   */
+/* it in RoomProfile, but reuses the same card/pill/confirm-action tokens  */
+/* as the rest of the app rather than a decorative one-off style.          */
+/* ---------------------------------------------------------------------- */
+.emergency-override-panel {
+  border: 1px solid rgba(180, 83, 9, 0.35); border-radius: var(--radius-lg);
+  background: #FFFBF5; padding: 14px 16px; margin-top: 20px;
+}
+.emergency-override-panel h3 {
+  display: flex; align-items: center; gap: 6px; color: #B45309;
+}
+.emergency-override-badge { font-size: 14px; }
+.emergency-override-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.emergency-override-countdown {
+  font-size: 13px; font-weight: 700; color: var(--red-dark); font-variant-numeric: tabular-nums;
+}
+.emergency-override-active { display: flex; flex-direction: column; gap: 4px; }
+.emergency-override-confirm {
+  background: white; border: 1px solid var(--border); border-radius: var(--radius-sm);
+  padding: 12px 14px; margin-top: 10px;
+}
+.emergency-override-reason-preview {
+  margin: 8px 0 0; padding: 8px 12px; border-left: 3px solid var(--border-strong);
+  font-size: 13px; color: var(--muted); font-style: italic;
+}
+.emergency-override-form { display: flex; flex-direction: column; gap: 10px; margin-top: 6px; }
+.emergency-override-form label { display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: var(--muted); font-weight: 500; }
+.emergency-override-form input,
+.emergency-override-form select,
+.emergency-override-form textarea { font-family: inherit; font-size: 13px; }
+
+/* ---------------------------------------------------------------------- */
+/* Phase 6 — Command Center. Reuses the Smart Building header/section/table */
+/* language (sb-header, sb-section, aa-status-pill) rather than a second    */
+/* visual system — the design-system goal of Phase 4 is one coherent       */
+/* product, not a new look per screen. cc-header-alert is the ONE state-    */
+/* driven visual change here (an amber left accent), not a decorative one. */
+/* ---------------------------------------------------------------------- */
+.cc-header { transition: border-color 0.2s ease; }
+.cc-header-alert { border: 1px solid rgba(180, 83, 9, 0.5); }
+
+/* Stage E-hardening: Command Center's four named groups (System Overview /
+   Security / Automation / Device Health) — a plain section label, same
+   scale/weight as every other h3 in this app, just with breathing room
+   above it since it groups several .sb-section cards underneath. */
+.cc-group-title { margin: 28px 0 12px; font-size: 15px; font-weight: 700; color: var(--text); }
+.cc-group-title:first-of-type { margin-top: 20px; }
+
+/* Reuses .sb-stat-card's exact visual language (same card, same value/label
+   scale) rather than inventing a second "metric tile" style. */
+.cc-metric-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+.cc-metric-tile {
+  background: white; border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px;
+  box-shadow: 0 1px 2px rgba(31, 32, 51, 0.04);
+}
+.cc-metric-tile .value { font-size: 20px; font-weight: 700; color: var(--text); display: block; }
+.cc-metric-tile .label { font-size: 12px; color: var(--muted); margin-top: 2px; }
+.cc-metric-tile.ok .value { color: var(--green-dark); }
+.cc-metric-tile.bad .value { color: var(--red); }
+.cc-metric-tile.pending .value { color: #B45309; }
+
+.cc-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+.cc-section-emergency { border-left: 4px solid var(--red); }
+.cc-list { list-style: none; margin: 0; padding: 0; }
+.cc-list-row {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 13px;
+}
+.cc-list-row:last-child { border-bottom: none; }
+
+/* ---------------------------------------------------------------------
+   System Home / Command Hub. Reuses Command Center's own visual language
+   (.cc-group-title, .cc-metric-row/.cc-metric-tile, .cc-list/.cc-list-row,
+   .sb-section, .aa-status-pill) everywhere it applies — Home is another
+   real-data operational view, not a second design system — and only adds
+   the handful of layout pieces that language doesn't already cover: the
+   hero header, the two-column Recent Activity / System Status split, the
+   status list rows, and the quick-action button row.
+   ------------------------------------------------------------------- */
+.home-hero {
+  background: linear-gradient(120deg, var(--navy) 0%, var(--navy-dark) 100%);
+  color: white; border-radius: var(--radius-lg); padding: 28px 32px; margin-bottom: 8px;
+}
+.home-hero-title { margin: 0; font-size: 26px; font-weight: 700; letter-spacing: -0.01em; }
+.home-hero-subtitle { margin: 8px 0 0; font-size: 14px; color: rgba(255, 255, 255, 0.82); max-width: 640px; line-height: 1.5; }
+
+/* .cc-metric-tile is a plain card in Command Center (never a button there);
+   Home's System Overview tiles ARE clickable, so this resets the <button>
+   defaults on top of that same card look, rather than styling a second kind
+   of tile. */
+.home-metric-clickable {
+  font-family: var(--font-sans); text-align: left; cursor: pointer; width: 100%;
+}
+.home-metric-clickable:hover:not(:disabled) { border-color: var(--navy); box-shadow: 0 2px 8px rgba(40, 37, 108, 0.12); background: white; }
+.home-metric-clickable:focus-visible { outline: 2px solid var(--red); outline-offset: 2px; }
+.home-metric-clickable:disabled { opacity: 0.55; cursor: default; }
+
+.home-split { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: start; margin-top: 8px; }
+.home-panel { margin-bottom: 0; }
+
+.home-status-list { list-style: none; margin: 0; padding: 0; }
+.home-status-list li {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 13px;
+}
+.home-status-list li:last-child { border-bottom: none; }
+.home-status-label { font-weight: 600; color: var(--text); }
+
+.home-quick-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 8px; }
+
+@media (max-width: 900px) {
+  .home-split { grid-template-columns: 1fr; }
+  .home-hero { padding: 22px 20px; }
+  .home-hero-title { font-size: 21px; }
+}
+
+/* ============================================================================
+   Global Search — compact header trigger + Cmd/Ctrl+K palette overlay.
+   Matches the institutional shell's navy/indigo + restrained-red language
+   (same tokens as .app-sidebar / .home-hero) rather than introducing a
+   separate visual system. See GlobalSearch.jsx.
+   ============================================================================ */
+.global-search-trigger {
+  display: flex; align-items: center; gap: 8px;
+  background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: var(--radius-sm); color: rgba(255, 255, 255, 0.85);
+  padding: 7px 10px; font-size: 13px; cursor: pointer; font-family: var(--font-sans);
+}
+.global-search-trigger:hover { background: rgba(255, 255, 255, 0.18); border-color: rgba(255, 255, 255, 0.45); }
+.global-search-trigger:focus-visible { outline: 2px solid var(--red); outline-offset: 2px; }
+.global-search-trigger-label { color: rgba(255, 255, 255, 0.7); }
+.global-search-trigger-kbd {
+  font-size: 11px; background: rgba(255, 255, 255, 0.14); border-radius: 4px; padding: 1px 6px;
+  color: rgba(255, 255, 255, 0.75); font-family: var(--font-sans);
+}
+/* Same flex-item SVG sizing quirk Sidebar.jsx's icons already work around
+   (see .sidebar-home svg's own flex-shrink: 0) — without this, an SVG child
+   of a flex row can render at width:0 despite its own width attribute. */
+.global-search-trigger svg, .global-search-mobile-btn svg, .global-search-input-row svg { flex-shrink: 0; }
+
+.global-search-mobile-btn {
+  display: none; align-items: center; justify-content: center;
+  width: 34px; height: 34px; border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.28);
+  color: rgba(255, 255, 255, 0.85); cursor: pointer;
+}
+.global-search-mobile-btn:hover { background: rgba(255, 255, 255, 0.18); }
+
+.global-search-overlay {
+  position: fixed; inset: 0; background: rgba(23, 21, 62, 0.55);
+  display: flex; align-items: flex-start; justify-content: center;
+  padding: 12vh 16px 16px; z-index: 200;
+}
+.global-search-panel {
+  width: 100%; max-width: 620px; background: white; border-radius: var(--radius-lg);
+  box-shadow: 0 20px 60px rgba(23, 21, 62, 0.35); overflow: hidden;
+  display: flex; flex-direction: column; max-height: 70vh;
+}
+.global-search-input-row {
+  display: flex; align-items: center; gap: 10px; padding: 14px 16px;
+  border-bottom: 1px solid var(--border); color: var(--navy);
+}
+.global-search-input-row input {
+  flex: 1; border: none; outline: none; font-size: 15px; font-family: var(--font-sans); color: #1a1a2e;
+}
+.global-search-clear, .global-search-close {
+  background: none; border: none; cursor: pointer; color: var(--muted);
+  font-size: 13px; padding: 2px 6px; border-radius: 4px;
+}
+.global-search-clear { font-size: 18px; line-height: 1; }
+.global-search-clear:hover, .global-search-close:hover { background: #F4F4FB; }
+
+.global-search-results { overflow-y: auto; padding: 6px; }
+.global-search-hint { padding: 18px 14px; color: var(--muted); font-size: 13px; margin: 0; text-align: center; }
+.global-search-error { color: var(--red-dark); }
+
+.global-search-group { margin-bottom: 4px; }
+.global-search-group-label {
+  font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em;
+  color: var(--navy); padding: 10px 10px 4px;
+}
+.global-search-result {
+  width: 100%; display: flex; align-items: center; gap: 10px; text-align: left;
+  background: none; border: none; border-radius: var(--radius-sm); padding: 9px 10px;
+  cursor: pointer; font-family: var(--font-sans); color: #1a1a2e;
+}
+.global-search-result:hover, .global-search-result.active { background: #F4F4FB; }
+.global-search-result-icon { color: var(--navy); flex-shrink: 0; display: flex; }
+.global-search-result-icon svg { flex-shrink: 0; }
+.global-search-result-body { display: flex; flex-direction: column; min-width: 0; flex: 1; }
+.global-search-result-title { font-size: 13.5px; font-weight: 600; color: #1a1a2e; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.global-search-result-subtitle { font-size: 12px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.global-search-result-meta {
+  font-size: 11px; color: var(--navy); background: #EEF0FB; border-radius: 999px;
+  padding: 2px 8px; white-space: nowrap; flex-shrink: 0;
+}
+
+@media (max-width: 900px) {
+  .global-search-trigger { display: none; }
+  .global-search-mobile-btn { display: flex; }
+  .global-search-overlay { padding: 8vh 10px 10px; }
+  .global-search-panel { max-height: 78vh; }
+}
+
+/* ============================================================================
+   Command Palette — compact header trigger + Cmd/Ctrl+Shift+K overlay.
+   Deliberately reuses the exact same visual language as Global Search
+   above (same overlay/panel/list treatment) rather than introducing a
+   second visual system — the two are distinct *concepts* (find an entity
+   vs. navigate/run a safe command), not distinct products. See
+   CommandPalette.jsx.
+   ============================================================================ */
+.command-palette-trigger {
+  display: flex; align-items: center; gap: 6px;
+  background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: var(--radius-sm); color: rgba(255, 255, 255, 0.85);
+  padding: 7px 9px; font-size: 13px; cursor: pointer; font-family: var(--font-sans);
+}
+.command-palette-trigger:hover { background: rgba(255, 255, 255, 0.18); border-color: rgba(255, 255, 255, 0.45); }
+.command-palette-trigger:focus-visible { outline: 2px solid var(--red); outline-offset: 2px; }
+.command-palette-trigger-kbd {
+  font-size: 11px; background: rgba(255, 255, 255, 0.14); border-radius: 4px; padding: 1px 6px;
+  color: rgba(255, 255, 255, 0.75); font-family: var(--font-sans);
+}
+/* Same flex-item SVG sizing quirk worked around throughout the shell
+   (Sidebar.jsx, Global Search above) — applied here from the start. */
+.command-palette-trigger svg, .command-palette-input-row svg { flex-shrink: 0; }
+
+.command-palette-overlay {
+  position: fixed; inset: 0; background: rgba(23, 21, 62, 0.55);
+  display: flex; align-items: flex-start; justify-content: center;
+  padding: 12vh 16px 16px; z-index: 200;
+}
+.command-palette-panel {
+  width: 100%; max-width: 560px; background: white; border-radius: var(--radius-lg);
+  box-shadow: 0 20px 60px rgba(23, 21, 62, 0.35); overflow: hidden;
+  display: flex; flex-direction: column; max-height: 70vh;
+}
+.command-palette-input-row {
+  display: flex; align-items: center; gap: 10px; padding: 14px 16px;
+  border-bottom: 1px solid var(--border); color: var(--navy);
+}
+.command-palette-input-row input {
+  flex: 1; border: none; outline: none; font-size: 15px; font-family: var(--font-sans); color: #1a1a2e;
+}
+.command-palette-clear, .command-palette-close {
+  background: none; border: none; cursor: pointer; color: var(--muted);
+  font-size: 13px; padding: 2px 6px; border-radius: 4px;
+}
+.command-palette-clear { font-size: 18px; line-height: 1; }
+.command-palette-clear:hover, .command-palette-close:hover { background: #F4F4FB; }
+
+.command-palette-list { overflow-y: auto; padding: 6px; }
+.command-palette-hint { padding: 18px 14px; color: var(--muted); font-size: 13px; margin: 0; text-align: center; }
+
+.command-palette-group { margin-bottom: 4px; }
+.command-palette-group-label {
+  font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em;
+  color: var(--navy); padding: 10px 10px 4px;
+}
+.command-palette-item {
+  width: 100%; display: flex; align-items: center; gap: 10px; text-align: left;
+  background: none; border: none; border-radius: var(--radius-sm); padding: 9px 10px;
+  cursor: pointer; font-family: var(--font-sans); color: #1a1a2e;
+}
+.command-palette-item:hover, .command-palette-item.active { background: #F4F4FB; }
+.command-palette-item:disabled { opacity: 0.6; cursor: default; }
+.command-palette-item-icon { color: var(--navy); flex-shrink: 0; display: flex; }
+.command-palette-item-icon svg { flex-shrink: 0; }
+.command-palette-item-label { font-size: 13.5px; font-weight: 600; color: #1a1a2e; flex: 1; }
+.command-palette-item-status { font-size: 11px; color: var(--muted); flex-shrink: 0; }
+
+.command-palette-result {
+  margin: 6px 10px 4px; padding: 9px 10px; border-radius: var(--radius-sm);
+  font-size: 12.5px; background: #F4F4FB; color: var(--navy);
+}
+.command-palette-result.error { background: var(--red-tint); color: var(--red-dark); }
+
+@media (max-width: 900px) {
+  .command-palette-trigger-kbd { display: none; }
+  .command-palette-overlay { padding: 8vh 10px 10px; }
+  .command-palette-panel { max-height: 78vh; }
 }

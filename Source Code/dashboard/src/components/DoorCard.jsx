@@ -91,27 +91,47 @@ export default function DoorCard({
             </button>
           )
         )}
-        {canOverride && (
-          <button className="secondary" disabled={busy} onClick={handleToggleStatus}>
-            Mark {door.online ? "Offline" : "Online"}
-          </button>
-        )}
         {canRequestAccess && !isRoom && (
           <button disabled={busy || requested} onClick={handleRequest}>
             {requested ? "Requested ✓" : "Request Access"}
           </button>
         )}
-        {canOverride && !isRoom && (
-          <button className="secondary" onClick={() => onViewLogs(door.door_id)}>
-            History
+      </div>
+
+      {/* Secondary/routine actions converge on the same lightweight
+          text-link treatment Academic Administration's cards already use
+          for their equivalent actions (Edit / Deactivate / Delete — see
+          CollegeGrid.jsx) rather than the heavier filled/outlined button
+          chrome this card used for every action before. Delete keeps the
+          same real window.confirm() prompt and backend call it already
+          had (see handleDelete above) — only its visual weight changes,
+          via the same .aa-danger-text color CollegeGrid's own Delete link
+          already uses, so it still reads as clearly destructive next to
+          the neutral links beside it. */}
+      {canOverride && (
+        <div className="door-actions-secondary">
+          <button type="button" className="link-button" disabled={busy} onClick={handleToggleStatus}>
+            Mark {door.online ? "Offline" : "Online"}
           </button>
-        )}
-        {canOverride && (
-          <button className="danger" disabled={busy} onClick={handleDelete}>
+          {!isRoom && (
+            <button type="button" className="link-button" onClick={() => onViewLogs(door.door_id)}>
+              History
+            </button>
+          )}
+          {!isRoom && onOpenRoom && (
+            // Main/critical doors get the same detail view a Room gets
+            // (status, history, emergency override, anomaly indicators) —
+            // previously only reachable by clicking through from Command
+            // Center, never directly from this card.
+            <button type="button" className="link-button" onClick={() => onOpenRoom(door.door_id)}>
+              View Details
+            </button>
+          )}
+          <button type="button" className="link-button aa-danger-text" disabled={busy} onClick={handleDelete}>
             Delete
           </button>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 }

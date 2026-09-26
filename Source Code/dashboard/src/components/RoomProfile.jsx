@@ -1,4 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { api } from "../api/client";
+import useEscapeKey from "../hooks/useEscapeKey";
+import DoorAnomalyPanel from "./academic/DoorAnomalyPanel";
+import EmergencyOverridePanel from "./academic/EmergencyOverridePanel";
+import AccessAuthorizationPanel from "./academic/AccessAuthorizationPanel";
+import { OCCUPANCY_LABELS, formatWatts } from "./smart-building/sbUtils";
 
 const STATUS_STYLES = {
   offline: { color: "#B45309", label: "OFFLINE" },
@@ -28,11 +34,36 @@ export default function RoomProfile({
   onTogglePlug,
   onAddPlug,
   onDeletePlug,
+  onSetOccupancy,
+  onAuthorizationChecked,
+  onInvestigateEvent,
+  onOpenZone,
 }) {
+  useEscapeKey(onClose);
   const [busy, setBusy] = useState(false);
   const [requested, setRequested] = useState(false);
   const [newPlugLabel, setNewPlugLabel] = useState("");
   const status = statusOf(door);
+
+  // Stage E / E4: a Room (Door) and a Smart Building Zone are two different
+  // models that can be linked (Zone.door_id) — until now there was no way to
+  // see that link from this screen at all. This is a real, existing
+  // relationship (not a guess): GET /api/zones already returns every zone
+  // with its door_id, so this just finds the one (if any) pointing at this
+  // door. A door with no linked zone is common (most doors aren't wired into
+  // Smart Building) and is reported as such, not hidden or errored.
+  const [zone, setZone] = useState(undefined); // undefined = loading, null = none found
+  useEffect(() => {
+    let cancelled = false;
+    setZone(undefined);
+    api.listZones()
+      .then((zones) => {
+        if (cancelled) return;
+        setZone(zones.find((z) => z.door_id === door.door_id) || null);
+      })
+      .catch(() => { if (!cancelled) setZone(null); });
+    return () => { cancelled = true; };
+  }, [door.door_id]);
 
   async function run(fn) {
     setBusy(true);
@@ -73,9 +104,38 @@ export default function RoomProfile({
           <button className="secondary" onClick={onClose}>Close</button>
         </div>
 
-        <div className="door-status" style={{ margin: "12px 0 18px" }}>
+        <div className="door-status" style={{ margin: "12px 0 18px", flexWrap: "wrap", gap: "10px" }}>
           <span className="dot" style={{ background: status.color }} />
           <span style={{ color: status.color, fontWeight: 600 }}>{status.label}</span>
+          {door.occupied === true && (
+            <span style={{ color: "#B45309", fontWeight: 600 }}>&middot; OCCUPIED</span>
+          )}
+          {door.occupied === false && (
+            <span style={{ color: "#059669", fontWeight: 600 }}>&middot; VACANT</span>
+          )}
+          {door.occupied == null && (
+            <span className="muted">&middot; No occupancy sensor</span>
+          )}
+          {onSetOccupancy && (
+            <span style={{ display: "flex", gap: "6px" }}>
+              <button
+                className="secondary"
+                disabled={busy}
+                onClick={() => run(() => onSetOccupancy(door.door_id, true))}
+                title="Testing aid until a real occupancy sensor is wired up"
+              >
+                Mark Occupied
+              </button>
+              <button
+                className="secondary"
+                disabled={busy}
+                onClick={() => run(() => onSetOccupancy(door.door_id, false))}
+                title="Testing aid until a real occupancy sensor is wired up"
+              >
+                Mark Vacant
+              </button>
+            </span>
+          )}
         </div>
 
         <section className="room-profile-section">
@@ -94,18 +154,55 @@ export default function RoomProfile({
           </div>
         </section>
 
+        {canOverride && (
+          <section className="room-profile-section">
+            <h3>Smart Building Zone</h3>
+            {zone === undefined && <p className="muted">Checking for a linked Smart Building zone&hellip;</p>}
+            {zone === null && (
+              <p className="muted">This room isn't linked to a Smart Building zone (no automation/device data for it).</p>
+            )}
+            {zone && (
+              <>
+                <div className="door-status" style={{ margin: "6px 0" }}>
+                  <span className="sb-occupancy-state" data-state={zone.occupancy_state}>
+                    {OCCUPANCY_LABELS[zone.occupancy_state] || zone.occupancy_state}
+                  </span>
+                  <span className="muted">&middot; {(zone.devices || []).length} device{(zone.devices || []).length === 1 ? "" : "s"}</span>
+                  <span className="muted">
+                    &middot; {formatWatts((zone.devices || []).reduce((s, d) => s + (d.status ? d.current_power || 0 : 0), 0))}
+                  </span>
+                </div>
+                {onOpenZone && (
+                  <button type="button" className="secondary" onClick={() => onOpenZone(zone.zone_id)}>
+                    Manage in Smart Building
+                  </button>
+                )}
+              </>
+            )}
+          </section>
+        )}
+
+        {canOverride && (
+          <AccessAuthorizationPanel doorId={door.door_id} door={door} onChecked={onAuthorizationChecked} />
+        )}
+
         {(door.ac_enabled || door.light_enabled) && (
           <section className="room-profile-section">
             <h3>Climate &amp; Lighting</h3>
             <div className="door-actions" style={{ gridTemplateColumns: "1fr 1fr" }}>
               {door.ac_enabled && (
-                <button
-                  className={door.ac_on ? "" : "secondary"}
-                  disabled={busy || !canControlRoom}
-                  onClick={() => run(() => onToggleAc(door.door_id, !door.ac_on))}
-                >
-                  AC {door.ac_on ? "On" : "Off"}
-                </button>
+                <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                  <button
+                    className={door.ac_on ? "" : "secondary"}
+                    disabled={busy || !canControlRoom}
+                    onClick={() => run(() => onToggleAc(door.door_id, !door.ac_on))}
+                  >
+                    AC {door.ac_on ? "On" : "Off"}
+                  </button>
+                  {door.ac_watts != null && (
+                    <span className="muted" style={{ fontSize: "12px" }}>{door.ac_watts}W</span>
+                  )}
+                </div>
               )}
               {door.light_enabled && (
                 <button
@@ -132,8 +229,8 @@ export default function RoomProfile({
                 >
                   {plug.label}: {plug.on ? "On" : "Off"}
                 </button>
-                {plug.current_amps != null && (
-                  <span className="muted" style={{ fontSize: "12px" }}>{plug.current_amps}A</span>
+                {plug.watts != null && (
+                  <span className="muted" style={{ fontSize: "12px" }}>{plug.watts}W</span>
                 )}
                 {onDeletePlug && (
                   <button className="danger" disabled={busy} onClick={() => run(() => onDeletePlug(door.door_id, plug.plug_id))}>
@@ -187,6 +284,12 @@ export default function RoomProfile({
             )}
           </section>
         )}
+
+        {canOverride && (
+          <EmergencyOverridePanel doorId={door.door_id} currentlyLocked={door.locked} onInvestigateEvent={onInvestigateEvent} />
+        )}
+
+        {canOverride && <DoorAnomalyPanel doorId={door.door_id} onInvestigateEvent={onInvestigateEvent} />}
       </div>
     </div>
   );

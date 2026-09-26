@@ -1,3 +1,16 @@
+function describeAlert(a) {
+  const room = a.door_name || `Door #${a.door_id}`;
+  if (a.type === "access_requested") {
+    return `${room} — access requested${a.requested_by_name ? ` by ${a.requested_by_name}` : ""}`;
+  }
+  if (a.type === "high_power_empty_room") {
+    // Raised by services/energy_service.py: a high-draw device (AC or a
+    // plug) is still on while that room's occupancy sensor reports it empty.
+    return `${room} — high-power device left on in an empty room`;
+  }
+  return `${room} — ${a.type}`;
+}
+
 export default function AlertBanner({ alerts, onResolve, canResolve }) {
   if (!alerts.length) return null;
   return (
@@ -6,11 +19,7 @@ export default function AlertBanner({ alerts, onResolve, canResolve }) {
       <ul>
         {alerts.map((a) => (
           <li key={a.alert_id}>
-            Door #{a.door_id} &mdash; {a.type}
-            {a.type === "access_requested" && a.requested_by_name
-              ? ` (requested by ${a.requested_by_name})`
-              : ""}{" "}
-            ({new Date(a.alert_time).toLocaleTimeString()})
+            {describeAlert(a)} ({new Date(a.alert_time).toLocaleTimeString()})
             {canResolve && (
               <button className="link-button" onClick={() => onResolve(a.alert_id)}>
                 Resolve
