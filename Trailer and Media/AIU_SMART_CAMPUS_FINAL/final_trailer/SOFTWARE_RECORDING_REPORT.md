@@ -1,0 +1,5 @@
+# Software recording report
+Raw takes: `recordings/software/raw/` (10 mp4 + marks JSON, unedited). Captured from the real React/Vite dashboard (localhost:5174) against the real FastAPI backend (127.0.0.1:8001) running on an isolated **copy** of the database (`simulated_occupancy_demo/sim_occupancy_demo.db`). No production DB writes; MQTT disabled; security controls untouched. Capture: Chrome DevTools screencast at 1920×1080 with a CSS zoom of 1.5 for legibility, resampled to 30 fps. No fake cursor; interactions (clicks, scrolls) were performed by Playwright on the live app.
+Demo data added in the sim copy only: a demo admin account (credentials not recorded here), an anonymised demo doctor, and one access window. The "GRANTED" result on screen is a genuine response from the backend's authorization check for that demo window.
+Used takes: auth, events_inv, events_scroll, home, zones, occ, cmd, auto. Not used: face (shows "NOT ENROLLED"), map (degraded tiles misleading).
+Caveats: the occupancy page rows are SIMULATED and labelled so; hardware-health panels show "No data". Timestamps on screen are from the recording session.

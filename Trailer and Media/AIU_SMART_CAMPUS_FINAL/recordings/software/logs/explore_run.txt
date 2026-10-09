@@ -1,0 +1,4 @@
+removed earlier .test demo row (my own, sim DB only)
+created demo admin in SIM db only
+db /Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/simulated_occupancy_demo/sim_occupancy_demo.db
+done

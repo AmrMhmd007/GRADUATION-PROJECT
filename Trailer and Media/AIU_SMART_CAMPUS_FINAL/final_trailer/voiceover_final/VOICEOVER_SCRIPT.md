@@ -1,0 +1,38 @@
+# AIU SMART CAMPUS — Voice-over script and timecodes
+
+**Narration audio:** supplied by the project owner (ElevenLabs file `ELEVENLABS_Mamdoh_v4_supplied_2026-10-09.mp3`, 105.33 s, mono 44.1 kHz). The script text below is exactly the text you provided; I did not rewrite it or add claims.
+
+Film time = narration time + 4.0 s (4 s of music-only lead-in). Final film length 115.0 s.
+
+**How the times were obtained:** there is no speech recogniser in this environment, so the narration was *not transcribed*. The clause boundaries were matched to the pauses in the audio (silence detection) using word-count proportions; this is accurate to roughly ±0.5 s inside a clause and exact at pauses. Please tell me any line whose picture feels early or late and I will move the cue.
+
+| # | VO start | VO end | Film start | Film end | Words | Narration | Visual | On-screen text | Tone |
+|---|---|---|---|---|---|---|---|---|---|
+| 1 | 0.00 | 2.48 | 4.00 | 6.48 | 5 | Welcome to AIU Smart Campus… | Opening: real AIU exterior photograph, title card reveals | AIU SMART CAMPUS · CYBER-PHYSICAL CONTROL SYSTEM | Warm, confident |
+| 2 | 2.78 | 11.52 | 6.78 | 15.52 | 21 | مشروع بيهدف إنه ينقل تجربة إدارة الجامعة لمستوى جديد، من خلال دمج التكنولوجيا، والأمان، والـ Smart Automation في نظام واحد متكامل. | Title card + caption stack: TECHNOLOGY → SECURITY → SMART AUTOMATION → ONE INTEGRATED SYSTEM | A NEW LEVEL OF UNIVERSITY MANAGEMENT / TECHNOLOGY · SECURITY · SMART AUTOMATION | Clear, explanatory |
+| 3 | 11.85 | 14.00 | 15.85 | 18.00 | 5 | Security starts before you enter. | Access-control animation: instructor approaches the door (Blender, native 1080p) | ACCESS CONTROL — CONCEPT VISUALISATION | Calm, serious |
+| 4 | 14.29 | 22.84 | 18.29 | 26.84 | 23 | قبل ما الباب يفتح، الـ system بيتحقق من هوية الشخص، وبيتأكد إن عنده authorization للدخول، according to the assigned access permissions and schedule. | REAL software recording: Security workspace — identity/credential status, authorization rules, access windows/schedule | Captions name the page shown (Face ID status · authorization · schedule) | Informative |
+| 5 | 23.06 | 26.47 | 27.06 | 30.47 | 9 | Because in a smart campus, every access decision matters. | REAL software recording: Access Events log | ACCESS EVENTS — DECISIONS ARE LOGGED | Emphatic, measured |
+| 6 | 26.78 | 29.99 | 30.78 | 33.99 | 9 | Once the required checks are completed, access is granted. | Door animation: reader, VERIFYING IDENTITY → ACCESS GRANTED at the words 'access is granted' | VERIFYING IDENTITY → ACCESS GRANTED (concept animation) | Resolved |
+| 7 | 30.27 | 39.03 | 34.27 | 43.03 | 20 | الباب بيفتح، والشخص يقدر يدخل المكان المصرح له بيه، من خلال نظام بيجمع بين Identity Verification، Access Authorization، وControlled Entry. | Lock release, handle, door opens, instructor enters; then real software: the three terms shown on real screens | LOCK RELEASED · DOOR OPEN; IDENTITY VERIFICATION / ACCESS AUTHORIZATION / CONTROLLED ENTRY | Confident |
+| 8 | 39.36 | 41.75 | 43.36 | 45.75 | 9 | But smart technology doesn't stop at the door. | Classroom: lecturer and students (animated) | SMART CLASSROOM — ANIMATED CHARACTERS, NOT LIVE DETECTION | Transitional |
+| 9 | 42.05 | 48.37 | 46.05 | 52.37 | 16 | جوه القاعات، الـ Indoor Camera Monitoring بيساعد في متابعة إشغال المكان وفهم حالة القاعة بشكل أفضل. | Indoor classroom camera reveal, then its illustrative coverage volume | INDOOR CLASSROOM CAMERA · CONCEPT VISUALISATION · NOT A CONNECTED DEVICE | Explanatory |
+| 10 | 48.60 | 57.53 | 52.60 | 61.53 | 19 | وده بيدعم Smarter Room Management، وبيفتح المجال لتطوير Attendance Workflows من خلال additional identity verification and attendance-processing capabilities. | Camera's point of view + 4-step pipeline (implemented vs concept badges); concept attendance interface with demonstration data | CLASSROOM CAMERA → IMAGE PROCESSING → PRESENCE ANALYSIS (anonymous count — backend implemented) → ATTENDANCE RECORD (concept, NOT implemented) | Careful: attendance is future work |
+| 11 | 57.83 | 62.58 | 61.83 | 66.58 | 10 | All these insights come together through the Smart Campus Dashboard. | REAL software recording: dashboard home | Dashboard | Rising |
+| 12 | 62.73 | 73.48 | 66.73 | 77.48 | 24 | من خلال واجهة واحدة، المسؤول يقدر يتابع بيانات القاعات المتاحة، والـ Occupancy Information، وحالة الأنظمة، علشان تكون عنده رؤية أوضح عن حالة الحرم الجامعي. | REAL software recordings: rooms, occupancy page (SIMULATED badge), system/device status, command centre | SIMULATED DATA — NOT LIVE SENSOR TELEMETRY | Informative |
+| 13 | 73.68 | 78.24 | 77.68 | 82.24 | 6 | One interface. Clearer insights. Smarter management. | REAL software recording: automation / smart-building zone view | ONE INTERFACE · CLEARER INSIGHTS · SMARTER MANAGEMENT | Three short beats |
+| 14 | 78.54 | 91.35 | 82.54 | 95.35 | 31 | Behind the interface, there's a connected system architecture. الـ Backend، والـ Database، والـ Dashboard، ومكونات الـ Automation، كلها بتتكامل مع بعض علشان تدعم إدارة الأنظمة المختلفة بطريقة منظمة وقابلة للتطوير. | Prototype design image, then animated architecture diagram built from the real code structure (Backend, Database, Dashboard, Automation; hardware side dashed) | SYSTEM ARCHITECTURE — FILLED = SOFTWARE IMPLEMENTED, DASHED = HARDWARE SIDE NOT LIVE | Technical, steady |
+| 15 | 91.61 | 94.93 | 95.61 | 98.93 | 7 | From secure access to intelligent room monitoring… | Four-panel recap: secure access · room monitoring · attendance workflow (concept) · campus management | CONNECTED SYSTEM | Reflective |
+| 16 | 95.11 | 101.50 | 99.11 | 105.50 | 19 | كل جزء بيساهم في بناء تجربة جامعية أكثر ترابطًا، وبيوضح إزاي التكنولوجيا ممكن تساعد في تطوير إدارة المساحات الجامعية. | REAL software recording: campus map of connected spaces | CONNECTED SPACES | Warm |
+| 17 | 101.78 | 105.17 | 105.78 | 109.17 | 9 | AIU Smart Campus. Connecting Spaces. Enabling Smarter Campus Management. | Closing title card with the AIU logo; tagline lines appear on the words | AIU SMART CAMPUS · ALAMEIN INTERNATIONAL UNIVERSITY · Connecting Spaces. Enabling Smarter Campus Management. | Resolved, proud |
+
+## Pronunciation notes
+- *AIU* = “A-I-U” (three letters). *Alamein* = “Al-a-MAIN”. *Smart Campus*, *Smart Automation*, *Smarter Room Management* spoken in English inside the Egyptian-Arabic sentences.
+- Technical terms kept in English as written: system, authorization, Indoor Camera Monitoring, Attendance Workflows, Occupancy Information, Backend, Database, Dashboard, Automation, Identity Verification, Access Authorization, Controlled Entry.
+- The Arabic is Egyptian colloquial (e.g. بيتحقق, بيتأكد, بيفتح); the supplied voice is a deep Egyptian male voice.
+
+## Honesty of the narration against the implementation
+- *“الـ system بيتحقق من هوية الشخص … authorization … schedule”*: the backend implements credential/Face-ID credential checks (`routers/face.py`, `services/face_service.py`), door authorization with schedules and access windows. The on-screen animation is a concept visualisation, not a live reader.
+- *“Indoor Camera Monitoring بيساعد في متابعة إشغال المكان”*: the implemented part is the anonymous people-count ingest (`/api/occupancy/ingest`); no camera hardware or vision code exists in the repository.
+- *“بيفتح المجال لتطوير Attendance Workflows”*: the script already describes attendance as something the system *opens the door to developing*; the film labels the attendance interface CONCEPT · NOT IMPLEMENTED (no attendance model, endpoint or UI exists).
+- Dashboard occupancy numbers shown in the recordings are labelled SIMULATED where they are (isolated simulation database).

@@ -1,0 +1,14 @@
+/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/aiu_occupancy_classroom_test.py:49: DeprecationWarning: 'Material.use_nodes' is expected to be removed in Blender 6.0
+  m = bpy.data.materials.new(name); m.use_nodes = True; b = m.node_tree.nodes['Principled BSDF']
+/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/aiu_occupancy_classroom_test.py:86: DeprecationWarning: 'Material.use_nodes' is expected to be removed in Blender 6.0
+  m = bpy.data.materials.new(name); m.use_nodes = True; n, l = m.node_tree.nodes, m.node_tree.links
+/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/aiu_occupancy_classroom_test.py:91: DeprecationWarning: 'Material.use_nodes' is expected to be removed in Blender 6.0
+  m = bpy.data.materials.new(name); m.use_nodes = True; n, l = m.node_tree.nodes, m.node_tree.links
+approved corridor appended (read-only copy): 276 objects
+SCRIPT /Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/aiu_occupancy_classroom_test.py | Blender 5.2.2 LTS | MODE='build' | OUT=/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1 | approved corridor appended=True
+CYCLES DEVICES: [('Apple M4', 'CPU', False), ('Apple M4 (GPU - 10 cores)', 'METAL', True)]
+Info: Saved as "AIU_OCC_classroom_test.blend"
+SCENE BUILT AND SAVED: /Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/AIU_OCC_classroom_test.blend (no render in build mode)
+Blender 5.2.2 LTS (hash d13f752e3b9c built 2026-09-15 01:49:19)
+
+Blender quit

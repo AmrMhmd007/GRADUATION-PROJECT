@@ -1,0 +1,26 @@
+{
+  "fps": 30,
+  "frames": 390,
+  "size": [
+    1920,
+    1080
+  ],
+  "step_start_frames": {
+    "IDENTITY": 172,
+    "ACCOUNT": 186,
+    "ROOM": 198,
+    "SCHEDULE": 208,
+    "BACKEND": 216,
+    "GRANTED": 225
+  },
+  "grant_frame": 225,
+  "fade_in": [
+    160,
+    172
+  ],
+  "fade_out": [
+    330,
+    345
+  ],
+  "note": "Align frame 1 of the overlay with frame 1 of the Blender shot; GRANT = frame 225 = ring turns green."
+}

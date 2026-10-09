@@ -1,0 +1,918 @@
+/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/aiu_occupancy_classroom_test.py:49: DeprecationWarning: 'Material.use_nodes' is expected to be removed in Blender 6.0
+  m = bpy.data.materials.new(name); m.use_nodes = True; b = m.node_tree.nodes['Principled BSDF']
+/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/aiu_occupancy_classroom_test.py:86: DeprecationWarning: 'Material.use_nodes' is expected to be removed in Blender 6.0
+  m = bpy.data.materials.new(name); m.use_nodes = True; n, l = m.node_tree.nodes, m.node_tree.links
+/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/aiu_occupancy_classroom_test.py:91: DeprecationWarning: 'Material.use_nodes' is expected to be removed in Blender 6.0
+  m = bpy.data.materials.new(name); m.use_nodes = True; n, l = m.node_tree.nodes, m.node_tree.links
+approved corridor appended (read-only copy): 276 objects
+SCRIPT /Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/aiu_occupancy_classroom_test.py | Blender 5.2.2 LTS | MODE='review' | OUT=/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1 | approved corridor appended=True
+CYCLES DEVICES: [('Apple M4', 'CPU', False), ('Apple M4 (GPU - 10 cores)', 'METAL', True)]
+Info: Saved as "AIU_OCC_classroom_test.blend"
+saved /Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/AIU_OCC_classroom_test.blend
+CYCLES DEVICES: [('Apple M4', 'CPU', False), ('Apple M4 (GPU - 10 cores)', 'METAL', True)]
+=== PREVIEW 854x480 spp=12 step=1 -> /Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames ===
+00:03.230  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0001.png'
+    preview frame   1/450 camera=OccCam_A_transition elapsed    2.2s
+00:05.001  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0002.png'
+    preview frame   2/450 camera=OccCam_A_transition elapsed    4.0s
+00:06.691  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0003.png'
+    preview frame   3/450 camera=OccCam_A_transition elapsed    5.7s
+00:08.460  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0004.png'
+    preview frame   4/450 camera=OccCam_A_transition elapsed    7.5s
+00:10.165  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0005.png'
+    preview frame   5/450 camera=OccCam_A_transition elapsed    9.2s
+00:11.852  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0006.png'
+    preview frame   6/450 camera=OccCam_A_transition elapsed   10.8s
+00:13.533  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0007.png'
+    preview frame   7/450 camera=OccCam_A_transition elapsed   12.5s
+00:15.214  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0008.png'
+    preview frame   8/450 camera=OccCam_A_transition elapsed   14.2s
+00:16.904  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0009.png'
+    preview frame   9/450 camera=OccCam_A_transition elapsed   15.9s
+00:18.583  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0010.png'
+    preview frame  10/450 camera=OccCam_A_transition elapsed   17.6s
+00:20.270  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0011.png'
+    preview frame  11/450 camera=OccCam_A_transition elapsed   19.3s
+00:22.002  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0012.png'
+    preview frame  12/450 camera=OccCam_A_transition elapsed   21.0s
+00:23.844  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0013.png'
+    preview frame  13/450 camera=OccCam_A_transition elapsed   22.8s
+00:25.666  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0014.png'
+    preview frame  14/450 camera=OccCam_A_transition elapsed   24.7s
+00:27.485  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0015.png'
+    preview frame  15/450 camera=OccCam_A_transition elapsed   26.5s
+00:29.426  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0016.png'
+    preview frame  16/450 camera=OccCam_A_transition elapsed   28.4s
+00:31.422  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0017.png'
+    preview frame  17/450 camera=OccCam_A_transition elapsed   30.4s
+00:33.453  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0018.png'
+    preview frame  18/450 camera=OccCam_A_transition elapsed   32.4s
+00:35.460  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0019.png'
+    preview frame  19/450 camera=OccCam_A_transition elapsed   34.5s
+00:37.494  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0020.png'
+    preview frame  20/450 camera=OccCam_A_transition elapsed   36.5s
+00:39.518  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0021.png'
+    preview frame  21/450 camera=OccCam_A_transition elapsed   38.5s
+00:41.396  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0022.png'
+    preview frame  22/450 camera=OccCam_A_transition elapsed   40.4s
+00:43.261  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0023.png'
+    preview frame  23/450 camera=OccCam_A_transition elapsed   42.3s
+00:45.058  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0024.png'
+    preview frame  24/450 camera=OccCam_A_transition elapsed   44.0s
+00:46.959  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0025.png'
+    preview frame  25/450 camera=OccCam_A_transition elapsed   45.9s
+00:48.761  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0026.png'
+    preview frame  26/450 camera=OccCam_A_transition elapsed   47.8s
+00:50.599  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0027.png'
+    preview frame  27/450 camera=OccCam_A_transition elapsed   49.6s
+00:52.455  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0028.png'
+    preview frame  28/450 camera=OccCam_A_transition elapsed   51.4s
+00:54.293  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0029.png'
+    preview frame  29/450 camera=OccCam_A_transition elapsed   53.3s
+00:56.149  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0030.png'
+    preview frame  30/450 camera=OccCam_A_transition elapsed   55.1s
+00:58.031  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0031.png'
+    preview frame  31/450 camera=OccCam_A_transition elapsed   57.0s
+01:00.150  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0032.png'
+    preview frame  32/450 camera=OccCam_A_transition elapsed   59.1s
+01:02.043  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0033.png'
+    preview frame  33/450 camera=OccCam_A_transition elapsed   61.0s
+01:03.980  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0034.png'
+    preview frame  34/450 camera=OccCam_A_transition elapsed   63.0s
+01:05.890  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0035.png'
+    preview frame  35/450 camera=OccCam_A_transition elapsed   64.9s
+01:07.790  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0036.png'
+    preview frame  36/450 camera=OccCam_A_transition elapsed   66.8s
+01:09.714  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0037.png'
+    preview frame  37/450 camera=OccCam_A_transition elapsed   68.7s
+01:11.622  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0038.png'
+    preview frame  38/450 camera=OccCam_A_transition elapsed   70.6s
+01:13.531  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0039.png'
+    preview frame  39/450 camera=OccCam_A_transition elapsed   72.5s
+01:15.520  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0040.png'
+    preview frame  40/450 camera=OccCam_A_transition elapsed   74.5s
+01:17.486  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0041.png'
+    preview frame  41/450 camera=OccCam_A_transition elapsed   76.5s
+01:19.413  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0042.png'
+    preview frame  42/450 camera=OccCam_A_transition elapsed   78.4s
+01:21.338  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0043.png'
+    preview frame  43/450 camera=OccCam_A_transition elapsed   80.3s
+01:23.248  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0044.png'
+    preview frame  44/450 camera=OccCam_A_transition elapsed   82.2s
+01:25.167  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0045.png'
+    preview frame  45/450 camera=OccCam_A_transition elapsed   84.2s
+01:27.081  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0046.png'
+    preview frame  46/450 camera=OccCam_A_transition elapsed   86.1s
+01:29.020  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0047.png'
+    preview frame  47/450 camera=OccCam_A_transition elapsed   88.0s
+01:30.965  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0048.png'
+    preview frame  48/450 camera=OccCam_A_transition elapsed   90.0s
+01:32.901  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0049.png'
+    preview frame  49/450 camera=OccCam_A_transition elapsed   91.9s
+01:34.823  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0050.png'
+    preview frame  50/450 camera=OccCam_A_transition elapsed   93.8s
+01:36.760  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0051.png'
+    preview frame  51/450 camera=OccCam_A_transition elapsed   95.8s
+01:38.696  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0052.png'
+    preview frame  52/450 camera=OccCam_A_transition elapsed   97.7s
+01:40.659  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0053.png'
+    preview frame  53/450 camera=OccCam_A_transition elapsed   99.6s
+01:42.611  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0054.png'
+    preview frame  54/450 camera=OccCam_A_transition elapsed  101.6s
+01:44.560  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0055.png'
+    preview frame  55/450 camera=OccCam_A_transition elapsed  103.6s
+01:46.498  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0056.png'
+    preview frame  56/450 camera=OccCam_A_transition elapsed  105.5s
+01:48.445  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0057.png'
+    preview frame  57/450 camera=OccCam_A_transition elapsed  107.4s
+01:50.401  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0058.png'
+    preview frame  58/450 camera=OccCam_A_transition elapsed  109.4s
+01:52.349  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0059.png'
+    preview frame  59/450 camera=OccCam_A_transition elapsed  111.3s
+01:54.306  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0060.png'
+    preview frame  60/450 camera=OccCam_A_transition elapsed  113.3s
+01:56.276  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0061.png'
+    preview frame  61/450 camera=OccCam_A_transition elapsed  115.3s
+01:58.233  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0062.png'
+    preview frame  62/450 camera=OccCam_A_transition elapsed  117.2s
+02:00.195  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0063.png'
+    preview frame  63/450 camera=OccCam_A_transition elapsed  119.2s
+02:02.148  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0064.png'
+    preview frame  64/450 camera=OccCam_A_transition elapsed  121.1s
+02:04.114  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0065.png'
+    preview frame  65/450 camera=OccCam_A_transition elapsed  123.1s
+02:06.069  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0066.png'
+    preview frame  66/450 camera=OccCam_A_transition elapsed  125.1s
+02:08.050  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0067.png'
+    preview frame  67/450 camera=OccCam_A_transition elapsed  127.0s
+02:10.008  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0068.png'
+    preview frame  68/450 camera=OccCam_A_transition elapsed  129.0s
+02:11.981  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0069.png'
+    preview frame  69/450 camera=OccCam_A_transition elapsed  131.0s
+02:13.954  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0070.png'
+    preview frame  70/450 camera=OccCam_A_transition elapsed  132.9s
+02:15.925  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0071.png'
+    preview frame  71/450 camera=OccCam_A_transition elapsed  134.9s
+02:17.894  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0072.png'
+    preview frame  72/450 camera=OccCam_A_transition elapsed  136.9s
+02:19.872  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0073.png'
+    preview frame  73/450 camera=OccCam_A_transition elapsed  138.9s
+02:21.843  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0074.png'
+    preview frame  74/450 camera=OccCam_A_transition elapsed  140.8s
+02:23.851  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0075.png'
+    preview frame  75/450 camera=OccCam_A_transition elapsed  142.8s
+02:25.868  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0076.png'
+    preview frame  76/450 camera=OccCam_A_transition elapsed  144.9s
+02:27.880  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0077.png'
+    preview frame  77/450 camera=OccCam_A_transition elapsed  146.9s
+02:29.865  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0078.png'
+    preview frame  78/450 camera=OccCam_A_transition elapsed  148.9s
+02:31.888  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0079.png'
+    preview frame  79/450 camera=OccCam_A_transition elapsed  150.9s
+02:33.890  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0080.png'
+    preview frame  80/450 camera=OccCam_A_transition elapsed  152.9s
+02:35.904  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0081.png'
+    preview frame  81/450 camera=OccCam_A_transition elapsed  154.9s
+02:37.940  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0082.png'
+    preview frame  82/450 camera=OccCam_A_transition elapsed  156.9s
+02:39.985  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0083.png'
+    preview frame  83/450 camera=OccCam_A_transition elapsed  159.0s
+02:42.014  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0084.png'
+    preview frame  84/450 camera=OccCam_A_transition elapsed  161.0s
+02:44.038  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0085.png'
+    preview frame  85/450 camera=OccCam_A_transition elapsed  163.0s
+02:46.064  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0086.png'
+    preview frame  86/450 camera=OccCam_A_transition elapsed  165.1s
+02:48.122  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0087.png'
+    preview frame  87/450 camera=OccCam_A_transition elapsed  167.1s
+02:50.170  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0088.png'
+    preview frame  88/450 camera=OccCam_A_transition elapsed  169.2s
+02:52.206  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0089.png'
+    preview frame  89/450 camera=OccCam_A_transition elapsed  171.2s
+02:54.225  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0090.png'
+    preview frame  90/450 camera=OccCam_A_transition elapsed  173.2s
+02:56.254  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0091.png'
+    preview frame  91/450 camera=OccCam_A_transition elapsed  175.2s
+02:58.229  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0092.png'
+    preview frame  92/450 camera=OccCam_A_transition elapsed  177.2s
+03:00.224  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0093.png'
+    preview frame  93/450 camera=OccCam_A_transition elapsed  179.2s
+03:02.243  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0094.png'
+    preview frame  94/450 camera=OccCam_A_transition elapsed  181.2s
+03:04.248  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0095.png'
+    preview frame  95/450 camera=OccCam_A_transition elapsed  183.2s
+03:06.249  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0096.png'
+    preview frame  96/450 camera=OccCam_A_transition elapsed  185.2s
+03:08.246  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0097.png'
+    preview frame  97/450 camera=OccCam_A_transition elapsed  187.2s
+03:10.227  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0098.png'
+    preview frame  98/450 camera=OccCam_A_transition elapsed  189.2s
+03:12.208  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0099.png'
+    preview frame  99/450 camera=OccCam_A_transition elapsed  191.2s
+03:14.172  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0100.png'
+    preview frame 100/450 camera=OccCam_A_transition elapsed  193.2s
+03:16.124  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0101.png'
+    preview frame 101/450 camera=OccCam_B_establish elapsed  195.1s
+03:18.061  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0102.png'
+    preview frame 102/450 camera=OccCam_B_establish elapsed  197.1s
+03:20.002  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0103.png'
+    preview frame 103/450 camera=OccCam_B_establish elapsed  199.0s
+03:21.944  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0104.png'
+    preview frame 104/450 camera=OccCam_B_establish elapsed  200.9s
+03:23.897  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0105.png'
+    preview frame 105/450 camera=OccCam_B_establish elapsed  202.9s
+03:25.824  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0106.png'
+    preview frame 106/450 camera=OccCam_B_establish elapsed  204.8s
+03:27.784  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0107.png'
+    preview frame 107/450 camera=OccCam_B_establish elapsed  206.8s
+03:29.711  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0108.png'
+    preview frame 108/450 camera=OccCam_B_establish elapsed  208.7s
+03:31.649  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0109.png'
+    preview frame 109/450 camera=OccCam_B_establish elapsed  210.6s
+03:33.588  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0110.png'
+    preview frame 110/450 camera=OccCam_B_establish elapsed  212.6s
+03:35.536  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0111.png'
+    preview frame 111/450 camera=OccCam_B_establish elapsed  214.5s
+03:37.500  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0112.png'
+    preview frame 112/450 camera=OccCam_B_establish elapsed  216.5s
+03:39.443  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0113.png'
+    preview frame 113/450 camera=OccCam_B_establish elapsed  218.4s
+03:41.393  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0114.png'
+    preview frame 114/450 camera=OccCam_B_establish elapsed  220.4s
+03:43.427  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0115.png'
+    preview frame 115/450 camera=OccCam_B_establish elapsed  222.4s
+03:45.500  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0116.png'
+    preview frame 116/450 camera=OccCam_B_establish elapsed  224.5s
+03:47.695  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0117.png'
+    preview frame 117/450 camera=OccCam_B_establish elapsed  226.7s
+03:49.808  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0118.png'
+    preview frame 118/450 camera=OccCam_B_establish elapsed  228.8s
+03:51.791  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0119.png'
+    preview frame 119/450 camera=OccCam_B_establish elapsed  230.8s
+03:53.611  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0120.png'
+    preview frame 120/450 camera=OccCam_B_establish elapsed  232.6s
+03:55.389  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0121.png'
+    preview frame 121/450 camera=OccCam_B_establish elapsed  234.4s
+03:57.169  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0122.png'
+    preview frame 122/450 camera=OccCam_B_establish elapsed  236.2s
+03:58.948  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0123.png'
+    preview frame 123/450 camera=OccCam_B_establish elapsed  237.9s
+04:00.746  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0124.png'
+    preview frame 124/450 camera=OccCam_B_establish elapsed  239.7s
+04:02.507  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0125.png'
+    preview frame 125/450 camera=OccCam_B_establish elapsed  241.5s
+04:04.288  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0126.png'
+    preview frame 126/450 camera=OccCam_B_establish elapsed  243.3s
+04:06.139  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0127.png'
+    preview frame 127/450 camera=OccCam_B_establish elapsed  245.1s
+04:07.988  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0128.png'
+    preview frame 128/450 camera=OccCam_B_establish elapsed  247.0s
+04:09.837  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0129.png'
+    preview frame 129/450 camera=OccCam_B_establish elapsed  248.8s
+04:11.626  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0130.png'
+    preview frame 130/450 camera=OccCam_B_establish elapsed  250.6s
+04:13.386  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0131.png'
+    preview frame 131/450 camera=OccCam_B_establish elapsed  252.4s
+04:15.155  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0132.png'
+    preview frame 132/450 camera=OccCam_B_establish elapsed  254.1s
+04:16.903  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0133.png'
+    preview frame 133/450 camera=OccCam_B_establish elapsed  255.9s
+04:18.671  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0134.png'
+    preview frame 134/450 camera=OccCam_B_establish elapsed  257.7s
+04:20.441  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0135.png'
+    preview frame 135/450 camera=OccCam_B_establish elapsed  259.4s
+04:22.198  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0136.png'
+    preview frame 136/450 camera=OccCam_B_establish elapsed  261.2s
+04:23.951  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0137.png'
+    preview frame 137/450 camera=OccCam_B_establish elapsed  262.9s
+04:25.708  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0138.png'
+    preview frame 138/450 camera=OccCam_B_establish elapsed  264.7s
+04:27.465  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0139.png'
+    preview frame 139/450 camera=OccCam_B_establish elapsed  266.5s
+04:29.231  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0140.png'
+    preview frame 140/450 camera=OccCam_B_establish elapsed  268.2s
+04:30.973  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0141.png'
+    preview frame 141/450 camera=OccCam_B_establish elapsed  270.0s
+04:32.779  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0142.png'
+    preview frame 142/450 camera=OccCam_B_establish elapsed  271.8s
+04:34.541  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0143.png'
+    preview frame 143/450 camera=OccCam_B_establish elapsed  273.5s
+04:36.306  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0144.png'
+    preview frame 144/450 camera=OccCam_B_establish elapsed  275.3s
+04:38.076  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0145.png'
+    preview frame 145/450 camera=OccCam_B_establish elapsed  277.1s
+04:39.838  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0146.png'
+    preview frame 146/450 camera=OccCam_B_establish elapsed  278.8s
+04:41.580  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0147.png'
+    preview frame 147/450 camera=OccCam_B_establish elapsed  280.6s
+04:43.345  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0148.png'
+    preview frame 148/450 camera=OccCam_B_establish elapsed  282.3s
+04:45.092  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0149.png'
+    preview frame 149/450 camera=OccCam_B_establish elapsed  284.1s
+04:46.832  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0150.png'
+    preview frame 150/450 camera=OccCam_B_establish elapsed  285.8s
+04:48.566  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0151.png'
+    preview frame 151/450 camera=OccCam_B_establish elapsed  287.6s
+04:50.326  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0152.png'
+    preview frame 152/450 camera=OccCam_B_establish elapsed  289.3s
+04:52.092  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0153.png'
+    preview frame 153/450 camera=OccCam_B_establish elapsed  291.1s
+04:53.820  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0154.png'
+    preview frame 154/450 camera=OccCam_B_establish elapsed  292.8s
+04:55.560  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0155.png'
+    preview frame 155/450 camera=OccCam_B_establish elapsed  294.6s
+04:57.321  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0156.png'
+    preview frame 156/450 camera=OccCam_B_establish elapsed  296.3s
+04:59.077  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0157.png'
+    preview frame 157/450 camera=OccCam_B_establish elapsed  298.1s
+05:00.816  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0158.png'
+    preview frame 158/450 camera=OccCam_B_establish elapsed  299.8s
+05:02.566  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0159.png'
+    preview frame 159/450 camera=OccCam_B_establish elapsed  301.6s
+05:04.310  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0160.png'
+    preview frame 160/450 camera=OccCam_B_establish elapsed  303.3s
+05:06.078  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0161.png'
+    preview frame 161/450 camera=OccCam_B_establish elapsed  305.1s
+05:07.858  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0162.png'
+    preview frame 162/450 camera=OccCam_B_establish elapsed  306.8s
+05:09.627  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0163.png'
+    preview frame 163/450 camera=OccCam_B_establish elapsed  308.6s
+05:11.385  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0164.png'
+    preview frame 164/450 camera=OccCam_B_establish elapsed  310.4s
+05:13.133  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0165.png'
+    preview frame 165/450 camera=OccCam_B_establish elapsed  312.1s
+05:14.880  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0166.png'
+    preview frame 166/450 camera=OccCam_B_establish elapsed  313.9s
+05:16.631  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0167.png'
+    preview frame 167/450 camera=OccCam_B_establish elapsed  315.6s
+05:18.386  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0168.png'
+    preview frame 168/450 camera=OccCam_B_establish elapsed  317.4s
+05:20.169  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0169.png'
+    preview frame 169/450 camera=OccCam_B_establish elapsed  319.2s
+05:21.929  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0170.png'
+    preview frame 170/450 camera=OccCam_B_establish elapsed  320.9s
+05:23.690  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0171.png'
+    preview frame 171/450 camera=OccCam_B_establish elapsed  322.7s
+05:25.458  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0172.png'
+    preview frame 172/450 camera=OccCam_B_establish elapsed  324.4s
+05:27.215  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0173.png'
+    preview frame 173/450 camera=OccCam_B_establish elapsed  326.2s
+05:28.972  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0174.png'
+    preview frame 174/450 camera=OccCam_B_establish elapsed  328.0s
+05:30.724  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0175.png'
+    preview frame 175/450 camera=OccCam_B_establish elapsed  329.7s
+05:32.491  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0176.png'
+    preview frame 176/450 camera=OccCam_B_establish elapsed  331.5s
+05:34.272  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0177.png'
+    preview frame 177/450 camera=OccCam_B_establish elapsed  333.3s
+05:36.037  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0178.png'
+    preview frame 178/450 camera=OccCam_B_establish elapsed  335.0s
+05:37.786  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0179.png'
+    preview frame 179/450 camera=OccCam_B_establish elapsed  336.8s
+05:39.521  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0180.png'
+    preview frame 180/450 camera=OccCam_B_establish elapsed  338.5s
+05:41.294  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0181.png'
+    preview frame 181/450 camera=OccCam_B_establish elapsed  340.3s
+05:43.070  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0182.png'
+    preview frame 182/450 camera=OccCam_B_establish elapsed  342.1s
+05:44.830  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0183.png'
+    preview frame 183/450 camera=OccCam_B_establish elapsed  343.8s
+05:46.621  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0184.png'
+    preview frame 184/450 camera=OccCam_B_establish elapsed  345.6s
+05:48.407  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0185.png'
+    preview frame 185/450 camera=OccCam_B_establish elapsed  347.4s
+05:50.181  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0186.png'
+    preview frame 186/450 camera=OccCam_B_establish elapsed  349.2s
+05:51.943  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0187.png'
+    preview frame 187/450 camera=OccCam_B_establish elapsed  350.9s
+05:53.716  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0188.png'
+    preview frame 188/450 camera=OccCam_B_establish elapsed  352.7s
+05:55.477  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0189.png'
+    preview frame 189/450 camera=OccCam_B_establish elapsed  354.5s
+05:57.264  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0190.png'
+    preview frame 190/450 camera=OccCam_B_establish elapsed  356.3s
+05:59.042  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0191.png'
+    preview frame 191/450 camera=OccCam_B_establish elapsed  358.0s
+06:00.808  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0192.png'
+    preview frame 192/450 camera=OccCam_B_establish elapsed  359.8s
+06:02.563  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0193.png'
+    preview frame 193/450 camera=OccCam_B_establish elapsed  361.6s
+06:04.350  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0194.png'
+    preview frame 194/450 camera=OccCam_B_establish elapsed  363.3s
+06:06.140  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0195.png'
+    preview frame 195/450 camera=OccCam_B_establish elapsed  365.1s
+06:07.899  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0196.png'
+    preview frame 196/450 camera=OccCam_B_establish elapsed  366.9s
+06:09.678  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0197.png'
+    preview frame 197/450 camera=OccCam_B_establish elapsed  368.7s
+06:11.432  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0198.png'
+    preview frame 198/450 camera=OccCam_B_establish elapsed  370.4s
+06:13.211  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0199.png'
+    preview frame 199/450 camera=OccCam_B_establish elapsed  372.2s
+06:14.977  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0200.png'
+    preview frame 200/450 camera=OccCam_B_establish elapsed  374.0s
+06:16.732  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0201.png'
+    preview frame 201/450 camera=OccCam_C_reveal elapsed  375.7s
+06:18.489  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0202.png'
+    preview frame 202/450 camera=OccCam_C_reveal elapsed  377.5s
+06:20.247  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0203.png'
+    preview frame 203/450 camera=OccCam_C_reveal elapsed  379.2s
+06:21.992  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0204.png'
+    preview frame 204/450 camera=OccCam_C_reveal elapsed  381.0s
+06:23.759  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0205.png'
+    preview frame 205/450 camera=OccCam_C_reveal elapsed  382.7s
+06:25.729  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0206.png'
+    preview frame 206/450 camera=OccCam_C_reveal elapsed  384.7s
+06:27.602  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0207.png'
+    preview frame 207/450 camera=OccCam_C_reveal elapsed  386.6s
+06:29.380  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0208.png'
+    preview frame 208/450 camera=OccCam_C_reveal elapsed  388.4s
+06:31.123  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0209.png'
+    preview frame 209/450 camera=OccCam_C_reveal elapsed  390.1s
+06:32.876  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0210.png'
+    preview frame 210/450 camera=OccCam_C_reveal elapsed  391.9s
+06:34.625  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0211.png'
+    preview frame 211/450 camera=OccCam_C_reveal elapsed  393.6s
+06:36.370  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0212.png'
+    preview frame 212/450 camera=OccCam_C_reveal elapsed  395.4s
+06:38.111  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0213.png'
+    preview frame 213/450 camera=OccCam_C_reveal elapsed  397.1s
+06:39.858  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0214.png'
+    preview frame 214/450 camera=OccCam_C_reveal elapsed  398.8s
+06:41.586  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0215.png'
+    preview frame 215/450 camera=OccCam_C_reveal elapsed  400.6s
+06:43.342  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0216.png'
+    preview frame 216/450 camera=OccCam_C_reveal elapsed  402.3s
+06:45.086  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0217.png'
+    preview frame 217/450 camera=OccCam_C_reveal elapsed  404.1s
+06:46.829  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0218.png'
+    preview frame 218/450 camera=OccCam_C_reveal elapsed  405.8s
+06:48.573  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0219.png'
+    preview frame 219/450 camera=OccCam_C_reveal elapsed  407.6s
+06:50.319  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0220.png'
+    preview frame 220/450 camera=OccCam_C_reveal elapsed  409.3s
+06:52.072  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0221.png'
+    preview frame 221/450 camera=OccCam_C_reveal elapsed  411.1s
+06:53.812  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0222.png'
+    preview frame 222/450 camera=OccCam_C_reveal elapsed  412.8s
+06:55.561  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0223.png'
+    preview frame 223/450 camera=OccCam_C_reveal elapsed  414.6s
+06:57.303  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0224.png'
+    preview frame 224/450 camera=OccCam_C_reveal elapsed  416.3s
+06:59.053  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0225.png'
+    preview frame 225/450 camera=OccCam_C_reveal elapsed  418.0s
+07:00.804  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0226.png'
+    preview frame 226/450 camera=OccCam_C_reveal elapsed  419.8s
+07:02.520  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0227.png'
+    preview frame 227/450 camera=OccCam_C_reveal elapsed  421.5s
+07:04.239  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0228.png'
+    preview frame 228/450 camera=OccCam_C_reveal elapsed  423.2s
+07:05.987  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0229.png'
+    preview frame 229/450 camera=OccCam_C_reveal elapsed  425.0s
+07:07.719  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0230.png'
+    preview frame 230/450 camera=OccCam_C_reveal elapsed  426.7s
+07:09.451  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0231.png'
+    preview frame 231/450 camera=OccCam_C_reveal elapsed  428.4s
+07:11.190  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0232.png'
+    preview frame 232/450 camera=OccCam_C_reveal elapsed  430.2s
+07:12.898  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0233.png'
+    preview frame 233/450 camera=OccCam_C_reveal elapsed  431.9s
+07:14.631  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0234.png'
+    preview frame 234/450 camera=OccCam_C_reveal elapsed  433.6s
+07:16.359  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0235.png'
+    preview frame 235/450 camera=OccCam_C_reveal elapsed  435.3s
+07:18.091  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0236.png'
+    preview frame 236/450 camera=OccCam_C_reveal elapsed  437.1s
+07:19.830  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0237.png'
+    preview frame 237/450 camera=OccCam_C_reveal elapsed  438.8s
+07:21.534  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0238.png'
+    preview frame 238/450 camera=OccCam_C_reveal elapsed  440.5s
+07:23.242  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0239.png'
+    preview frame 239/450 camera=OccCam_C_reveal elapsed  442.2s
+07:24.965  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0240.png'
+    preview frame 240/450 camera=OccCam_C_reveal elapsed  444.0s
+07:26.704  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0241.png'
+    preview frame 241/450 camera=OccCam_C_reveal elapsed  445.7s
+07:28.406  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0242.png'
+    preview frame 242/450 camera=OccCam_C_reveal elapsed  447.4s
+07:30.139  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0243.png'
+    preview frame 243/450 camera=OccCam_C_reveal elapsed  449.1s
+07:31.860  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0244.png'
+    preview frame 244/450 camera=OccCam_C_reveal elapsed  450.9s
+07:33.573  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0245.png'
+    preview frame 245/450 camera=OccCam_C_reveal elapsed  452.6s
+07:35.296  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0246.png'
+    preview frame 246/450 camera=OccCam_C_reveal elapsed  454.3s
+07:37.012  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0247.png'
+    preview frame 247/450 camera=OccCam_C_reveal elapsed  456.0s
+07:38.715  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0248.png'
+    preview frame 248/450 camera=OccCam_C_reveal elapsed  457.7s
+07:40.446  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0249.png'
+    preview frame 249/450 camera=OccCam_C_reveal elapsed  459.4s
+07:42.167  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0250.png'
+    preview frame 250/450 camera=OccCam_C_reveal elapsed  461.2s
+07:43.872  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0251.png'
+    preview frame 251/450 camera=OccCam_C_reveal elapsed  462.9s
+07:45.598  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0252.png'
+    preview frame 252/450 camera=OccCam_C_reveal elapsed  464.6s
+07:47.330  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0253.png'
+    preview frame 253/450 camera=OccCam_C_reveal elapsed  466.3s
+07:49.053  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0254.png'
+    preview frame 254/450 camera=OccCam_C_reveal elapsed  468.0s
+07:50.744  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0255.png'
+    preview frame 255/450 camera=OccCam_C_reveal elapsed  469.7s
+07:52.444  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0256.png'
+    preview frame 256/450 camera=OccCam_C_reveal elapsed  471.4s
+07:54.153  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0257.png'
+    preview frame 257/450 camera=OccCam_C_reveal elapsed  473.1s
+07:55.857  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0258.png'
+    preview frame 258/450 camera=OccCam_C_reveal elapsed  474.8s
+07:57.535  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0259.png'
+    preview frame 259/450 camera=OccCam_C_reveal elapsed  476.5s
+07:59.220  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0260.png'
+    preview frame 260/450 camera=OccCam_C_reveal elapsed  478.2s
+08:00.905  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0261.png'
+    preview frame 261/450 camera=OccCam_C_reveal elapsed  479.9s
+08:02.579  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0262.png'
+    preview frame 262/450 camera=OccCam_C_reveal elapsed  481.6s
+08:04.265  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0263.png'
+    preview frame 263/450 camera=OccCam_C_reveal elapsed  483.3s
+08:05.928  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0264.png'
+    preview frame 264/450 camera=OccCam_C_reveal elapsed  484.9s
+08:07.600  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0265.png'
+    preview frame 265/450 camera=OccCam_C_reveal elapsed  486.6s
+08:09.272  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0266.png'
+    preview frame 266/450 camera=OccCam_C_reveal elapsed  488.3s
+08:10.908  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0267.png'
+    preview frame 267/450 camera=OccCam_C_reveal elapsed  489.9s
+08:12.565  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0268.png'
+    preview frame 268/450 camera=OccCam_C_reveal elapsed  491.6s
+08:14.193  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0269.png'
+    preview frame 269/450 camera=OccCam_C_reveal elapsed  493.2s
+08:15.829  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0270.png'
+    preview frame 270/450 camera=OccCam_C_reveal elapsed  494.8s
+08:17.449  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0271.png'
+    preview frame 271/450 camera=OccCam_C_reveal elapsed  496.4s
+08:19.060  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0272.png'
+    preview frame 272/450 camera=OccCam_C_reveal elapsed  498.1s
+08:20.664  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0273.png'
+    preview frame 273/450 camera=OccCam_C_reveal elapsed  499.7s
+08:22.274  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0274.png'
+    preview frame 274/450 camera=OccCam_C_reveal elapsed  501.3s
+08:23.863  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0275.png'
+    preview frame 275/450 camera=OccCam_C_reveal elapsed  502.9s
+08:25.447  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0276.png'
+    preview frame 276/450 camera=OccCam_C_reveal elapsed  504.4s
+08:27.058  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0277.png'
+    preview frame 277/450 camera=OccCam_C_reveal elapsed  506.0s
+08:28.661  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0278.png'
+    preview frame 278/450 camera=OccCam_C_reveal elapsed  507.7s
+08:30.278  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0279.png'
+    preview frame 279/450 camera=OccCam_C_reveal elapsed  509.3s
+08:31.877  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0280.png'
+    preview frame 280/450 camera=OccCam_C_reveal elapsed  510.9s
+08:33.481  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0281.png'
+    preview frame 281/450 camera=OccCam_C_reveal elapsed  512.5s
+08:35.106  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0282.png'
+    preview frame 282/450 camera=OccCam_C_reveal elapsed  514.1s
+08:36.711  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0283.png'
+    preview frame 283/450 camera=OccCam_C_reveal elapsed  515.7s
+08:38.307  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0284.png'
+    preview frame 284/450 camera=OccCam_C_reveal elapsed  517.3s
+08:39.913  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0285.png'
+    preview frame 285/450 camera=OccCam_C_reveal elapsed  518.9s
+08:41.505  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0286.png'
+    preview frame 286/450 camera=OccCam_C_reveal elapsed  520.5s
+08:43.088  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0287.png'
+    preview frame 287/450 camera=OccCam_C_reveal elapsed  522.1s
+08:44.670  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0288.png'
+    preview frame 288/450 camera=OccCam_C_reveal elapsed  523.7s
+08:46.251  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0289.png'
+    preview frame 289/450 camera=OccCam_C_reveal elapsed  525.2s
+08:47.833  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0290.png'
+    preview frame 290/450 camera=OccCam_C_reveal elapsed  526.8s
+08:49.413  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0291.png'
+    preview frame 291/450 camera=OccCam_C_reveal elapsed  528.4s
+08:50.974  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0292.png'
+    preview frame 292/450 camera=OccCam_C_reveal elapsed  530.0s
+08:52.538  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0293.png'
+    preview frame 293/450 camera=OccCam_C_reveal elapsed  531.5s
+08:54.140  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0294.png'
+    preview frame 294/450 camera=OccCam_C_reveal elapsed  533.1s
+08:55.729  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0295.png'
+    preview frame 295/450 camera=OccCam_C_reveal elapsed  534.7s
+08:57.324  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0296.png'
+    preview frame 296/450 camera=OccCam_C_reveal elapsed  536.3s
+08:58.917  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0297.png'
+    preview frame 297/450 camera=OccCam_C_reveal elapsed  537.9s
+09:00.486  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0298.png'
+    preview frame 298/450 camera=OccCam_C_reveal elapsed  539.5s
+09:02.062  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0299.png'
+    preview frame 299/450 camera=OccCam_C_reveal elapsed  541.1s
+09:03.633  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0300.png'
+    preview frame 300/450 camera=OccCam_C_reveal elapsed  542.6s
+09:05.280  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0301.png'
+    preview frame 301/450 camera=OccCam_D_macro elapsed  544.3s
+09:06.957  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0302.png'
+    preview frame 302/450 camera=OccCam_D_macro elapsed  545.9s
+09:08.614  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0303.png'
+    preview frame 303/450 camera=OccCam_D_macro elapsed  547.6s
+09:10.273  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0304.png'
+    preview frame 304/450 camera=OccCam_D_macro elapsed  549.3s
+09:11.931  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0305.png'
+    preview frame 305/450 camera=OccCam_D_macro elapsed  550.9s
+09:13.581  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0306.png'
+    preview frame 306/450 camera=OccCam_D_macro elapsed  552.6s
+09:15.241  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0307.png'
+    preview frame 307/450 camera=OccCam_D_macro elapsed  554.2s
+09:16.905  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0308.png'
+    preview frame 308/450 camera=OccCam_D_macro elapsed  555.9s
+09:18.564  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0309.png'
+    preview frame 309/450 camera=OccCam_D_macro elapsed  557.6s
+09:20.212  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0310.png'
+    preview frame 310/450 camera=OccCam_D_macro elapsed  559.2s
+09:21.856  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0311.png'
+    preview frame 311/450 camera=OccCam_D_macro elapsed  560.8s
+09:23.488  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0312.png'
+    preview frame 312/450 camera=OccCam_D_macro elapsed  562.5s
+09:25.147  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0313.png'
+    preview frame 313/450 camera=OccCam_D_macro elapsed  564.1s
+09:26.793  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0314.png'
+    preview frame 314/450 camera=OccCam_D_macro elapsed  565.8s
+09:28.453  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0315.png'
+    preview frame 315/450 camera=OccCam_D_macro elapsed  567.4s
+09:30.115  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0316.png'
+    preview frame 316/450 camera=OccCam_D_macro elapsed  569.1s
+09:31.744  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0317.png'
+    preview frame 317/450 camera=OccCam_D_macro elapsed  570.7s
+09:33.399  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0318.png'
+    preview frame 318/450 camera=OccCam_D_macro elapsed  572.4s
+09:35.058  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0319.png'
+    preview frame 319/450 camera=OccCam_D_macro elapsed  574.0s
+09:36.688  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0320.png'
+    preview frame 320/450 camera=OccCam_D_macro elapsed  575.7s
+09:38.326  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0321.png'
+    preview frame 321/450 camera=OccCam_D_macro elapsed  577.3s
+09:39.987  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0322.png'
+    preview frame 322/450 camera=OccCam_D_macro elapsed  579.0s
+09:41.621  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0323.png'
+    preview frame 323/450 camera=OccCam_D_macro elapsed  580.6s
+09:43.271  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0324.png'
+    preview frame 324/450 camera=OccCam_D_macro elapsed  582.3s
+09:44.893  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0325.png'
+    preview frame 325/450 camera=OccCam_D_macro elapsed  583.9s
+09:46.536  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0326.png'
+    preview frame 326/450 camera=OccCam_D_macro elapsed  585.5s
+09:48.180  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0327.png'
+    preview frame 327/450 camera=OccCam_D_macro elapsed  587.2s
+09:49.830  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0328.png'
+    preview frame 328/450 camera=OccCam_D_macro elapsed  588.8s
+09:51.485  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0329.png'
+    preview frame 329/450 camera=OccCam_D_macro elapsed  590.5s
+09:53.140  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0330.png'
+    preview frame 330/450 camera=OccCam_D_macro elapsed  592.1s
+09:54.801  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0331.png'
+    preview frame 331/450 camera=OccCam_D_macro elapsed  593.8s
+09:56.458  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0332.png'
+    preview frame 332/450 camera=OccCam_D_macro elapsed  595.4s
+09:58.084  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0333.png'
+    preview frame 333/450 camera=OccCam_D_macro elapsed  597.1s
+09:59.716  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0334.png'
+    preview frame 334/450 camera=OccCam_D_macro elapsed  598.7s
+10:01.360  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0335.png'
+    preview frame 335/450 camera=OccCam_D_macro elapsed  600.4s
+10:02.996  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0336.png'
+    preview frame 336/450 camera=OccCam_D_macro elapsed  602.0s
+10:04.637  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0337.png'
+    preview frame 337/450 camera=OccCam_D_macro elapsed  603.6s
+10:06.293  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0338.png'
+    preview frame 338/450 camera=OccCam_D_macro elapsed  605.3s
+10:07.933  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0339.png'
+    preview frame 339/450 camera=OccCam_D_macro elapsed  606.9s
+10:09.587  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0340.png'
+    preview frame 340/450 camera=OccCam_D_macro elapsed  608.6s
+10:11.208  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0341.png'
+    preview frame 341/450 camera=OccCam_D_macro elapsed  610.2s
+10:12.847  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0342.png'
+    preview frame 342/450 camera=OccCam_D_macro elapsed  611.8s
+10:14.509  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0343.png'
+    preview frame 343/450 camera=OccCam_D_macro elapsed  613.5s
+10:16.142  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0344.png'
+    preview frame 344/450 camera=OccCam_D_macro elapsed  615.1s
+10:17.791  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0345.png'
+    preview frame 345/450 camera=OccCam_D_macro elapsed  616.8s
+10:19.447  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0346.png'
+    preview frame 346/450 camera=OccCam_D_macro elapsed  618.4s
+10:21.100  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0347.png'
+    preview frame 347/450 camera=OccCam_D_macro elapsed  620.1s
+10:22.740  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0348.png'
+    preview frame 348/450 camera=OccCam_D_macro elapsed  621.7s
+10:24.386  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0349.png'
+    preview frame 349/450 camera=OccCam_D_macro elapsed  623.4s
+10:26.025  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0350.png'
+    preview frame 350/450 camera=OccCam_D_macro elapsed  625.0s
+10:27.675  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0351.png'
+    preview frame 351/450 camera=OccCam_D_macro elapsed  626.7s
+10:29.335  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0352.png'
+    preview frame 352/450 camera=OccCam_D_macro elapsed  628.3s
+10:30.974  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0353.png'
+    preview frame 353/450 camera=OccCam_D_macro elapsed  630.0s
+10:32.636  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0354.png'
+    preview frame 354/450 camera=OccCam_D_macro elapsed  631.6s
+10:34.272  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0355.png'
+    preview frame 355/450 camera=OccCam_D_macro elapsed  633.3s
+10:36.035  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0356.png'
+    preview frame 356/450 camera=OccCam_D_macro elapsed  635.0s
+10:37.834  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0357.png'
+    preview frame 357/450 camera=OccCam_D_macro elapsed  636.8s
+10:39.687  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0358.png'
+    preview frame 358/450 camera=OccCam_D_macro elapsed  638.7s
+10:41.519  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0359.png'
+    preview frame 359/450 camera=OccCam_D_macro elapsed  640.5s
+10:43.384  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0360.png'
+    preview frame 360/450 camera=OccCam_D_macro elapsed  642.4s
+10:45.357  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0361.png'
+    preview frame 361/450 camera=OccCam_E_coverage elapsed  644.3s
+10:47.281  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0362.png'
+    preview frame 362/450 camera=OccCam_E_coverage elapsed  646.3s
+10:49.067  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0363.png'
+    preview frame 363/450 camera=OccCam_E_coverage elapsed  648.1s
+10:50.840  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0364.png'
+    preview frame 364/450 camera=OccCam_E_coverage elapsed  649.8s
+10:52.611  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0365.png'
+    preview frame 365/450 camera=OccCam_E_coverage elapsed  651.6s
+10:54.398  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0366.png'
+    preview frame 366/450 camera=OccCam_E_coverage elapsed  653.4s
+10:56.188  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0367.png'
+    preview frame 367/450 camera=OccCam_E_coverage elapsed  655.2s
+10:57.957  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0368.png'
+    preview frame 368/450 camera=OccCam_E_coverage elapsed  656.9s
+10:59.728  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0369.png'
+    preview frame 369/450 camera=OccCam_E_coverage elapsed  658.7s
+11:01.512  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0370.png'
+    preview frame 370/450 camera=OccCam_E_coverage elapsed  660.5s
+11:03.297  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0371.png'
+    preview frame 371/450 camera=OccCam_E_coverage elapsed  662.3s
+11:05.063  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0372.png'
+    preview frame 372/450 camera=OccCam_E_coverage elapsed  664.1s
+11:06.845  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0373.png'
+    preview frame 373/450 camera=OccCam_E_coverage elapsed  665.8s
+11:08.630  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0374.png'
+    preview frame 374/450 camera=OccCam_E_coverage elapsed  667.6s
+11:10.414  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0375.png'
+    preview frame 375/450 camera=OccCam_E_coverage elapsed  669.4s
+11:12.188  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0376.png'
+    preview frame 376/450 camera=OccCam_E_coverage elapsed  671.2s
+11:13.945  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0377.png'
+    preview frame 377/450 camera=OccCam_E_coverage elapsed  672.9s
+11:15.706  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0378.png'
+    preview frame 378/450 camera=OccCam_E_coverage elapsed  674.7s
+11:17.483  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0379.png'
+    preview frame 379/450 camera=OccCam_E_coverage elapsed  676.5s
+11:19.243  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0380.png'
+    preview frame 380/450 camera=OccCam_E_coverage elapsed  678.2s
+11:20.985  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0381.png'
+    preview frame 381/450 camera=OccCam_E_coverage elapsed  680.0s
+11:22.767  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0382.png'
+    preview frame 382/450 camera=OccCam_E_coverage elapsed  681.8s
+11:24.534  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0383.png'
+    preview frame 383/450 camera=OccCam_E_coverage elapsed  683.5s
+11:26.302  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0384.png'
+    preview frame 384/450 camera=OccCam_E_coverage elapsed  685.3s
+11:28.074  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0385.png'
+    preview frame 385/450 camera=OccCam_E_coverage elapsed  687.1s
+11:29.851  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0386.png'
+    preview frame 386/450 camera=OccCam_E_coverage elapsed  688.8s
+11:31.705  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0387.png'
+    preview frame 387/450 camera=OccCam_E_coverage elapsed  690.7s
+11:33.591  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0388.png'
+    preview frame 388/450 camera=OccCam_E_coverage elapsed  692.6s
+11:35.439  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0389.png'
+    preview frame 389/450 camera=OccCam_E_coverage elapsed  694.4s
+11:37.234  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0390.png'
+    preview frame 390/450 camera=OccCam_E_coverage elapsed  696.2s
+11:39.028  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0391.png'
+    preview frame 391/450 camera=OccCam_E_coverage elapsed  698.0s
+11:40.802  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0392.png'
+    preview frame 392/450 camera=OccCam_E_coverage elapsed  699.8s
+11:42.568  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0393.png'
+    preview frame 393/450 camera=OccCam_E_coverage elapsed  701.6s
+11:44.358  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0394.png'
+    preview frame 394/450 camera=OccCam_E_coverage elapsed  703.3s
+11:46.156  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0395.png'
+    preview frame 395/450 camera=OccCam_E_coverage elapsed  705.1s
+11:47.941  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0396.png'
+    preview frame 396/450 camera=OccCam_E_coverage elapsed  706.9s
+11:49.738  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0397.png'
+    preview frame 397/450 camera=OccCam_E_coverage elapsed  708.7s
+11:51.534  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0398.png'
+    preview frame 398/450 camera=OccCam_E_coverage elapsed  710.5s
+11:53.313  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0399.png'
+    preview frame 399/450 camera=OccCam_E_coverage elapsed  712.3s
+11:55.101  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0400.png'
+    preview frame 400/450 camera=OccCam_E_coverage elapsed  714.1s
+11:56.902  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0401.png'
+    preview frame 401/450 camera=OccCam_E_coverage elapsed  715.9s
+11:58.689  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0402.png'
+    preview frame 402/450 camera=OccCam_E_coverage elapsed  717.7s
+12:00.461  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0403.png'
+    preview frame 403/450 camera=OccCam_E_coverage elapsed  719.5s
+12:02.243  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0404.png'
+    preview frame 404/450 camera=OccCam_E_coverage elapsed  721.2s
+12:04.034  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0405.png'
+    preview frame 405/450 camera=OccCam_E_coverage elapsed  723.0s
+12:05.810  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0406.png'
+    preview frame 406/450 camera=OccCam_E_coverage elapsed  724.8s
+12:07.578  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0407.png'
+    preview frame 407/450 camera=OccCam_E_coverage elapsed  726.6s
+12:09.376  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0408.png'
+    preview frame 408/450 camera=OccCam_E_coverage elapsed  728.4s
+12:11.174  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0409.png'
+    preview frame 409/450 camera=OccCam_E_coverage elapsed  730.2s
+12:12.963  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0410.png'
+    preview frame 410/450 camera=OccCam_E_coverage elapsed  732.0s
+12:14.719  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0411.png'
+    preview frame 411/450 camera=OccCam_E_coverage elapsed  733.7s
+12:16.477  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0412.png'
+    preview frame 412/450 camera=OccCam_E_coverage elapsed  735.5s
+12:18.248  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0413.png'
+    preview frame 413/450 camera=OccCam_E_coverage elapsed  737.2s
+12:20.015  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0414.png'
+    preview frame 414/450 camera=OccCam_E_coverage elapsed  739.0s
+12:21.778  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0415.png'
+    preview frame 415/450 camera=OccCam_E_coverage elapsed  740.8s
+12:23.554  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0416.png'
+    preview frame 416/450 camera=OccCam_E_coverage elapsed  742.5s
+12:25.318  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0417.png'
+    preview frame 417/450 camera=OccCam_E_coverage elapsed  744.3s
+12:27.073  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0418.png'
+    preview frame 418/450 camera=OccCam_E_coverage elapsed  746.1s
+12:28.837  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0419.png'
+    preview frame 419/450 camera=OccCam_E_coverage elapsed  747.8s
+12:30.600  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0420.png'
+    preview frame 420/450 camera=OccCam_E_coverage elapsed  749.6s
+12:32.352  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0421.png'
+    preview frame 421/450 camera=OccCam_E_coverage elapsed  751.3s
+12:34.113  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0422.png'
+    preview frame 422/450 camera=OccCam_E_coverage elapsed  753.1s
+12:35.885  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0423.png'
+    preview frame 423/450 camera=OccCam_E_coverage elapsed  754.9s
+12:37.660  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0424.png'
+    preview frame 424/450 camera=OccCam_E_coverage elapsed  756.7s
+12:39.445  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0425.png'
+    preview frame 425/450 camera=OccCam_E_coverage elapsed  758.4s
+12:41.230  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0426.png'
+    preview frame 426/450 camera=OccCam_E_coverage elapsed  760.2s
+12:43.041  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0427.png'
+    preview frame 427/450 camera=OccCam_E_coverage elapsed  762.0s
+12:44.814  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0428.png'
+    preview frame 428/450 camera=OccCam_E_coverage elapsed  763.8s
+12:46.588  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0429.png'
+    preview frame 429/450 camera=OccCam_E_coverage elapsed  765.6s
+12:48.379  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0430.png'
+    preview frame 430/450 camera=OccCam_E_coverage elapsed  767.4s
+12:50.158  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0431.png'
+    preview frame 431/450 camera=OccCam_E_coverage elapsed  769.1s
+12:51.946  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0432.png'
+    preview frame 432/450 camera=OccCam_E_coverage elapsed  770.9s
+12:53.720  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0433.png'
+    preview frame 433/450 camera=OccCam_E_coverage elapsed  772.7s
+12:55.499  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0434.png'
+    preview frame 434/450 camera=OccCam_E_coverage elapsed  774.5s
+12:57.272  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0435.png'
+    preview frame 435/450 camera=OccCam_E_coverage elapsed  776.3s
+12:59.054  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0436.png'
+    preview frame 436/450 camera=OccCam_E_coverage elapsed  778.0s
+13:00.823  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0437.png'
+    preview frame 437/450 camera=OccCam_E_coverage elapsed  779.8s
+13:02.586  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0438.png'
+    preview frame 438/450 camera=OccCam_E_coverage elapsed  781.6s
+13:04.356  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0439.png'
+    preview frame 439/450 camera=OccCam_E_coverage elapsed  783.3s
+13:06.144  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0440.png'
+    preview frame 440/450 camera=OccCam_E_coverage elapsed  785.1s
+13:07.927  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0441.png'
+    preview frame 441/450 camera=OccCam_E_coverage elapsed  786.9s
+13:09.751  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0442.png'
+    preview frame 442/450 camera=OccCam_E_coverage elapsed  788.7s
+13:11.548  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0443.png'
+    preview frame 443/450 camera=OccCam_E_coverage elapsed  790.5s
+13:13.350  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0444.png'
+    preview frame 444/450 camera=OccCam_E_coverage elapsed  792.3s
+13:15.153  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0445.png'
+    preview frame 445/450 camera=OccCam_E_coverage elapsed  794.1s
+13:16.953  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0446.png'
+    preview frame 446/450 camera=OccCam_E_coverage elapsed  795.9s
+13:18.792  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0447.png'
+    preview frame 447/450 camera=OccCam_E_coverage elapsed  797.8s
+13:20.668  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0448.png'
+    preview frame 448/450 camera=OccCam_E_coverage elapsed  799.7s
+13:22.494  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0449.png'
+    preview frame 449/450 camera=OccCam_E_coverage elapsed  801.5s
+13:24.290  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/preview_frames/AIU_OCC_preview_0450.png'
+    preview frame 450/450 camera=OccCam_E_coverage elapsed  803.3s
+preview PNG frames written (non-empty): 450
+REVIEW finished.
+Blender 5.2.2 LTS (hash d13f752e3b9c built 2026-09-15 01:49:19)
+
+Blender quit

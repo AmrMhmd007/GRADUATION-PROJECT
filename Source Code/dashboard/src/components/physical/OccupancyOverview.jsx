@@ -18,8 +18,17 @@ export default function OccupancyOverview() {
   if (err) return <div className="form-error">{err}</div>;
   if (!data) return <p className="muted">Loading occupancy…</p>;
   const c = data.campus;
+  // Display-only: a SIMULATED reading is not hardware connectivity, so it must not be shown as an ONLINE sensor.
+  const allRooms = data.buildings.flatMap((b) => b.floors.flatMap((f) => f.rooms));
+  const isSim = (r) => r.occupancy.source === "SIMULATED";
+  const simCount = allRooms.filter(isSim).length;
+  const healthCounts = { ...data.sensor_health };
+  allRooms.filter(isSim).forEach((r) => { if (healthCounts[r.sensor_health] > 0) healthCounts[r.sensor_health] -= 1; });
   return (
     <div>
+      {simCount > 0 && (
+        <p className="ph-small" role="status"><SourceBadge source="SIMULATED" /> Contains SIMULATED readings — not live camera or hardware data.</p>
+      )}
       <div className="ph-metrics">
         <div className="ph-metric"><span>People (counted rooms)</span><strong>{c.total_people}</strong></div>
         <div className="ph-metric"><span>Occupied rooms</span><strong>{c.occupied_rooms}</strong></div>
@@ -34,7 +43,8 @@ export default function OccupancyOverview() {
         </section>
       )}
       <div className="ph-legend" aria-label="Sensor health">
-        {Object.entries(data.sensor_health).map(([k, v]) => <span key={k}><HealthPill state={k} /> {v}</span>)}
+        {Object.entries(healthCounts).map(([k, v]) => <span key={k}><HealthPill state={k} /> {v}</span>)}
+        {simCount > 0 && <span><SourceBadge source="SIMULATED" /> {simCount}</span>}
       </div>
       {data.buildings.map((b) => (
         <section key={b.name} className="ph-card">
@@ -50,7 +60,7 @@ export default function OccupancyOverview() {
                       <td>{r.room}</td>
                       <td>{r.occupancy.state === "UNAVAILABLE" ? <em title={r.occupancy.reason}>Unavailable</em> : r.occupancy.count}</td>
                       <td>{r.occupancy.capacity ?? "—"}</td>
-                      <td><HealthPill state={r.sensor_health} /></td>
+                      <td>{isSim(r) ? <span className="ph-small">No hardware (simulated)</span> : <HealthPill state={r.sensor_health} />}</td>
                       <td>{fmtTime(r.occupancy.last_updated)}</td>
                       <td>{r.occupancy.source ? <SourceBadge source={r.occupancy.source} /> : <SourceBadge />}</td>
                     </tr>

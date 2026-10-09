@@ -23,3 +23,35 @@ npm-debug.log*
 .vscode/*
 !.vscode/extensions.json
 .idea
+
+# --- Trailer and Media: keep scripts + reports only; heavy media/private data stay local ---
+**/.venv/
+**/.demo_credentials*.json
+**/work/
+**/work_v*/
+**/raw/
+**/frames*/
+**/native_1080/
+**/renders/
+**/original/
+**/assets/
+**/footage/
+**/source_v6/
+**/audio_v4/
+Trailer and Media/**/*.mp4
+Trailer and Media/**/*.mov
+Trailer and Media/**/*.wav
+Trailer and Media/**/*.mp3
+Trailer and Media/**/*.m4a
+Trailer and Media/**/*.png
+Trailer and Media/**/*.jpg
+Trailer and Media/**/*.jpeg
+Trailer and Media/**/*.blend*
+Trailer and Media/**/*.exr
+Trailer and Media/**/*.zip
+Trailer and Media/**/*.gl*
+Trailer and Media/**/*.bin
+Trailer and Media/**/*.webm
+Trailer and Media/**/*.psd
+Trailer and Media/**/*.aep
+Trailer and Media/**/*.db

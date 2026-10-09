@@ -1,0 +1,60 @@
+{
+  "fps": 30,
+  "frames": 390,
+  "events": {
+    "CAM_WIDE_DOLLY_START": 1,
+    "CAM_WIDE_DOLLY_END": 150,
+    "CUT_TO_CLOSEUP": 151,
+    "RING_IDLE_TO_AMBER_START": 165,
+    "RING_AMBER": 171,
+    "EVT_IDENTITY": 172,
+    "EVT_ACCOUNT": 186,
+    "EVT_ROOM": 198,
+    "EVT_SCHEDULE": 208,
+    "EVT_BACKEND": 216,
+    "EVT_GRANT": 225,
+    "LOCK_RELEASE_START": 229,
+    "LOCK_RELEASED": 241,
+    "LEVER_PRESS_START": 246,
+    "LEVER_PRESSED": 254,
+    "DOOR_OPEN_START": 256,
+    "DOOR_OPEN_END": 346,
+    "LEVER_RELEASE_START": 262,
+    "LEVER_RELEASED": 276,
+    "CAM_CLOSEUP_END": 390
+  },
+  "seconds": {
+    "CAM_WIDE_DOLLY_START": 0.03,
+    "CAM_WIDE_DOLLY_END": 5.0,
+    "CUT_TO_CLOSEUP": 5.03,
+    "RING_IDLE_TO_AMBER_START": 5.5,
+    "RING_AMBER": 5.7,
+    "EVT_IDENTITY": 5.73,
+    "EVT_ACCOUNT": 6.2,
+    "EVT_ROOM": 6.6,
+    "EVT_SCHEDULE": 6.93,
+    "EVT_BACKEND": 7.2,
+    "EVT_GRANT": 7.5,
+    "LOCK_RELEASE_START": 7.63,
+    "LOCK_RELEASED": 8.03,
+    "LEVER_PRESS_START": 8.2,
+    "LEVER_PRESSED": 8.47,
+    "DOOR_OPEN_START": 8.53,
+    "DOOR_OPEN_END": 11.53,
+    "LEVER_RELEASE_START": 8.73,
+    "LEVER_RELEASED": 9.2,
+    "CAM_CLOSEUP_END": 13.0
+  },
+  "shots": {
+    "wide_dolly": [
+      1,
+      150
+    ],
+    "closeup_pullback": [
+      151,
+      390
+    ]
+  },
+  "overlay_alignment": "overlay frame N == Blender frame N; overlay step frames: IDENTITY 172, ACCOUNT 186, ROOM 198, SCHEDULE 208, BACKEND 216, GRANTED 225",
+  "note": "Conceptual: door/lock hardware not connected in the project. Lever press is a placeholder for the lecturer (live action pending)."
+}

@@ -1,0 +1,21 @@
+$ ps eww -p 23971 | tr ' ' '\n' | grep -E '^(DATABASE_URL|DISABLE_MQTT)=' 
+DATABASE_URL=sqlite:////Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/simulated_occupancy_demo/sim_occupancy_demo.db
+DISABLE_MQTT=true
+
+$ lsof -p 23971 | grep -i -E "\.db" | head
+Python  23971 amrmohamed   18u     REG               1,17  1253376           119745872 /Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/simulated_occupancy_demo/sim_occupancy_demo.db
+Python  23971 amrmohamed   19u     REG               1,17  1253376           119745872 /Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/simulated_occupancy_demo/sim_occupancy_demo.db
+Python  23971 amrmohamed   21u     REG               1,17  1253376           119745872 /Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/simulated_occupancy_demo/sim_occupancy_demo.db
+Python  23971 amrmohamed   22u     REG               1,17  1253376           119745872 /Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/simulated_occupancy_demo/sim_occupancy_demo.db
+Python  23971 amrmohamed   23u     REG               1,17  1253376           119745872 /Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/simulated_occupancy_demo/sim_occupancy_demo.db
+
+$ cd "/Users/amrmohamed/Desktop/TOP PR/GRADUATION PROJECT/Source Code/backend" && ./venv/bin/python3 /Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/recordings/software/tools/create_demo_user.py
+created demo admin in SIM db only
+db /Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/simulated_occupancy_demo/sim_occupancy_demo.db
+
+$ cd /Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/recordings/software && /opt/homebrew/bin/python3.12 -m venv .venv && ./.venv/bin/pip install -q playwright 2>&1 | tail -2; ./.venv/bin/python -c "import playwright;print(playwright.__file__)"
+/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/recordings/software/.venv/lib/python3.12/site-packages/playwright/__init__.py
+
+$ curl -s -m 5 -o /dev/null -w "backend8001 %{http_code}\n" http://127.0.0.1:8001/docs; curl -s -m 5 -o /dev/null -w "vite5174 %{http_code}\n" http://localhost:5174/
+backend8001 200
+vite5174 200

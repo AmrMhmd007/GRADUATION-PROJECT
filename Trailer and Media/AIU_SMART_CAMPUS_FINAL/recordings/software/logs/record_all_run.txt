@@ -1,0 +1,10 @@
+take_auth /Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/recordings/software/raw/take_auth.mp4 
+take_face /Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/recordings/software/raw/take_face.mp4 
+take_events_inv /Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/recordings/software/raw/take_events_inv.mp4 
+take_events_scroll /Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/recordings/software/raw/take_events_scroll.mp4 
+take_cmd /Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/recordings/software/raw/take_cmd.mp4 
+take_home /Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/recordings/software/raw/take_home.mp4 
+take_map /Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/recordings/software/raw/take_map.mp4 
+take_occ /Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/recordings/software/raw/take_occ.mp4 
+take_auto /Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/recordings/software/raw/take_auto.mp4 
+take_zones /Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/recordings/software/raw/take_zones.mp4 

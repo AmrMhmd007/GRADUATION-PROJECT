@@ -1,0 +1,5 @@
+before: doctor
+anonymised user 2 in SIM db
+created window 2
+/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/recordings/software/tools/prep_sim_data.py:23: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+  now=datetime.datetime.utcnow()

@@ -1,0 +1,31 @@
+/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/aiu_occupancy_classroom_test.py:49: DeprecationWarning: 'Material.use_nodes' is expected to be removed in Blender 6.0
+  m = bpy.data.materials.new(name); m.use_nodes = True; b = m.node_tree.nodes['Principled BSDF']
+/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/aiu_occupancy_classroom_test.py:86: DeprecationWarning: 'Material.use_nodes' is expected to be removed in Blender 6.0
+  m = bpy.data.materials.new(name); m.use_nodes = True; n, l = m.node_tree.nodes, m.node_tree.links
+/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/aiu_occupancy_classroom_test.py:91: DeprecationWarning: 'Material.use_nodes' is expected to be removed in Blender 6.0
+  m = bpy.data.materials.new(name); m.use_nodes = True; n, l = m.node_tree.nodes, m.node_tree.links
+approved corridor appended (read-only copy): 276 objects
+SCRIPT /Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/aiu_occupancy_classroom_test.py | Blender 5.2.2 LTS | MODE='review' | OUT=/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1 | approved corridor appended=True
+CYCLES DEVICES: [('Apple M4', 'CPU', False), ('Apple M4 (GPU - 10 cores)', 'METAL', True)]
+Info: Saved as "AIU_OCC_classroom_test.blend"
+saved /Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/AIU_OCC_classroom_test.blend
+CYCLES DEVICES: [('Apple M4', 'CPU', False), ('Apple M4 (GPU - 10 cores)', 'METAL', True)]
+>>> still f60 camera=OccCam_A_transition loc=(0.648, 8.851, 1.5) lens=50.0mm res=1280x720 -> /Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/AIU_OCC_still_f0060.png
+00:11.897  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/AIU_OCC_still_f0060.png'
+<<< DONE: /Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/AIU_OCC_still_f0060.png
+>>> still f150 camera=OccCam_B_establish loc=(2.248, 6.576, 1.635) lens=24.0mm res=1280x720 -> /Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/AIU_OCC_still_f0150.png
+00:19.254  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/AIU_OCC_still_f0150.png'
+<<< DONE: /Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/AIU_OCC_still_f0150.png
+>>> still f250 camera=OccCam_C_reveal loc=(7.9, 6.8, 2.15) lens=35.0mm res=1280x720 -> /Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/AIU_OCC_still_f0250.png
+00:26.148  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/AIU_OCC_still_f0250.png'
+<<< DONE: /Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/AIU_OCC_still_f0250.png
+>>> still f330 camera=OccCam_D_macro loc=(5.422, 11.997, 2.474) lens=85.0mm res=1280x720 -> /Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/AIU_OCC_still_f0330.png
+00:31.722  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/AIU_OCC_still_f0330.png'
+<<< DONE: /Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/AIU_OCC_still_f0330.png
+>>> still f420 camera=OccCam_E_coverage loc=(3.83, 5.053, 2.174) lens=24.0mm res=1280x720 -> /Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/AIU_OCC_still_f0420.png
+00:38.977  render           | Saved: '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/AIU_OCC_still_f0420.png'
+<<< DONE: /Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/renders/review_occ_v1/AIU_OCC_still_f0420.png
+REVIEW finished.
+Blender 5.2.2 LTS (hash d13f752e3b9c built 2026-09-15 01:49:19)
+
+Blender quit

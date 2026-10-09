@@ -1,0 +1,6 @@
+/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/recordings/software/raw/test_home.mp4 {'top': 1.62} 84
+width=1920
+height=1080
+r_frame_rate=30/1
+duration=4.833333
+nb_frames=145

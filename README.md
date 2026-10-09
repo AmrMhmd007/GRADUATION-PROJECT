@@ -102,3 +102,9 @@ To let someone else on the same network open the dashboard (e.g. for a demo), us
 ## Author
 
 **Amr Mohamed** — [github.com/AmrMhmd007](https://github.com/AmrMhmd007)
+
+## Repository layout (updated)
+- `Source Code/` — backend (FastAPI), dashboard (React/Vite), door-node firmware
+- `Documents/`, `Reports and Audits/`, `Hardware/` — design docs, phase audits, hardware guides
+- `Energy Impact Study/` — energy model, report and presentation
+- `Trailer and Media/AIU_SMART_CAMPUS_FINAL/` — graduation film production: timeline/assembly/mix scripts, Blender scene tooling, recording tools and reports. Large media (videos, audio, renders, .blend files) and private demo data are kept out of git.

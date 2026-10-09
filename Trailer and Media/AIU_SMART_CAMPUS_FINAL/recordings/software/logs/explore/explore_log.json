@@ -1,0 +1,65 @@
+[
+ [
+  "tab",
+  "home",
+  "Smart Access Control"
+ ],
+ [
+  "tab",
+  "command",
+  "Smart Access Control"
+ ],
+ [
+  "tab",
+  "critical",
+  "Smart Access Control"
+ ],
+ [
+  "tab",
+  "access",
+  "Smart Access Control"
+ ],
+ [
+  "tab",
+  "events",
+  "Smart Access Control"
+ ],
+ [
+  "tab",
+  "smart",
+  "Smart Access Control"
+ ],
+ [
+  "tab",
+  "physical",
+  "Smart Access Control"
+ ],
+ [
+  "tab",
+  "academic",
+  "Smart Access Control"
+ ],
+ [
+  "buttons-physical",
+  [
+   "",
+   "Search\u2026\n\u2318K",
+   "",
+   "\u2318\u21e7K",
+   "DA",
+   "Sign out",
+   "Home",
+   "Command Center",
+   "Security",
+   "Smart Building",
+   "Academic Administration",
+   "Campus Intelligence",
+   "Overview",
+   "HOME",
+   "Campus Map",
+   "Occupancy",
+   "Device Faults",
+   "Face ID"
+  ]
+ ]
+]

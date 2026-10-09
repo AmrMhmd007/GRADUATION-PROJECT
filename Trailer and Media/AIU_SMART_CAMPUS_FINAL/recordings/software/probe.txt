@@ -1,0 +1,51 @@
+$ whoami; uname -m; sw_vers -productVersion
+amrmohamed
+arm64
+27.0
+
+$ which node npm python3 python3.12 python3.11 uv brew ffmpeg
+/opt/homebrew/bin/node
+/opt/homebrew/bin/npm
+/usr/bin/python3
+/opt/homebrew/bin/python3.12
+/opt/homebrew/bin/python3.11
+/opt/homebrew/bin/brew
+/opt/homebrew/bin/ffmpeg
+
+$ node -v; npm -v; python3 --version
+v26.5.0
+11.17.0
+Python 3.9.6
+
+$ ls /Applications | grep -i -E "chrome|chromium|firefox|safari"
+Google Chrome.app
+Safari.app
+
+$ lsof -iTCP -sTCP:LISTEN -P -n | grep -E ":(8000|8001|5173|5174)\b" || echo "no listeners on 8000/8001/5173/5174"
+Python    23255 amrmohamed    3u  IPv4  0x47c6eeeb7e85b23      0t0  TCP *:8000 (LISTEN)
+Python    23258 amrmohamed    3u  IPv4  0x47c6eeeb7e85b23      0t0  TCP *:8000 (LISTEN)
+node      23275 amrmohamed   17u  IPv6 0x3dc74f68256b82c2      0t0  TCP *:5173 (LISTEN)
+Python    23971 amrmohamed   11u  IPv4 0x233d0f1f6cf482a4      0t0  TCP 127.0.0.1:8001 (LISTEN)
+node      24020 amrmohamed   17u  IPv6 0xb5172cad197fc2c0      0t0  TCP *:5174 (LISTEN)
+
+$ ps aux | grep -E "uvicorn|vite|seed_simulated" | grep -v grep || echo "no uvicorn/vite/seeder processes"
+amrmohamed       24020   0.0  0.0 499190368   6128 s003  S+    2:59PM   0:01.86 node /Users/amrmohamed/Desktop/TOP PR/GRADUATION PROJECT/Source Code/dashboard/node_modules/.bin/vite --port 5174
+amrmohamed       23986   0.0  0.1 488773360  18320 s002  S+    2:58PM   0:17.31 /Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/Resources/Python.app/Contents/MacOS/Python /Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/simulated_occupancy_demo/seed_simulated_occupancy.py --refresh
+amrmohamed       23971   0.0  0.2 488911248  31024 s001  S+    2:58PM   0:46.05 /opt/homebrew/Cellar/python@3.12/3.12.14/Frameworks/Python.framework/Versions/3.12/Resources/Python.app/Contents/MacOS/Python -m uvicorn app.main:app --host 127.0.0.1 --port 8001
+amrmohamed       23275   0.0  0.0 499188784   5744 s000  S+    2:33PM   0:01.51 node /Users/amrmohamed/Desktop/TOP PR/GRADUATION PROJECT/Source Code/dashboard/node_modules/.bin/vite
+amrmohamed       23255   0.0  0.1 488767520   9200 s000  S+    2:33PM   0:15.88 /opt/homebrew/Cellar/python@3.12/3.12.14/Frameworks/Python.framework/Versions/3.12/Resources/Python.app/Contents/MacOS/Python /Users/amrmohamed/Desktop/TOP PR/GRADUATION PROJECT/Source Code/backend/venv/bin/uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+
+$ ls -l "/Users/amrmohamed/Desktop/TOP PR/GRADUATION PROJECT/Source Code/backend/venv/bin/python3" "/Users/amrmohamed/Desktop/TOP PR/GRADUATION PROJECT/Source Code/backend/venv/bin/uvicorn" 2>&1; readlink -f "/Users/amrmohamed/Desktop/TOP PR/GRADUATION PROJECT/Source Code/backend/venv/bin/python3"; "/Users/amrmohamed/Desktop/TOP PR/GRADUATION PROJECT/Source Code/backend/venv/bin/python3" --version 2>&1
+lrwxr-xr-x  1 amrmohamed  staff   10 Sep 25 00:28 /Users/amrmohamed/Desktop/TOP PR/GRADUATION PROJECT/Source Code/backend/venv/bin/python3 -> python3.12
+-rwxr-xr-x  1 amrmohamed  staff  269 Sep 25 00:28 /Users/amrmohamed/Desktop/TOP PR/GRADUATION PROJECT/Source Code/backend/venv/bin/uvicorn
+/opt/homebrew/Cellar/python@3.12/3.12.14/Frameworks/Python.framework/Versions/3.12/bin/python3.12
+Python 3.12.14
+
+$ ls "/Users/amrmohamed/Desktop/TOP PR/GRADUATION PROJECT/Source Code/dashboard/node_modules/.bin" | grep -E "^vite$" || echo "no vite bin"
+vite
+
+$ ls -ld ~/Library/Application\ Support/Google/Chrome 2>&1 | head -2
+drwx------@ 53 amrmohamed  staff  1696 Oct  9 21:24 /Users/amrmohamed/Library/Application Support/Google/Chrome
+
+$ df -h ~ | tail -1
+/dev/disk3s5   926Gi   404Gi   477Gi    46%    2.7M  5.0G    0%   /System/Volumes/Data

@@ -1,0 +1,241 @@
+{
+ "inputs": {
+  "BUA": {
+   "A_174k": 174000,
+   "B_263k": 263020,
+   "C_437k": 437020
+  },
+  "EUI": {
+   "low": 130,
+   "mid": 165,
+   "high": 215
+  },
+  "CTRL": {
+   "cons": 0.5,
+   "mod": 0.6,
+   "high": 0.7
+  },
+  "COV": {
+   "cons": 0.5,
+   "mod": 0.7,
+   "high": 0.9
+  },
+  "SAV": {
+   "cons": 0.1,
+   "mod": 0.18,
+   "high": 0.28
+  },
+  "TARIFF": 2.55,
+  "EF": 0.563
+ },
+ "baseline_matrix_kWh": {
+  "A_174k": {
+   "low": 22620000,
+   "mid": 28710000,
+   "high": 37410000
+  },
+  "B_263k": {
+   "low": 34192600,
+   "mid": 43398300,
+   "high": 56549300
+  },
+  "C_437k": {
+   "low": 56812600,
+   "mid": 72108300,
+   "high": 93959300
+  }
+ },
+ "scenarios": {
+  "cons": {
+   "baseline": 43398300,
+   "controllable": 21699150.0,
+   "covered": 10849575.0,
+   "saving_on_controlled": 0.1,
+   "saved_annual": 1084957.5,
+   "saved_pct_total": 0.025,
+   "saved_pct_controllable": 0.05,
+   "saved_month": 90413.125,
+   "saved_5y": 5424787.5,
+   "egp_year": 2766641.625,
+   "egp_5y": 13833208.125,
+   "egp_year_lv": 2972783.5500000003,
+   "t_co2_year": 610.8310724999999,
+   "t_co2_5y": 3054.1553624999997,
+   "projected": 42313342.5
+  },
+  "mod": {
+   "baseline": 43398300,
+   "controllable": 26038980.0,
+   "covered": 18227286.0,
+   "saving_on_controlled": 0.18,
+   "saved_annual": 3280911.48,
+   "saved_pct_total": 0.0756,
+   "saved_pct_controllable": 0.126,
+   "saved_month": 273409.29,
+   "saved_5y": 16404557.4,
+   "egp_year": 8366324.273999999,
+   "egp_5y": 41831621.37,
+   "egp_year_lv": 8989697.4552,
+   "t_co2_year": 1847.15316324,
+   "t_co2_5y": 9235.765816199999,
+   "projected": 40117388.52
+  },
+  "high": {
+   "baseline": 43398300,
+   "controllable": 30378809.999999996,
+   "covered": 27340928.999999996,
+   "saving_on_controlled": 0.28,
+   "saved_annual": 7655460.12,
+   "saved_pct_total": 0.1764,
+   "saved_pct_controllable": 0.25200000000000006,
+   "saved_month": 637955.01,
+   "saved_5y": 38277300.6,
+   "egp_year": 19521423.305999998,
+   "egp_5y": 97607116.52999999,
+   "egp_year_lv": 20975960.728800002,
+   "t_co2_year": 4310.024047559999,
+   "t_co2_5y": 21550.120237799998,
+   "projected": 35742839.88
+  }
+ },
+ "sensitivity_saved_kWh": {
+  "A_174k": {
+   "low": {
+    "cons": 565500.0,
+    "mod": 1710072.0,
+    "high": 3990168.0
+   },
+   "mid": {
+    "cons": 717750.0,
+    "mod": 2170476.0,
+    "high": 5064444.000000001
+   },
+   "high": {
+    "cons": 935250.0,
+    "mod": 2828195.9999999995,
+    "high": 6599124.000000001
+   }
+  },
+  "B_263k": {
+   "low": {
+    "cons": 854815.0,
+    "mod": 2584960.56,
+    "high": 6031574.640000001
+   },
+   "mid": {
+    "cons": 1084957.5,
+    "mod": 3280911.48,
+    "high": 7655460.12
+   },
+   "high": {
+    "cons": 1413732.5,
+    "mod": 4275127.08,
+    "high": 9975296.520000001
+   }
+  },
+  "C_437k": {
+   "low": {
+    "cons": 1420315.0,
+    "mod": 4295032.56,
+    "high": 10021742.64
+   },
+   "mid": {
+    "cons": 1802707.5,
+    "mod": 5451387.4799999995,
+    "high": 12719904.120000001
+   },
+   "high": {
+    "cons": 2348982.5,
+    "mod": 7103323.08,
+    "high": 16574420.52
+   }
+  }
+ },
+ "categories": {
+  "Academic / classrooms": {
+   "share": 0.4,
+   "area": 105208.0,
+   "baseline": 17359320.0,
+   "ctrl": 0.65,
+   "controllable": 11283558.0,
+   "rate": {
+    "cons": 0.1,
+    "mod": 0.18,
+    "high": 0.28
+   },
+   "saved_cons": 564177.9,
+   "saved_mod": 1421728.308,
+   "saved_high": 2843456.6160000004
+  },
+  "Laboratories (teaching)": {
+   "share": 0.1,
+   "area": 26302.0,
+   "baseline": 4339830.0,
+   "ctrl": 0.4,
+   "controllable": 1735932.0,
+   "rate": {
+    "cons": 0.05,
+    "mod": 0.1,
+    "high": 0.2
+   },
+   "saved_cons": 43398.3,
+   "saved_mod": 121515.23999999999,
+   "saved_high": 312467.76
+  },
+  "Admin / library / services": {
+   "share": 0.15,
+   "area": 39453.0,
+   "baseline": 6509745.0,
+   "ctrl": 0.65,
+   "controllable": 4231334.25,
+   "rate": {
+    "cons": 0.08,
+    "mod": 0.15,
+    "high": 0.23
+   },
+   "saved_cons": 169253.37,
+   "saved_mod": 444290.09624999994,
+   "saved_high": 875886.1897500001
+  },
+  "Dormitories / housing": {
+   "share": 0.25,
+   "area": 65755.0,
+   "baseline": 10849575.0,
+   "ctrl": 0.6,
+   "controllable": 6509745.0,
+   "rate": {
+    "cons": 0.1,
+    "mod": 0.18,
+    "high": 0.28
+   },
+   "saved_cons": 325487.25,
+   "saved_mod": 820227.87,
+   "saved_high": 1640455.7400000002
+  },
+  "Sports / hospital / other": {
+   "share": 0.1,
+   "area": 26302.0,
+   "baseline": 4339830.0,
+   "ctrl": 0.4,
+   "controllable": 1735932.0,
+   "rate": {
+    "cons": 0.05,
+    "mod": 0.1,
+    "high": 0.15
+   },
+   "saved_cons": 43398.3,
+   "saved_mod": 121515.23999999999,
+   "saved_high": 234350.82
+  }
+ },
+ "category_totals": {
+  "cons": 1145715.12,
+  "mod": 2929276.75425,
+  "high": 5906617.125750001
+ },
+ "category_totals_pct": {
+  "cons": 0.026400000000000003,
+  "mod": 0.0674975,
+  "high": 0.13610250000000002
+ }
+}

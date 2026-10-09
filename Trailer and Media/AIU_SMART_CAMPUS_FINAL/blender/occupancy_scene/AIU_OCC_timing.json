@@ -1,0 +1,19 @@
+{
+  "fps": 30,
+  "frames": 450,
+  "events": {
+    "CUT_A_TRANSITION": 1,
+    "CUT_B_ESTABLISH": 101,
+    "CUT_C_REVEAL": 201,
+    "CUT_D_MACRO": 301,
+    "CUT_E_COVERAGE": 361,
+    "FOV_FADE_START": 355,
+    "FOV_FADE_END": 395,
+    "OVERLAY_PANEL_START": 375,
+    "END": 450
+  },
+  "seats_modelled": 30,
+  "people_modelled": 0,
+  "approved_corridor_appended": true,
+  "note": "Empty-room test. No people, no count. Overlay (separate file) carries the OCCUPANCY DEMO - PEOPLE ASSETS PENDING label."
+}
