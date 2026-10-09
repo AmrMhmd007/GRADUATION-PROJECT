@@ -9,59 +9,56 @@ Graduation project for Alamein International University (AIU). A cyber-physical 
 
 ## What's in the platform
 
-- **Access & Authorization** — schedule/temporary access windows, a real WHO/WHEN authorization check, persisted access events with investigation detail, emergency overrides.
-- **Face ID credential** (Phase 1–2) — encrypted templates, door-node authorization flow; face embedding is designed to run on a door-side Raspberry Pi (no adapter is configured on the server). Door-node firmware is a prototype; no live door hardware is claimed.
+- **Access & Authorization** — scheduled and temporary access windows, a real WHO/WHEN authorization check, persisted access events with investigation detail, emergency overrides, anomaly indicators.
+- **Face ID credential** (prototype) — encrypted templates and a door-node authorization flow. Face embedding is designed to run on a door-side Raspberry Pi; no adapter is configured on the server and no live door hardware is claimed.
 - **Occupancy** — anonymous people-count ingest per room (source `REAL` or `SIMULATED`, always labelled). It counts people only; it does **not** identify students or record attendance.
-- **Smart Building** — zones, sensors, devices, automation engine with a verification window and decision log, HVAC model and energy-waste leads.
-- **Campus Intelligence** — campus map, room occupancy, device faults and health.
+- **Smart Building** — zones, sensors and devices, an automation engine with a verification window and decision log, HVAC model, energy-waste leads, hardware-node health.
+- **Campus Intelligence** — campus map, room occupancy, device faults, room health and timeline.
 - **Academic Administration** — colleges, departments, courses, doctors and teaching assistants.
-- **Command Hub dashboard** — global search, command palette, role-based sidebar.
+- **Command Hub dashboard** — global search, command palette, role-based sidebar (admin, doctor, instructor).
 - **Energy Impact Study** — model, report and presentation for the AIU campus.
-- **Graduation film** — 115 s bilingual narrated trailer built from Blender scenes and real recordings of this software (demo data, labelled).
-
-## Overview
-
-The system controls physical door access across a university building using DESFire-secured RFID credentials, with every door node reporting status and events over MQTT to a central backend. Admins manage doors, schedules, and staff (TAs/doctors) through a web dashboard; the backend enforces role-based access, audit-logs every access event, and raises alerts on tamper or offline conditions.
-
-## Key features
-
-- **Role-based dashboard** — admin, instructor, and doctor roles, each with a scoped view (door control, schedules, staff management).
-- **Door management** — add, edit, delete, and bulk-import doors from Excel, with building/floor/category metadata distinguishing main entrances from access-service rooms.
-- **Staff management** — add, remove, and bulk-import TAs/doctors from Excel, with per-faculty organization and door-assignment/request-access workflows.
-- **Real-time door status** — live lock/unlock state, online/offline detection, and a staleness watchdog over MQTT.
-- **Security** — JWT authentication, bcrypt password hashing, DESFire AES mutual authentication at the door node, tamper lockout, and encrypted credentials at rest.
-- **Resilient firmware** — RS-485 as the primary link with automatic Wi-Fi fallback, plus offline event buffering when disconnected from the gateway.
-- **Account self-service** — users can update their name/email, change their password, and upload a profile photo; admins can create additional admin accounts.
-- **LAN sharing** — helper scripts (`start_lan.sh`, `Source Code/backend/restart_lan.sh`) to expose the running system to other devices on the same network for demos.
+- **Graduation film** — 115 s bilingual narrated trailer built from Blender concept scenes and real recordings of this software on demo data (labelled).
 
 ## Architecture
 
 ```
-Door Node (ESP32 + RFID/DESFire)
-        │  RS-485 (primary) / Wi-Fi (fallback)
-        ▼
-   Building Gateway  ──MQTT──►  FastAPI Backend  ◄──REST──►  React Dashboard
-                                      │
-                                   SQLite / PostgreSQL
+ Door node                         Edge (prototype)
+ ESP32 + RFID/DESFire     ┐        Raspberry Pi: Face ID capture / embedding
+                          │ RS-485 (primary) / Wi-Fi (fallback)
+                          ▼
+                  Building Gateway (RS-485 ⇄ MQTT bridge)
+                          │ MQTT
+                          ▼
+ ┌──────────────────────── FastAPI backend ────────────────────────┐
+ │ routers: auth · doors · access windows · schedules · face ·       │
+ │          occupancy · zones · hvac · energy · alerts · anomalies · │
+ │          investigations · audit logs · academic · search          │
+ │ services: access authorization · automation engine · occupancy · │
+ │           energy · device/hardware health · staleness watchdog   │
+ └───────────────┬───────────────────────────────┬──────────────────┘
+                 │ SQLAlchemy                    │ REST (JWT)
+         SQLite / PostgreSQL               React + Vite dashboard
 ```
 
-Full design rationale, the database ERD, and the REST/MQTT API spec are in [`Documents/System_Design_Document.docx`](./Documents/System_Design_Document.docx).
+Full design rationale, the ERD and the API spec: [`Documents/System_Design_Document.docx`](./Documents/System_Design_Document.docx).
 
 ## Project structure
 
 ```
-Source Code/
-  backend/              FastAPI backend (REST API, MQTT listener, auth, scheduling)
-  dashboard/             React + Vite admin dashboard
-  door_node_firmware/    ESP32 firmware (PlatformIO project)
-  Archive (phase snapshots)/  Older zipped snapshots of backend, dashboard, firmware and gateway
-Documents/                Design docs, reports, and Excel import templates
-Reports and Audits/       Phase 9–11 audits, smoke-test checklist, cyber-physical upgrade notes
-Hardware/                 Bill of materials, integration guide, readiness checklist
-Energy Impact Study/      Energy model (model.py), report (docx/pdf), presentation, charts
-Trailer and Media/        Graduation-film production: scripts, reports and tooling (large media kept local, not in git)
-start.sh                  Start the full stack locally (mosquitto + backend + dashboard)
-start_lan.sh               Same, but reachable from other devices on the same network
+GRADUATION PROJECT/
+├─ Source Code/
+│  ├─ backend/                FastAPI app (app/routers, app/services, models, tests/, scripts/, migrate_*.py)
+│  ├─ dashboard/              React + Vite admin dashboard (src/pages, src/components, src/api)
+│  ├─ door_node_firmware/     ESP32 firmware (PlatformIO)
+│  └─ Archive (phase snapshots)/   older zipped snapshots
+├─ Documents/                 Design document, proposal, phase guides/reports, import templates
+├─ Reports and Audits/        Phase 9–11 audits, smoke-test checklist, cyber-physical upgrade notes
+├─ Hardware/                  Bill of materials, integration guide, readiness checklist
+├─ Energy Impact Study/       model.py, report (docx/pdf), presentation, charts
+├─ Trailer and Media/         Graduation-film scripts, reports and tooling (large media kept local)
+├─ start.sh                   Start mosquitto + backend + dashboard locally
+├─ start_lan.sh               Same, reachable from other devices on the network
+└─ README.md
 ```
 
 ## Getting started
@@ -119,6 +116,23 @@ To let someone else on the same network open the dashboard (e.g. for a demo), us
 ## Author
 
 **Amr Mohamed** — [github.com/AmrMhmd007](https://github.com/AmrMhmd007)
+
+## Tech stack
+
+| Layer | Technology |
+|---|---|
+| Firmware / edge | ESP32 (PlatformIO/C++), RFID/DESFire, RS-485; Raspberry Pi as the planned door-side Face ID device (prototype) |
+| Gateway | Python, RS-485 ⇄ MQTT bridge |
+| Backend | FastAPI, SQLAlchemy, SQLite/PostgreSQL, JWT, MQTT (paho-mqtt) |
+| Frontend | React, Vite |
+| Bulk data | openpyxl (Excel import/export) |
+| Film production | Blender, Playwright, ffmpeg, Python (not required to run the system) |
+
+## Documentation
+
+- [System Design Document](./Documents/System_Design_Document.docx) · [Security Review](./Documents/Phase5_Security_Review.pdf) · [Multi-Node Deployment Guide](./Documents/Phase6_Multi_Node_Deployment_Guide.pdf) · [System Test Report](./Documents/Phase7_System_Test_Report.pdf) · [Study Guide](./Documents/Study_Guide_Access_Control_Project.pdf)
+- [Hardware integration](./Hardware/HARDWARE_INTEGRATION.md) · [Bill of materials](./Hardware/HARDWARE_BOM.md) · [Readiness checklist](./Hardware/HARDWARE_READINESS_CHECKLIST.md)
+- [Final system audit](./Reports%20and%20Audits/PHASE_10_FINAL_SYSTEM_AUDIT.md) · [Production hardening](./Reports%20and%20Audits/PHASE_11_PRODUCTION_HARDENING_REPORT.md)
 
 ## Graduation film
 
