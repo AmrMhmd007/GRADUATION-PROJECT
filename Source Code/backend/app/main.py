@@ -1,3 +1,4 @@
+import logging
 from contextlib import asynccontextmanager
 from pathlib import Path
 
@@ -6,6 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
 from . import models
+from .config import allowed_origins_list, insecure_configuration_warnings
 from .database import Base, engine
 from .routers import (
     auth, users, credentials, doors, schedules, alerts, faculties, buildings, password_resets,
@@ -24,6 +26,8 @@ MEDIA_DIR.mkdir(exist_ok=True)
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     Base.metadata.create_all(bind=engine)
+    for _w in insecure_configuration_warnings():
+        logging.getLogger("app.config").warning("Configuration: %s", _w)
     mqtt_service.start()
     staleness_watchdog.start()
     energy_service.start()
@@ -53,7 +57,7 @@ app = FastAPI(
 # deployed dashboard URL before going anywhere near production.
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=allowed_origins_list(),
     allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],

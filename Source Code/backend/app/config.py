@@ -52,6 +52,11 @@ class Settings:
     HVAC_STALE_AFTER_SECONDS: int = int(os.getenv("HVAC_STALE_AFTER_SECONDS", "600"))
     OCCUPANCY_STALE_AFTER_SECONDS: int = int(os.getenv("OCCUPANCY_STALE_AFTER_SECONDS", "180"))
 
+    # Comma-separated list of origins allowed by CORS. "*" (the default, kept
+    # for backward compatibility with local development) allows any origin;
+    # set it to the real dashboard URL(s) for any shared or deployed instance.
+    ALLOWED_ORIGINS: str = os.getenv("ALLOWED_ORIGINS", "*")
+
     DISABLE_MQTT: bool = os.getenv("DISABLE_MQTT", "false").lower() == "true"
 
     # Phase 5: at-rest encryption for credential data (card UIDs). Must be a
@@ -207,3 +212,25 @@ class Settings:
 
 
 settings = Settings()
+
+
+DEV_JWT_SECRET = "dev-only-secret-change-me"
+
+
+def allowed_origins_list() -> list[str]:
+    """Parsed ALLOWED_ORIGINS (an empty value falls back to "*")."""
+    origins = [o.strip() for o in settings.ALLOWED_ORIGINS.split(",") if o.strip()]
+    return origins or ["*"]
+
+
+def insecure_configuration_warnings() -> list[str]:
+    """Human-readable warnings for settings that are fine for local development
+    but unsafe for a shared or deployed instance. Never includes secret values."""
+    warnings = []
+    if settings.JWT_SECRET == DEV_JWT_SECRET:
+        warnings.append("JWT_SECRET is the built-in development default; set a strong secret in .env.")
+    if allowed_origins_list() == ["*"]:
+        warnings.append("CORS allows any origin (ALLOWED_ORIGINS=*); restrict it to the dashboard URL when deploying.")
+    if not os.getenv("CREDENTIAL_ENCRYPTION_KEY"):
+        warnings.append("CREDENTIAL_ENCRYPTION_KEY is unset: a temporary key is generated each start, so stored encrypted credentials will not survive a restart.")
+    return warnings
