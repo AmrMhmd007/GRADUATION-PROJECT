@@ -1,0 +1,32 @@
+# Building Gateway configuration — copy to gateway_config.yaml and edit.
+#
+# `nodes` maps each door node's RS-485 bus address (must match RS485_NODE_ADDR
+# in that node's include/config.h before flashing) to the door `code` the
+# backend already knows it by (must match the `code` column seeded in
+# backend/scripts/seed_db.py / the Doors table).
+serial:
+  port: /dev/ttyUSB0     # RS-485 USB adapter (MAX485 module) on the gateway host
+  baud: 9600             # must match RS485_BAUD in door_node_firmware/include/config.h
+
+polling:
+  poll_timeout_ms: 150     # how long to wait for a node's DATA response before giving up
+  offline_after_misses: 3  # consecutive missed polls before a node is marked offline
+  inter_poll_delay_ms: 50  # brief pause between polling different nodes, keeps the bus calm
+
+nodes:
+  - addr: 1
+    code: A101
+  - addr: 2
+    code: A102
+  - addr: 3
+    code: MAIN
+  - addr: 4
+    code: SRV1
+
+mqtt:
+  host: localhost
+  port: 1883
+  use_tls: false
+  username: null
+  password: null
+  client_id: building-gateway
