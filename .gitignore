@@ -34,7 +34,8 @@ npm-debug.log*
 **/native_1080/
 **/renders/
 **/original/
-**/assets/
+**/assets/*
+!**/assets/ASSET_LICENSES.md
 **/footage/
 **/source_v6/
 **/audio_v4/

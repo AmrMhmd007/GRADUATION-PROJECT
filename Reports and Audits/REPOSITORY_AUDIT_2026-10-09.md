@@ -1,0 +1,49 @@
+# Repository audit — 2026-10-09
+
+Scope: full first-time review of `GRADUATION PROJECT` (AIU Smart Campus). This report is **new**; older Phase 9–11 reports are historical and were not edited.
+
+## 1. Initial condition (baseline, verified)
+- Branch `main`, remote `origin` = github.com/AmrMhmd007/GRADUATION-PROJECT. Working tree was clean; **6 local commits ahead of origin/main** (confirmed). Recoverable baseline: tag `backup-before-audit-2026-10-09` and a git bundle of all refs (kept outside the repo).
+- 403 tracked files. Ignored/untracked (not in git): `.env` files, `*.db`, `venv/`, `node_modules/`, `dist/`, `.pio/`, `secrets.h`, `__pycache__`, `backend.log` (root log confirmed ignored by `*.log`), trailer media.
+- Secret scan of tracked files (key/token/password patterns, private keys, AWS ids): **no matches**.
+
+## 2. Architecture discovered
+See [`Documents/ARCHITECTURE.md`](../Documents/ARCHITECTURE.md): FastAPI backend (24 routers, 17 services), SQLAlchemy models, React/Vite dashboard, MQTT `site/{code}/…` and `university/…` topic trees, hardware abstraction layer, ESP32 firmware, RS-485 gateway, Face ID backend, simulated occupancy/energy.
+
+## 3. Checks actually run
+| Check | Result |
+|---|---|
+| Backend pytest, all 40 test files, serial, isolated copy, Python 3.10 | **All passed** (≈595 tests). Parallel runs (xdist) fail because every test shares one SQLite file — a test-design limitation, not a product defect |
+| New tests `test_config_hardening.py` + `test_auth.py` after changes | 13 passed |
+| Migration scripts: `create_all` on a temp DB, then all 22 `migrate_*.py`, twice | All succeed and are idempotent on a current-schema DB. **Not tested** against a legacy-schema database or PostgreSQL |
+| Dashboard `npm ci`, `oxlint`, `vite build` (Node 22) | 0 errors, 14 warnings (React set-state-in-effect), build OK; main chunk 518 kB (>500 kB warning) |
+| Gateway Python compile | OK |
+| Firmware compile | **Not run** (PlatformIO unavailable) |
+| Live MQTT / hardware / Raspberry Pi / browser flows | **Not run** |
+| README relative-link check | Run (see section 7) |
+
+## 4. Findings
+**Confirmed**
+1. Gateway source existed only inside `Archive/gateway_phase6.zip` — not in the working tree although the README described a gateway. *Fixed:* extracted to `Source Code/gateway/` (archive untouched).
+2. README "Getting started" omitted creating the backend `venv` that `start.sh` requires. *Fixed.*
+3. CORS hard-coded to `*`; JWT secret has a dev default; encryption key regenerates each start if unset. *Mitigated (backward compatible):* `ALLOWED_ORIGINS` env var; start-up warnings for insecure defaults (no secret values logged); documented in `.env.example` and README. Defaults unchanged.
+4. All `migrate_*.py` hard-code `sqlite3.connect("access_control.db")` relative to the working directory and ignore `DATABASE_URL`. *Not changed* (22 scripts; documented).
+5. `Trailer and Media/.../assets/ASSET_LICENSES.md` (third-party licence record) was swallowed by an ignore rule. *Fixed:* unignored.
+6. `start.sh` kills any process on port 8000 and requires `venv`; `dashboard/package.json` has a macOS-only optional dependency (`@rolldown/binding-darwin-arm64`).
+7. Four dashboard images (`campus-bg.jpg`, `campus-bg.png` — byte-identical, 6.9 MB each — `campus-building-bg.png`, `corridor-bg.png`) are not referenced by `src`; only `campus-building-bg2.png` is. *Retained* (not deleted without confirmation).
+8. Trailer tooling contains absolute `/Users/amrmohamed/...` paths (Blender bridge, recording tools); they need path updates after the folder moves.
+
+**Unverified concerns / recommendations** (not confirmed defects): authorization-bypass review beyond the passing RBAC tests; MQTT payload validation depth; dependency CVE scan (no tool run); face-template handling under load; schema parity of old production databases.
+
+## 5. Improvements made (files)
+`Source Code/backend/app/config.py`, `app/main.py`, `.env.example`, `tests/test_config_hardening.py` (new), `Source Code/gateway/` (new, extracted), `.gitignore`, `README.md` (rebuilt), `Documents/ARCHITECTURE.md` (new), this report.
+Earlier in this session: folders reorganised (Reports and Audits, Hardware, Energy Impact Study, Trailer and Media, Archive).
+
+## 6. Prioritised backlog
+- **P0** — none confirmed. (Before any shared deployment: set real `JWT_SECRET`, keep encryption keys persisted, restrict `ALLOWED_ORIGINS`, enable MQTT auth/TLS.)
+- **P1** — No Raspberry Pi code in repo (Face ID edge). Firmware + gateway + backend never run together; add an automated end-to-end simulation using `gateway/tests/fake_node_sim.py` against a local broker. Adopt a real migration tool (Alembic) and make scripts honour `DATABASE_URL`.
+- **P2** — Make tests parallel-safe (per-worker DB). Fix 14 oxlint warnings; code-split the 518 kB bundle. Make `start.sh` avoid killing unrelated processes and create the venv when missing. Remove the macOS-only optional dependency or make it platform-conditional. Update absolute paths in trailer tooling. Tighten API title/description ("Smart Building Access Control API v0.1.0").
+- **P3** — Remove or reference the four unused 2–7 MB images (and consider Git LFS for large binaries — no history rewrite without approval). Add CI (GitHub Actions) for pytest, lint, build. Add directory index files.
+
+## 7. Limits of this audit
+Run in a Linux sandbox on a copy of the code; no Mac-side services, browser, hardware or broker. Passing tests show the tested behaviour, not overall security. Nothing was pushed to GitHub.
