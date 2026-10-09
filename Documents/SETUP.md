@@ -68,7 +68,7 @@ Set `MQTT_BROKER_HOST/PORT` (and `MQTT_USERNAME/PASSWORD/USE_TLS` for a secured 
 ./start_lan.sh      # same, reachable from other devices on the LAN
 ```
 
-`start.sh` expects `Source Code/backend/venv` to exist and **kills any process already listening on port 8000**. Backend output goes to `backend.log` (git-ignored).
+On first run `start.sh` creates `Source Code/backend/venv` and a `.env` (from `.env.example`) if missing. It stops a previous uvicorn backend on port 8000 but **refuses to touch any other program** using that port. Backend output goes to `backend.log` (git-ignored). (Script logic checked by dry run; a full start with mosquitto and Vite was not executed in the audit environment.)
 
 ## 5. Gateway (hardware / simulation)
 
@@ -105,7 +105,7 @@ DISABLE_MQTT=true pytest -q            # serial only: tests share one SQLite fil
 
 | Symptom | Fix |
 |---|---|
-| `start.sh`: `venv/bin/activate: No such file` | Do step 1 first |
+| `start.sh` says port 8000 is used by another program | Free the port or run uvicorn on another `--port` |
 | `TypeError: unsupported operand type(s) for \|` | Python older than 3.10 |
 | Repeated MQTT connection errors | Start mosquitto or set `DISABLE_MQTT=true` |
 | Dashboard shows network errors | Backend not on :8000, or CORS: set `ALLOWED_ORIGINS` / `VITE_API_BASE_URL` |

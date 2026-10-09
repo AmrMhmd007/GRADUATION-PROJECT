@@ -48,3 +48,7 @@ Earlier in this session: folders reorganised (Reports and Audits, Hardware, Ener
 
 ## 7. Limits of this audit
 Run in a Linux sandbox on a copy of the code; no Mac-side services, browser, hardware or broker. Passing tests show the tested behaviour, not overall security. Nothing was pushed to GitHub.
+
+## 8. Follow-up changes (same day)
+- Added `.github/workflows/ci.yml` (backend pytest serial on Python 3.10, dashboard lint+build on Node 22, gateway syntax check). YAML parsed locally; the workflow itself has **not run** yet — it runs after the first push.
+- `start.sh` / `start_lan.sh`: create the venv and `.env` on first run; stop only a previous uvicorn on port 8000 and refuse to kill unrelated processes (backlog P2 item addressed; dry-run verified).

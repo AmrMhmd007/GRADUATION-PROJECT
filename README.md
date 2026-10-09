@@ -7,6 +7,8 @@ Graduation project, **Alamein International University (AIU)**. A smart-campus p
 ![MQTT](https://img.shields.io/badge/messaging-MQTT-660066?logo=mqtt&logoColor=white)
 ![ESP32](https://img.shields.io/badge/firmware-ESP32-E7352C?logo=espressif&logoColor=white)
 
+[![CI](https://github.com/AmrMhmd007/GRADUATION-PROJECT/actions/workflows/ci.yml/badge.svg)](https://github.com/AmrMhmd007/GRADUATION-PROJECT/actions/workflows/ci.yml)
+
 > **Honest status:** the backend and dashboard are tested software. Door-node firmware, the gateway, Face ID at the door and the Raspberry Pi edge device are **prototype/planned** and were not demonstrated end to end. Occupancy and energy data in demos are **simulated and labelled**. Per-student attendance is **not implemented**. See [Known limitations](#known-limitations).
 
 ## Contents
@@ -95,7 +97,7 @@ cd "Source Code/dashboard" && npm install && cp .env.example .env && cd ../..
 
 Open `http://localhost:5173` and sign in with the admin created by `seed_db.py`. Manual alternative: `uvicorn app.main:app --reload` in `Source Code/backend` and `npm run dev` in `Source Code/dashboard`.
 
-> `start.sh` stops whatever process is already listening on port 8000 before starting the backend.
+> `start.sh` creates the backend venv and `.env` on first run, and stops only a previous uvicorn backend on port 8000 (it refuses to kill other programs).
 
 ## Configuration
 
@@ -149,11 +151,10 @@ JWT authentication, bcrypt hashing, RBAC with scope enforcement, login lockout, 
 
 ## Troubleshooting
 
-- *`start.sh` fails at `source venv/bin/activate`* — create the backend venv first (Installation step 1).
 - *Backend runs but MQTT errors repeat* — start mosquitto or set `DISABLE_MQTT=true`.
 - *Dashboard cannot reach the API* — check the backend is on port 8000 and `ALLOWED_ORIGINS` includes the dashboard origin; set `VITE_API_BASE_URL` for a different host.
 - *Encrypted credentials unreadable after restart* — `CREDENTIAL_ENCRYPTION_KEY` was not persisted.
-- *Port 8000 busy* — `start.sh` frees it; otherwise choose another port with uvicorn `--port`.
+- *Port 8000 busy* — `start.sh` frees it only if it is a previous uvicorn backend; otherwise free the port or use uvicorn `--port`.
 
 ## Known limitations
 

@@ -37,9 +37,19 @@ if [ -n "$PID" ]; then
   # Deliberately unquoted so multiple PIDs (one per line) word-split into
   # separate arguments — quoting "$PID" here passes them as one invalid
   # multi-line argument and kill rejects it.
-  kill $PID 2>/dev/null || true
+  for p in $PID; do
+    if ps -p "$p" -o command= 2>/dev/null | grep -q "uvicorn"; then kill "$p" 2>/dev/null || true
+    else echo "Port $PORT is used by another program (pid $p): $(ps -p "$p" -o command= 2>/dev/null) - nothing killed."; exit 1; fi
+  done
   sleep 1
 fi
+# Create the backend virtualenv on first run so a fresh clone starts without manual steps.
+if [ ! -d venv ]; then
+  echo "No venv found - creating one and installing requirements (first run only)..."
+  python3 -m venv venv
+  ./venv/bin/pip install -r requirements.txt
+fi
+[ -f .env ] || { [ -f .env.example ] && cp .env.example .env && echo "Created .env from .env.example - review it before real use."; } || true
 source venv/bin/activate
 # --host 0.0.0.0 makes it listen on every network interface, not just
 # localhost, so another device on the same Wi-Fi can actually reach it.

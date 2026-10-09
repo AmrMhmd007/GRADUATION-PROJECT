@@ -24,10 +24,23 @@ cd "Source Code/backend"
 PORT=8000
 PID=$(lsof -ti tcp:$PORT || true)
 if [ -n "$PID" ]; then
-  echo "Killing existing process on port $PORT (pid $PID)..."
-  kill "$PID"
-  sleep 1
+  if ps -p "$PID" -o command= 2>/dev/null | grep -q "uvicorn"; then
+    echo "Stopping previous backend on port $PORT (pid $PID)..."
+    kill "$PID"
+    sleep 1
+  else
+    echo "Port $PORT is used by another program (pid $PID): $(ps -p "$PID" -o command= 2>/dev/null)"
+    echo "Stop it or free the port, then run ./start.sh again. Nothing was killed."
+    exit 1
+  fi
 fi
+# Create the backend virtualenv on first run so a fresh clone starts without manual steps.
+if [ ! -d venv ]; then
+  echo "No venv found - creating one and installing requirements (first run only)..."
+  python3 -m venv venv
+  ./venv/bin/pip install -r requirements.txt
+fi
+[ -f .env ] || { [ -f .env.example ] && cp .env.example .env && echo "Created .env from .env.example - review it before real use."; } || true
 source venv/bin/activate
 # --host 0.0.0.0 so TAs/doctors on the same network (or eventually the real
 # uni server) can reach the backend too, not just this machine.
