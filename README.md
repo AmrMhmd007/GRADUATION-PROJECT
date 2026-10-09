@@ -113,27 +113,6 @@ To let someone else on the same network open the dashboard (e.g. for a demo), us
 - [System Test Report](./Documents/Phase7_System_Test_Report.pdf)
 - [Study Guide](./Documents/Study_Guide_Access_Control_Project.pdf)
 
-## Author
-
-**Amr Mohamed** — [github.com/AmrMhmd007](https://github.com/AmrMhmd007)
-
-## Tech stack
-
-| Layer | Technology |
-|---|---|
-| Firmware / edge | ESP32 (PlatformIO/C++), RFID/DESFire, RS-485; Raspberry Pi as the planned door-side Face ID device (prototype) |
-| Gateway | Python, RS-485 ⇄ MQTT bridge |
-| Backend | FastAPI, SQLAlchemy, SQLite/PostgreSQL, JWT, MQTT (paho-mqtt) |
-| Frontend | React, Vite |
-| Bulk data | openpyxl (Excel import/export) |
-| Film production | Blender, Playwright, ffmpeg, Python (not required to run the system) |
-
-## Documentation
-
-- [System Design Document](./Documents/System_Design_Document.docx) · [Security Review](./Documents/Phase5_Security_Review.pdf) · [Multi-Node Deployment Guide](./Documents/Phase6_Multi_Node_Deployment_Guide.pdf) · [System Test Report](./Documents/Phase7_System_Test_Report.pdf) · [Study Guide](./Documents/Study_Guide_Access_Control_Project.pdf)
-- [Hardware integration](./Hardware/HARDWARE_INTEGRATION.md) · [Bill of materials](./Hardware/HARDWARE_BOM.md) · [Readiness checklist](./Hardware/HARDWARE_READINESS_CHECKLIST.md)
-- [Final system audit](./Reports%20and%20Audits/PHASE_10_FINAL_SYSTEM_AUDIT.md) · [Production hardening](./Reports%20and%20Audits/PHASE_11_PRODUCTION_HARDENING_REPORT.md)
-
 ## Graduation film
 
 Production scripts, timeline, mix tooling and reports live in `Trailer and Media/AIU_SMART_CAMPUS_FINAL/`. The film combines Blender concept scenes (clearly labelled), real screen recordings of this dashboard on an isolated demo database, and a supplied voice-over. Simulated data is labelled SIMULATED; the indoor attendance camera is a **concept** and not part of the implemented backend. Videos, audio, renders and `.blend` files are not stored in git.
@@ -141,3 +120,7 @@ Production scripts, timeline, mix tooling and reports live in `Trailer and Media
 ## Honest scope
 
 Implemented: access control and authorization, access-event audit trail, anonymous occupancy ingest, automation engine, dashboards. Prototype or concept: door-node firmware, Face ID at the door, physical occupancy cameras, per-student attendance.
+
+## Author
+
+**Amr Mohamed** — [github.com/AmrMhmd007](https://github.com/AmrMhmd007)
