@@ -31,17 +31,18 @@ See [`Documents/ARCHITECTURE.md`](../Documents/ARCHITECTURE.md): FastAPI backend
 5. `Trailer and Media/.../assets/ASSET_LICENSES.md` (third-party licence record) was swallowed by an ignore rule. *Fixed:* unignored.
 6. `start.sh` kills any process on port 8000 and requires `venv`; `dashboard/package.json` has a macOS-only optional dependency (`@rolldown/binding-darwin-arm64`).
 7. Four dashboard images (`campus-bg.jpg`, `campus-bg.png` — byte-identical, 6.9 MB each — `campus-building-bg.png`, `corridor-bg.png`) are not referenced by `src`; only `campus-building-bg2.png` is. *Retained* (not deleted without confirmation).
-8. Trailer tooling contains absolute `/Users/amrmohamed/...` paths (Blender bridge, recording tools); they need path updates after the folder moves.
+8. `Source Code/gateway/README.md` points to `door_node_firmware/include/rs485_protocol.h` and `door_node_firmware/tests/test_cross_lang.py`; neither exists in the tree (the firmware directory holds `config.h`, `secrets_example.h`, `src/main.cpp` only), so the RS-485 framing is not cross-checkable from this repository. *Documented; files not invented.*
+9. Trailer tooling contains absolute `/Users/amrmohamed/...` paths (Blender bridge, recording tools); they need path updates after the folder moves.
 
 **Unverified concerns / recommendations** (not confirmed defects): authorization-bypass review beyond the passing RBAC tests; MQTT payload validation depth; dependency CVE scan (no tool run); face-template handling under load; schema parity of old production databases.
 
 ## 5. Improvements made (files)
-`Source Code/backend/app/config.py`, `app/main.py`, `.env.example`, `tests/test_config_hardening.py` (new), `Source Code/gateway/` (new, extracted), `.gitignore`, `README.md` (rebuilt), `Documents/ARCHITECTURE.md` (new), this report.
+`Source Code/backend/app/config.py`, `app/main.py`, `.env.example`, `tests/test_config_hardening.py` (new), `Source Code/gateway/` (new, extracted), `.gitignore`, `README.md` (rebuilt), `Documents/ARCHITECTURE.md` (new), `Documents/SETUP.md` (new, manual setup verified from a clean `git archive`), this report.
 Earlier in this session: folders reorganised (Reports and Audits, Hardware, Energy Impact Study, Trailer and Media, Archive).
 
 ## 6. Prioritised backlog
 - **P0** — none confirmed. (Before any shared deployment: set real `JWT_SECRET`, keep encryption keys persisted, restrict `ALLOWED_ORIGINS`, enable MQTT auth/TLS.)
-- **P1** — No Raspberry Pi code in repo (Face ID edge). Firmware + gateway + backend never run together; add an automated end-to-end simulation using `gateway/tests/fake_node_sim.py` against a local broker. Adopt a real migration tool (Alembic) and make scripts honour `DATABASE_URL`.
+- **P1** — Restore or locate `rs485_protocol.h` and the cross-language test. No Raspberry Pi code in repo (Face ID edge). Firmware + gateway + backend never run together; add an automated end-to-end simulation using `gateway/tests/fake_node_sim.py` against a local broker. Adopt a real migration tool (Alembic) and make scripts honour `DATABASE_URL`.
 - **P2** — Make tests parallel-safe (per-worker DB). Fix 14 oxlint warnings; code-split the 518 kB bundle. Make `start.sh` avoid killing unrelated processes and create the venv when missing. Remove the macOS-only optional dependency or make it platform-conditional. Update absolute paths in trailer tooling. Tighten API title/description ("Smart Building Access Control API v0.1.0").
 - **P3** — Remove or reference the four unused 2–7 MB images (and consider Git LFS for large binaries — no history rewrite without approval). Add CI (GitHub Actions) for pytest, lint, build. Add directory index files.
 

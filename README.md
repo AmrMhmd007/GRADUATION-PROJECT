@@ -69,6 +69,8 @@ GRADUATION PROJECT/
 
 ## Installation and startup
 
+Full, verified step-by-step guide (backend, dashboard, MQTT, gateway, firmware, troubleshooting): **[`Documents/SETUP.md`](./Documents/SETUP.md)**. Quick version:
+
 Requirements: Python 3.10+, Node.js 18+ (22 tested), optionally `mosquitto`.
 
 ```bash
@@ -156,7 +158,7 @@ JWT authentication, bcrypt hashing, RBAC with scope enforcement, login lockout, 
 ## Known limitations
 
 1. No Raspberry Pi code exists here; only the backend side of Face ID. The embedding provider is `none` by default.
-2. Firmware and gateway are prototypes; not compiled/run together in the latest audit.
+2. Firmware and gateway are prototypes; not compiled/run together in the latest audit. The gateway README references `rs485_protocol.h` and `test_cross_lang.py`, which are missing from `door_node_firmware/`.
 3. No per-student attendance anywhere in the system.
 4. Migrations are ad-hoc scripts bound to `./access_control.db`; there is no migration framework.
 5. Dashboard `package.json` lists a macOS-specific optional dependency (`@rolldown/binding-darwin-arm64`).
@@ -166,7 +168,7 @@ Full prioritised backlog: [`Reports and Audits/REPOSITORY_AUDIT_2026-10-09.md`](
 
 ## Documentation index
 
-- [Architecture](./Documents/ARCHITECTURE.md) · [System Design Document](./Documents/System_Design_Document.docx) · [Proposal](./Documents/Access_Control_System_Proposal_Revised.docx) · [Project timeline](./Documents/Access_Control_System_Project_Timeline.xlsx)
+- [Manual setup guide](./Documents/SETUP.md) · [Architecture](./Documents/ARCHITECTURE.md) · [System Design Document](./Documents/System_Design_Document.docx) · [Proposal](./Documents/Access_Control_System_Proposal_Revised.docx) · [Project timeline](./Documents/Access_Control_System_Project_Timeline.xlsx)
 - [Security Review (phase 5)](./Documents/Phase5_Security_Review.pdf) · [Multi-node deployment guide](./Documents/Phase6_Multi_Node_Deployment_Guide.pdf) · [System test report (phase 7)](./Documents/Phase7_System_Test_Report.pdf) · [Wiring & bench test](./Documents/Phase2_Wiring_and_Bench_Test_Guide.docx) · [Study guide](./Documents/Study_Guide_Access_Control_Project.pdf)
 - Import templates: `Documents/door_import_template.xlsx`, `Documents/staff_import_template.xlsx`
 
