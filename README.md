@@ -54,6 +54,7 @@ Source Code/
   backend/              FastAPI backend (REST API, MQTT listener, auth, scheduling)
   dashboard/             React + Vite admin dashboard
   door_node_firmware/    ESP32 firmware (PlatformIO project)
+  Archive (phase snapshots)/  Older zipped snapshots of backend, dashboard, firmware and gateway
 Documents/                Design docs, reports, and Excel import templates
 Reports and Audits/       Phase 9–11 audits, smoke-test checklist, cyber-physical upgrade notes
 Hardware/                 Bill of materials, integration guide, readiness checklist
