@@ -16,7 +16,7 @@ Graduation project, **Alamein International University (AIU)**. A smart-campus p
 
 ## Verified platform capabilities
 
-Verified = covered by backend automated tests that were run (595 passing on 2026-10-09; see the [audit report](./Reports%20and%20Audits/REPOSITORY_AUDIT_2026-10-09.md)).
+Verified = covered by backend automated tests that were run (600 passing on 2026-10-09; see the [audit report](./Reports%20and%20Audits/REPOSITORY_AUDIT_2026-10-09.md)).
 
 - **Access & authorization:** scheduled/temporary access windows, WHO/WHEN authorization check, persisted access events with investigation detail, emergency overrides, anomaly indicators.
 - **Accounts & RBAC:** admin / doctor / instructor roles with organizational and operational scope, forced password change, password reset, lockout after repeated failures, audit log.
@@ -111,11 +111,12 @@ SQLAlchemy models create their tables at start-up (`Base.metadata.create_all`). 
 
 ```bash
 cd "Source Code/backend" && source venv/bin/activate
-DISABLE_MQTT=true pytest -q         # tests use their own SQLite file; run serially (not with xdist)
+DISABLE_MQTT=true pytest -q         # serial; each test run uses its own SQLite file
+# optional, faster: pip install pytest-xdist && DISABLE_MQTT=true pytest -q -n auto   (one DB file per worker)
 cd ../dashboard && npm run lint && npm run build
 ```
 
-Latest run (2026-10-09, isolated copy, Python 3.10, Node 22): backend 595 + 5 new config tests passing; lint 0 errors / 14 warnings; production build succeeds. Firmware compilation and live hardware/MQTT tests were **not** run.
+Latest run (2026-10-09, isolated copy, Python 3.10, Node 22): backend: 600 tests passing (serial, and again in parallel with `-n 4`); lint 0 errors / 14 warnings; production build succeeds. Firmware compilation and live hardware/MQTT tests were **not** run.
 
 ## API documentation
 

@@ -98,7 +98,8 @@ The backend exposes node endpoints guarded by `X-Node-Key` (set `FACE_NODE_API_K
 
 ```bash
 cd "Source Code/backend" && source venv/bin/activate
-DISABLE_MQTT=true pytest -q            # serial only: tests share one SQLite file
+DISABLE_MQTT=true pytest -q            # serial
+# optional: pip install pytest-xdist && DISABLE_MQTT=true pytest -q -n auto   # parallel, one SQLite file per worker
 ```
 
 ## 9. Troubleshooting

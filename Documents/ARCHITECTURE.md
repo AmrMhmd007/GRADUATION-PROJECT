@@ -38,7 +38,7 @@ flowchart LR
 
 | Component | Location | Responsibility | Maturity |
 |---|---|---|---|
-| Backend API | `Source Code/backend/app` | REST API, auth/RBAC, access decisions, audit trail, automation, occupancy, energy, health | TESTED (595 passing tests on 2026-10-09) |
+| Backend API | `Source Code/backend/app` | REST API, auth/RBAC, access decisions, audit trail, automation, occupancy, energy, health | TESTED (600 passing tests on 2026-10-09) |
 | Database | SQLAlchemy models; `Base.metadata.create_all` at start-up plus `migrate_*.py` scripts | Persistence of users, doors, zones, devices, events, readings, audit | TESTED (schema create + idempotent migrations on a temp DB) |
 | Dashboard | `Source Code/dashboard` | Admin / doctor / instructor UI | Lint (0 errors, 14 warnings) and production build verified; browser flows not re-verified in this audit |
 | Gateway | `Source Code/gateway` (extracted from the phase-6 snapshot) | Relay RS-485 node traffic to MQTT `site/{code}/…` | PROTOTYPE; **verified in simulation** (backend ⇄ broker ⇄ gateway ⇄ virtual serial ⇄ Python fake nodes, see `gateway/tests/run_e2e_simulation.sh`); not run with real RS-485 hardware or ESP32 firmware |

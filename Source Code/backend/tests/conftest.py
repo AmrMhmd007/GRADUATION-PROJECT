@@ -11,7 +11,11 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 # Force an isolated in-memory-per-file SQLite DB and disable MQTT before any
 # app module is imported, so tests never touch the developer's real .env.
-os.environ["DATABASE_URL"] = "sqlite:///./test_access_control.db"
+# One SQLite file per pytest-xdist worker (empty suffix when run serially), so
+# `pytest -n auto` does not have workers clobbering each other's tables.
+_DB_SUFFIX = ("_" + os.environ["PYTEST_XDIST_WORKER"]) if os.environ.get("PYTEST_XDIST_WORKER") else ""
+_DB_FILE = f"test_access_control{_DB_SUFFIX}.db"
+os.environ["DATABASE_URL"] = f"sqlite:///./{_DB_FILE}"
 os.environ["DISABLE_MQTT"] = "true"
 os.environ["JWT_SECRET"] = "test-secret"
 
@@ -19,9 +23,9 @@ from app.main import app  # noqa: E402
 from app.database import Base, get_db  # noqa: E402
 from app import models, security, crypto, rate_limit  # noqa: E402
 
-TEST_DB_PATH = Path(__file__).resolve().parent.parent / "test_access_control.db"
+TEST_DB_PATH = Path(__file__).resolve().parent.parent / _DB_FILE
 
-engine = create_engine("sqlite:///./test_access_control.db", connect_args={"check_same_thread": False})
+engine = create_engine(f"sqlite:///./{_DB_FILE}", connect_args={"check_same_thread": False})
 TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 
