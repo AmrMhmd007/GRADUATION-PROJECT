@@ -10,7 +10,7 @@ Graduation project for Alamein International University (AIU). A cyber-physical 
 ## What's in the platform
 
 - **Access & Authorization** — schedule/temporary access windows, a real WHO/WHEN authorization check, persisted access events with investigation detail, emergency overrides.
-- **Face ID credential** (Phase 1–2) — encrypted templates, door-node authorization flow. Door-node firmware is a prototype; no live door hardware is claimed.
+- **Face ID credential** (Phase 1–2) — encrypted templates, door-node authorization flow; face embedding is designed to run on a door-side Raspberry Pi (no adapter is configured on the server). Door-node firmware is a prototype; no live door hardware is claimed.
 - **Occupancy** — anonymous people-count ingest per room (source `REAL` or `SIMULATED`, always labelled). It counts people only; it does **not** identify students or record attendance.
 - **Smart Building** — zones, sensors, devices, automation engine with a verification window and decision log, HVAC model and energy-waste leads.
 - **Campus Intelligence** — campus map, room occupancy, device faults and health.
@@ -101,7 +101,7 @@ To let someone else on the same network open the dashboard (e.g. for a demo), us
 
 | Layer | Technology |
 |---|---|
-| Firmware | ESP32 (PlatformIO/C++), RFID/DESFire, RS-485 |
+| Firmware / edge | ESP32 (PlatformIO/C++), RFID/DESFire, RS-485; Raspberry Pi as the planned door-side Face ID capture/embedding device (prototype, not demonstrated live) |
 | Gateway | Python, RS-485 ↔ MQTT bridge |
 | Backend | FastAPI, SQLAlchemy, SQLite/PostgreSQL, JWT, MQTT (paho-mqtt) |
 | Frontend | React, Vite |
