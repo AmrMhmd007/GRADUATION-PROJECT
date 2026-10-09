@@ -14,7 +14,7 @@ def dbg_render(name, cam_loc, target, lens=35, frame=None, res=(640,360), sample
     sc.camera=cam
     sc.render.resolution_x,sc.render.resolution_y=res; sc.render.resolution_percentage=100
     eng=sc.render.engine
-    if eng=='CYCLES': 
+    if eng=='CYCLES':
         s0=sc.cycles.samples; sc.cycles.samples=samples
     if frame is not None: sc.frame_set(frame)
     out=os.path.expanduser('~/Desktop/AIU_SMART_CAMPUS_FINAL/blender/human_entry/renders/'+name)

@@ -34,7 +34,7 @@ def frame(i):
     if i<186: chip(c,'CONCEPT VISUALISATION  ·  RENDERED CLASSROOM  ·  NOT A CONNECTED DEVICE',ease((i-8)/10)*(1-ease((i-174)/9)))
     # shot 1 callout
     if 40<=i<=83 and 'cam' in PROJ:
-        p=PROJ['cam'].get(str(bmap(i))); 
+        p=PROJ['cam'].get(str(bmap(i)));
         if p: callout(c,'CLASSROOM CAMERA',p,(150,-110),ease((i-40)/12),'indoor camera mounted above the board')
     # shot 2 callout
     if 110<=i<=185 and 'floor' in PROJ:

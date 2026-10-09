@@ -53,7 +53,7 @@ def frame(i):
     text(c,'Concept layout: per-student attendance would be linked to the course schedule. Not part of the current backend.',x+36,y+h-28,17,MUTE,a2)
     chip(c,'SIMULATED / DEMONSTRATION DATA  ·  NO REAL STUDENT RECORDS, IDENTITIES OR BIOMETRIC DATA  ·  NOT A LIVE CAMERA FEED',ease(i/14),90,942)
     fo=ease((i-155)/10)
-    if fo>0: c.set_source_rgba(*NAVY,0); 
+    if fo>0: c.set_source_rgba(*NAVY,0);
     return s
 if '--test' in sys.argv:
     for i in (10,60,100,164): frame(i).write_to_png(FR+f'/test_{i}.png')

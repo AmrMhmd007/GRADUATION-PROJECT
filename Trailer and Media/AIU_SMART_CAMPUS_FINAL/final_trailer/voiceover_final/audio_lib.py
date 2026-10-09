@@ -8,7 +8,7 @@ def t_(d): return np.arange(int(d*SR))/SR
 def env(n,a=0.005,d=0.2,pw=3):
     t=np.arange(n)/SR; e=np.exp(-t/d)**pw if False else np.exp(-t/d); e*=np.minimum(1,t/max(a,1e-4)); return e
 def place(buf,x,at,gain=1.0,pan=0.0):
-    i=int(at*SR); 
+    i=int(at*SR);
     if i>=len(buf) or i+len(x)<0: return
     x=x[:max(0,len(buf)-i)]; l=gain*np.sqrt(0.5*(1-pan)); r=gain*np.sqrt(0.5*(1+pan))
     buf[i:i+len(x),0]+=x*l; buf[i:i+len(x),1]+=x*r

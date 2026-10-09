@@ -28,7 +28,7 @@ def cue_png(path,items):
     """items: list of (text,x,y,size,color,bold,chip?)"""
     im=Image.new('RGBA',(1920,1080),(0,0,0,0)); d=ImageDraw.Draw(im)
     for t,x,y,size,col,bold,ch in items:
-        if ch: 
+        if ch:
             w=sum(d.textlength(c_,font=C(size,bold))+2.5 for c_ in t)+48; d.rounded_rectangle((x,y,x+w,y+size+30),radius=10,fill=(7,12,24,205),outline=col+(255,),width=2); spaced(d,(x+24,y+13),t,C(size,bold),col+(255,),2.5)
         else: spaced(d,(x,y),t,C(size,bold),col+(255,),3)
     im.save(path)

@@ -26,7 +26,7 @@ V3=O+'/work_v3'
 CLS_FR=R+'/blender/human_classroom/renders/native_1080/f_%04d.png'; ATT=R+'/blender/attendance_scene'
 DASH=R+'/recordings/AIU_OCCUPANCY_DASHBOARD_PROVISIONAL.mp4'; PROTO=R+'/after_effects/prototype_reveal/AIU_PROTOTYPE_REVEAL_PREVIEW_v2.mp4'
 ENC=['-c:v','libx264','-crf','16','-an']
-only=sys.argv[1:] 
+only=sys.argv[1:]
 def want(k): return not only or k in only
 # s0, s1 reused (verified in v3)
 for k,src in (('s0','s0.mp4'),('s1','s1.mp4')): shutil.copy(V3+'/'+src,Wk+'/'+k+'.mp4')

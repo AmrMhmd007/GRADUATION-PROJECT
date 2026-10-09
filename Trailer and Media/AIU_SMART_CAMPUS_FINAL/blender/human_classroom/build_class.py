@@ -58,7 +58,7 @@ for tag,who,shirt,hair,trs,sc_,ph,talk in SEATS:
     arm.scale=(s*(0.92 if who=='M' else 0.98),s,s)
     # place pelvis (armature-local (0,0.324)) at chair centre +6cm forward
     fwd=Vector((math.sin(rz+math.pi)*-1,0,0))
-    R=Matrix.Rotation(rz,3,'Z'); loc_pel=Vector((0,0.324*s,0)); 
+    R=Matrix.Rotation(rz,3,'Z'); loc_pel=Vector((0,0.324*s,0));
     target=Vector((ch.location.x,ch.location.y,0))+Matrix.Rotation(ch.rotation_euler.z,3,'Z')@Vector((0,0.06,0))
     arm.location=target-R@loc_pel
     clip='Sitting_Talking_Loop' if talk else 'Sitting_Idle_Loop'; n=len(NS[clip])-1

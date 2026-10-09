@@ -29,6 +29,6 @@ for a,b in zip(rows,rows[1:]):
             sl.append((math.hypot(pb[0]-pa[0],pb[1]-pa[1])*100,b['F'],k))
 sl.sort(reverse=True)
 print('planted foot horizontal motion cm/frame top8',[(round(x,2),f,k) for x,f,k in sl[:8]])
-walk=[x for x,f,k in sl if 70<f<150]; 
+walk=[x for x,f,k in sl if 70<f<150];
 print('planted-foot slide during A-walk 70..150: median',round(sorted(walk)[len(walk)//2],2) if walk else None,'cm/frame (clip stance speed incl. body motion 3.3cm/f expected = body translation, planted foot should be ~0 world motion)')
 print('min foot-ball z',round(min(r['minz'] for r in rows),3),'max ',round(max(r['minz'] for r in rows),3))

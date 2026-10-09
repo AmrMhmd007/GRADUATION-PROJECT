@@ -29,7 +29,7 @@ for F in range(1,301,15):
         for bn,p,r in pts[a.name]:
             if p.z<0.0-0.02: viol.setdefault((a.name,'floor'),[]).append(F)
             for o in solids:
-                if o.name.startswith(own+'_') or (o.name.startswith('Platform') and a.name=='CLS_lecturer'): 
+                if o.name.startswith(own+'_') or (o.name.startswith('Platform') and a.name=='CLS_lecturer'):
                     # own chair: only back/post vs spine/head handled below
                     if '_back' in o.name and bn.startswith(('spine','Head','neck','pelvis')):
                         d=box_dist(o,p)-r
@@ -45,7 +45,7 @@ for F in range(1,301,15):
             minsep=min(minsep,d)
             if d<0: viol.setdefault((names[i],names[j],'mutual'),[]).append((F,round(d,3)))
 # lecturer on platform: feet inside platform bounds
-pl=D.objects['Platform']; 
+pl=D.objects['Platform'];
 print('characters',len(chars),'solids',len(solids),'min inter-character separation (m)',round(minsep,3))
 print('violations (pen > 1cm):',len(viol))
 for k,v in list(viol.items())[:30]: print(k,v[:3],len(v))

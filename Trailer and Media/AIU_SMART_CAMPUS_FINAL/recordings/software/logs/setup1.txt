@@ -1,4 +1,4 @@
-$ ps eww -p 23971 | tr ' ' '\n' | grep -E '^(DATABASE_URL|DISABLE_MQTT)=' 
+$ ps eww -p 23971 | tr ' ' '\n' | grep -E '^(DATABASE_URL|DISABLE_MQTT)='
 DATABASE_URL=sqlite:////Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/simulated_occupancy_demo/sim_occupancy_demo.db
 DISABLE_MQTT=true
 

@@ -12,7 +12,7 @@ saved /Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/occupancy_scene/A
 === OCCUPANCY TEST LOGIC CHECK (no rendering) ===
     [PASS] 30 chairs modelled, 30 desks, 0 people objects
     [PASS] no human/placeholder-character objects exist in the file
-    [PASS] no camera is ever inside solid geometry or the door jambs 
+    [PASS] no camera is ever inside solid geometry or the door jambs
     [INFO] camera passes within 15 cm of: nothing
     [PASS] frame 1: active camera is OccCam_A_transition (expected OccCam_A_transition)
     [PASS] frame 101: active camera is OccCam_B_establish (expected OccCam_B_establish)
