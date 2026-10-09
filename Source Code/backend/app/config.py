@@ -29,6 +29,28 @@ class Settings:
     MQTT_USERNAME: str = os.getenv("MQTT_USERNAME", "")
     MQTT_PASSWORD: str = os.getenv("MQTT_PASSWORD", "")
 
+    # Face-based door access. Backend is authoritative: these only tune the
+    # verifier; none of them can turn a failure into a grant.
+    FACE_MATCH_THRESHOLD: float = float(os.getenv("FACE_MATCH_THRESHOLD", "0.80"))   # cosine similarity
+    FACE_AMBIGUITY_MARGIN: float = float(os.getenv("FACE_AMBIGUITY_MARGIN", "0.05"))
+    FACE_MIN_QUALITY: float = float(os.getenv("FACE_MIN_QUALITY", "0.5"))
+    FACE_REQUIRE_LIVENESS: bool = os.getenv("FACE_REQUIRE_LIVENESS", "true").lower() == "true"
+    # Shared secret a door/enrollment Pi sends as X-Node-Key over HTTP. Empty
+    # = the HTTP node endpoints are disabled (403), never open.
+    FACE_NODE_API_KEY: str = os.getenv("FACE_NODE_API_KEY", "")
+    # Which adapter produces embeddings. "none" = no embedding provider is
+    # installed; the UI reports enrollment capture as UNAVAILABLE.
+    FACE_EMBEDDING_PROVIDER: str = os.getenv("FACE_EMBEDDING_PROVIDER", "none")
+
+    # Device monitoring thresholds (seconds / watts).
+    DEVICE_TELEMETRY_STALE_AFTER_SECONDS: int = int(os.getenv("DEVICE_TELEMETRY_STALE_AFTER_SECONDS", "300"))
+    DEVICE_COMMAND_RESPONSE_SECONDS: int = int(os.getenv("DEVICE_COMMAND_RESPONSE_SECONDS", "60"))
+    DEVICE_OFF_POWER_THRESHOLD_WATTS: float = float(os.getenv("DEVICE_OFF_POWER_THRESHOLD_WATTS", "5"))
+    DEVICE_ON_MIN_FRACTION_OF_RATED: float = float(os.getenv("DEVICE_ON_MIN_FRACTION_OF_RATED", "0.05"))
+    MAINTENANCE_FAULT_THRESHOLD: int = int(os.getenv("MAINTENANCE_FAULT_THRESHOLD", "3"))
+    MAINTENANCE_WINDOW_DAYS: int = int(os.getenv("MAINTENANCE_WINDOW_DAYS", "30"))
+    OCCUPANCY_STALE_AFTER_SECONDS: int = int(os.getenv("OCCUPANCY_STALE_AFTER_SECONDS", "180"))
+
     DISABLE_MQTT: bool = os.getenv("DISABLE_MQTT", "false").lower() == "true"
 
     # Phase 5: at-rest encryption for credential data (card UIDs). Must be a

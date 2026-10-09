@@ -30,6 +30,7 @@ export function buildNavigationCommands({ selectTab, goToAcademicSection }) {
     { id: "nav-access-service", label: "Access Service", keywords: "security access service requests", category: "Navigation", type: "navigate", run: toTab("access") },
     { id: "nav-access-events", label: "Access Events", keywords: "security access events log investigate investigation", category: "Navigation", type: "navigate", run: toTab("events") },
     { id: "nav-smart-building", label: "Smart Building Overview", keywords: "smart building rooms zones automation overview", category: "Navigation", type: "navigate", run: toTab("smart") },
+    { id: "nav-campus-intelligence", label: "Campus Intelligence (map, occupancy, faults, Face ID)", keywords: "campus map occupancy device faults face id health room intelligence", category: "Navigation", type: "navigate", run: toTab("physical") },
     { id: "nav-academic-overview", label: "Academic Administration Overview", keywords: "academic administration overview", category: "Navigation", type: "navigate", run: toTab("academic") },
     { id: "nav-academic-colleges", label: "Open Colleges", keywords: "college colleges academic", category: "Navigation", type: "navigate", run: toAcademic("colleges") },
     { id: "nav-academic-departments", label: "Open Departments", keywords: "department departments academic", category: "Navigation", type: "navigate", run: toAcademic("departments") },

@@ -1,3 +1,5 @@
+import PhysicalWorkspace from "../components/physical/PhysicalWorkspace";
+import StaffToday from "../components/physical/StaffToday";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useAuth } from "../AuthContext";
 import { api } from "../api/client";
@@ -43,6 +45,7 @@ const ADMIN_TABS = [
   { key: "events", label: "Access Events" },
   { key: "smart", label: "Smart Building" },
   { key: "academic", label: "Academic Administration" },
+  { key: "physical", label: "Campus Intelligence" },
 ];
 
 // System-wide, two-level navigation. Every ADMIN_TABS entry above is still
@@ -63,6 +66,7 @@ const DOMAINS = [
   { key: "security", label: "Security", description: "Doors, access service, and access events.", tabs: ["critical", "access", "events"] },
   { key: "smart", label: "Smart Building", description: "Buildings, rooms, zones, and automation.", tabs: ["smart"] },
   { key: "academic", label: "Academic Administration", description: "Colleges, departments, staff, and courses.", tabs: ["academic"] },
+  { key: "physical", label: "Campus Intelligence", description: "Campus map, room occupancy, device faults, and Face ID.", tabs: ["physical"] },
 ];
 
 export default function Dashboard() {
@@ -1013,6 +1017,10 @@ export default function Dashboard() {
           />
         )}
 
+        {canOverride && activeTab === "physical" && (
+          <PhysicalWorkspace onOpenRoomProfile={openRoomProfile} />
+        )}
+
         {canOverride && activeTab === "academic" && (
           <AcademicAdmin
             suggestEmail={suggestEmail}
@@ -1028,6 +1036,8 @@ export default function Dashboard() {
             onHome={() => selectTab("home")}
           />
         )}
+
+        {!canOverride && (user?.role === "doctor" || user?.role === "instructor") && <StaffToday />}
 
         {!canOverride && (
           <>

@@ -935,6 +935,10 @@ class Zone(Base):
     occupancy_evidence = Column(Text, nullable=True)
     occupancy_computed_at = Column(DateTime, nullable=True)
 
+    # Additive: seat/occupant capacity for the room, used only to put an
+    # occupancy count in context (e.g. 37/50). NULL = unknown, never 0.
+    capacity = Column(Integer, nullable=True)
+
     created_at = Column(DateTime, default=datetime.datetime.utcnow)
 
     __table_args__ = (
@@ -1394,3 +1398,134 @@ class EventInvestigation(Base):
     @property
     def updated_by_name(self):
         return self.updated_by.name if self.updated_by else None
+
+
+
+# ============================================================================
+# Face-based door access, room occupancy counts, device fault monitoring
+# (cyber-physical upgrade). All additive; nothing above is altered except
+# Zone.capacity (nullable).
+# ============================================================================
+
+class FaceCredential(Base):
+    """A staff member's enrolled face template. Deliberately separate from
+    Credential.fp_template_hash (a fingerprint HASH on an RFID credential).
+
+    The template (a numeric embedding produced by the enrollment adapter) is
+    Fernet-encrypted at rest (app/crypto.py) and is NEVER returned by any
+    API schema. No raw photo is stored. Rows are never deleted: revocation
+    sets status='REVOKED' so history stays auditable; re-enrollment creates a
+    new row and supersedes the old ENROLLED one (status='REVOKED',
+    revoke_reason='re-enrolled').
+    """
+    __tablename__ = "face_credentials"
+
+    face_id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.user_id"), nullable=False, index=True)
+    status = Column(String(12), nullable=False, default="ENROLLED")  # ENROLLED | REVOKED | DISABLED
+    template_enc = Column(Text, nullable=False)
+    template_dim = Column(Integer, nullable=False)
+    model_version = Column(String(40), nullable=True)
+    quality_score = Column(Float, nullable=True)
+    liveness_checked = Column(Boolean, nullable=False, default=False)
+    liveness_passed = Column(Boolean, nullable=True)
+    enrolled_source = Column(String(10), nullable=False, default="REAL")  # REAL | SIMULATED
+    enrolled_at = Column(DateTime, default=datetime.datetime.utcnow)
+    enrolled_by_id = Column(Integer, ForeignKey("users.user_id"), nullable=True)
+    revoked_at = Column(DateTime, nullable=True)
+    revoked_by_id = Column(Integer, ForeignKey("users.user_id"), nullable=True)
+    revoke_reason = Column(String(200), nullable=True)
+
+    __table_args__ = (
+        CheckConstraint("status IN ('ENROLLED','REVOKED','DISABLED')", name="ck_face_credential_status"),
+        CheckConstraint("enrolled_source IN ('REAL','SIMULATED')", name="ck_face_credential_source"),
+    )
+
+    user = relationship("User", foreign_keys=[user_id])
+
+
+class OccupancyReading(Base):
+    """Append-only people-COUNT time series from a room occupancy node.
+    Counts people only — no identity. Distinct from OccupancyEvent (boolean
+    presence feeding the automation engine's fusion); an ingested count also
+    writes a matching OccupancyEvent so the existing VERIFY window still
+    guards any automation. `count` is NULL when the node reports it cannot
+    count (status != 'ok') so "0 people" is never confused with "no data".
+    """
+    __tablename__ = "occupancy_readings"
+
+    reading_id = Column(Integer, primary_key=True, index=True)
+    zone_id = Column(Integer, ForeignKey("zones.zone_id"), nullable=False, index=True)
+    node_id = Column(String(80), nullable=True)
+    sensor_id = Column(Integer, ForeignKey("sensors.sensor_id"), nullable=True)
+    count = Column(Integer, nullable=True)
+    confidence = Column(Float, nullable=True)
+    sensor_status = Column(String(10), nullable=False, default="ok")  # ok | degraded | error
+    source = Column(String(10), nullable=False, default="REAL")      # REAL | SIMULATED
+    capacity_snapshot = Column(Integer, nullable=True)
+    recorded_at = Column(DateTime, default=datetime.datetime.utcnow, index=True, nullable=False)
+
+    __table_args__ = (
+        CheckConstraint("sensor_status IN ('ok','degraded','error')", name="ck_occupancy_reading_status"),
+        CheckConstraint("source IN ('REAL','SIMULATED')", name="ck_occupancy_reading_source"),
+    )
+
+    zone = relationship("Zone")
+
+
+class DeviceTelemetry(Base):
+    """Append-only physical observations about a Device (current, power,
+    temperature, heartbeat, explicit hazard flag). The observed side of
+    expected-vs-actual verification; never written by a command path."""
+    __tablename__ = "device_telemetry"
+
+    telemetry_id = Column(Integer, primary_key=True, index=True)
+    device_id = Column(Integer, ForeignKey("devices.device_id"), nullable=False, index=True)
+    zone_id = Column(Integer, ForeignKey("zones.zone_id"), nullable=False, index=True)
+    node_id = Column(String(80), nullable=True)
+    observed_on = Column(Boolean, nullable=True)       # physical on/off if the sensor can tell
+    power_watts = Column(Float, nullable=True)
+    current_amps = Column(Float, nullable=True)
+    temperature_c = Column(Float, nullable=True)
+    hazard = Column(Boolean, nullable=False, default=False)  # node explicitly flags a dangerous condition
+    source = Column(String(10), nullable=False, default="REAL")
+    recorded_at = Column(DateTime, default=datetime.datetime.utcnow, index=True, nullable=False)
+
+    __table_args__ = (CheckConstraint("source IN ('REAL','SIMULATED')", name="ck_device_telemetry_source"),)
+
+
+class DeviceFaultAlert(Base):
+    """Persisted device fault. Separate from Alert because Alert's severity
+    CHECK only allows INFO/WARNING/CRITICAL and SQLite cannot alter a CHECK
+    without a table rebuild; the required HIGH level lives here. Surfaced
+    alongside Alerts via the Room Timeline and Room Health."""
+    __tablename__ = "device_fault_alerts"
+
+    fault_id = Column(Integer, primary_key=True, index=True)
+    device_id = Column(Integer, ForeignKey("devices.device_id"), nullable=False, index=True)
+    zone_id = Column(Integer, ForeignKey("zones.zone_id"), nullable=False, index=True)
+    kind = Column(String(24), nullable=False)  # STATE_MISMATCH | TELEMETRY_STALE | NO_RESPONSE | SENSOR_OFFLINE | HAZARD
+    severity = Column(String(10), nullable=False)
+    status = Column(String(14), nullable=False, default="OPEN")  # OPEN | ACKNOWLEDGED | RESOLVED
+    expected_value = Column(String(80), nullable=True)
+    observed_value = Column(String(80), nullable=True)
+    reason = Column(String(300), nullable=False)
+    source = Column(String(10), nullable=False, default="REAL")
+    evidence = Column(Text, nullable=True)  # JSON provenance frozen at detection time
+    detected_at = Column(DateTime, default=datetime.datetime.utcnow, index=True, nullable=False)
+    acknowledged_at = Column(DateTime, nullable=True)
+    acknowledged_by_id = Column(Integer, ForeignKey("users.user_id"), nullable=True)
+    assigned_to_id = Column(Integer, ForeignKey("users.user_id"), nullable=True)
+    resolved_at = Column(DateTime, nullable=True)
+    resolved_by_id = Column(Integer, ForeignKey("users.user_id"), nullable=True)
+    resolution_note = Column(String(300), nullable=True)
+    reported_issue = Column(Boolean, nullable=False, default=False)  # doctor pressed "Report Issue"
+
+    __table_args__ = (
+        CheckConstraint("severity IN ('INFO','WARNING','HIGH','CRITICAL')", name="ck_device_fault_severity"),
+        CheckConstraint("status IN ('OPEN','ACKNOWLEDGED','RESOLVED')", name="ck_device_fault_status"),
+        CheckConstraint("source IN ('REAL','SIMULATED')", name="ck_device_fault_source"),
+    )
+
+    device = relationship("Device")
+    zone = relationship("Zone")

@@ -115,6 +115,10 @@ TOPIC_AC_STATUS = "site/+/ac/status"
 TOPIC_LIGHT_STATUS = "site/+/light/status"
 TOPIC_PLUG_STATUS = "site/+/plug/+/status"
 TOPIC_OCCUPANCY_STATUS = "site/+/occupancy/status"
+# Face door access: node -> backend verification request, node -> backend
+# physical-unlock confirmation; backend -> node decision (face/decision).
+TOPIC_FACE_VERIFY = "site/+/face/verify"
+TOPIC_FACE_ACK = "site/+/face/ack"
 
 # Phase 2 — new hierarchy, additive only (see module docstring above).
 _V2_ROOT = f"university/{settings.MQTT_UNIVERSITY_ID}/building/+/zone/+"
@@ -122,6 +126,8 @@ TOPIC_V2_SENSOR_TELEMETRY = f"{_V2_ROOT}/sensor/+/telemetry"
 TOPIC_V2_DEVICE_STATE = f"{_V2_ROOT}/device/+/state"
 TOPIC_V2_OCCUPANCY = f"{_V2_ROOT}/occupancy"
 TOPIC_V2_HEALTH = f"{_V2_ROOT}/health"
+TOPIC_V2_OCCUPANCY_COUNT = f"{_V2_ROOT}/occupancy/count"          # people-count node (no identity)
+TOPIC_V2_DEVICE_TELEMETRY = f"{_V2_ROOT}/device/+/telemetry"      # physical observation of a device
 
 _client: mqtt.Client | None = None
 
@@ -157,6 +163,8 @@ def _on_connect(client, userdata, flags, rc, properties=None):
         (TOPIC_OCCUPANCY_STATUS, 0),
         (TOPIC_V2_SENSOR_TELEMETRY, 0), (TOPIC_V2_DEVICE_STATE, 0),
         (TOPIC_V2_OCCUPANCY, 0), (TOPIC_V2_HEALTH, 0),
+        (TOPIC_FACE_VERIFY, 0), (TOPIC_FACE_ACK, 0),
+        (TOPIC_V2_OCCUPANCY_COUNT, 0), (TOPIC_V2_DEVICE_TELEMETRY, 0),
     ])
 
 
@@ -296,6 +304,17 @@ def _on_message(client, userdata, msg):
             _mark_state_confirmed(db, plug_ref_id=plug.plug_id, power_source="REAL" if "current_amps" in data else None)
             db.commit()
 
+        elif msg.topic.endswith("/face/verify"):
+            from ..routers import face as face_router
+            data = json.loads(msg.payload)
+            result = face_router.process_verification(db, door, data)
+            publish_face_decision(door.code, result)
+
+        elif msg.topic.endswith("/face/ack"):
+            from ..services import face_service
+            data = json.loads(msg.payload)
+            face_service.confirm_physical(db, door, int(data["event_id"]), bool(data.get("unlocked")))
+
         elif msg.topic.endswith("/occupancy/status"):
             data = json.loads(msg.payload)
             if "occupied" in data:
@@ -362,6 +381,25 @@ def _on_v2_message(msg):
                 _handle_v2_device_state(db, zone, device_id=rest[1], payload=msg.payload)
             elif len(rest) == 1 and rest[0] == "occupancy":
                 _handle_v2_occupancy(db, zone, payload=msg.payload)
+            elif len(rest) == 2 and rest[0] == "occupancy" and rest[1] == "count":
+                from . import occupancy_service
+                d = json.loads(msg.payload)
+                # Source is REAL by construction: this branch only runs for a received message.
+                occupancy_service.ingest(db, zone, node_id=d.get("node_id"), count=d.get("count"),
+                                         confidence=d.get("confidence"), sensor_status=d.get("sensor_status", "ok"),
+                                         source="REAL")
+            elif len(rest) == 3 and rest[0] == "device" and rest[2] == "telemetry":
+                from . import device_monitor_service
+                d = json.loads(msg.payload)
+                dev = db.query(models.Device).filter(models.Device.device_id == int(rest[1]),
+                                                     models.Device.zone_id == zone.zone_id).first()
+                if dev is None:
+                    logger.warning("Telemetry for unknown device %s in zone %s", rest[1], zone.zone_id)
+                else:
+                    device_monitor_service.record_telemetry(
+                        db, dev, node_id=d.get("node_id"), observed_on=d.get("observed_on"),
+                        power_watts=d.get("power_watts"), current_amps=d.get("current_amps"),
+                        temperature_c=d.get("temperature_c"), hazard=bool(d.get("hazard", False)), source="REAL")
             elif len(rest) == 1 and rest[0] == "health":
                 _handle_v2_health(db, zone, payload=msg.payload)
             else:
@@ -517,6 +555,18 @@ def publish_override(door_code: str, action: str) -> bool:
         return False
     topic = f"site/{door_code}/cmd"
     _client.publish(topic, json.dumps({"cmd": action}), qos=1)
+    return True
+
+
+def publish_face_decision(door_code: str, result: dict) -> bool:
+    """Backend -> door node. The node may unlock ONLY on decision == GRANT.
+    Publishing is COMMAND_SENT, not proof of unlocking; the node reports the
+    physical outcome on face/ack."""
+    if _client is None or not _client.is_connected():
+        logger.info("MQTT not connected - face decision for %s not delivered", door_code)
+        return False
+    _client.publish(f"site/{door_code}/face/decision", json.dumps(
+        {"decision": result["decision"], "event_id": result.get("event_id"), "reason": result.get("reason")}), qos=1)
     return True
 
 

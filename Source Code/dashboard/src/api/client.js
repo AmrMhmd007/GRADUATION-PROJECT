@@ -440,6 +440,24 @@ export const api = {
 
   listHardwareHealth: (zoneId) => request(`/api/hardware-health${zoneId ? `?zone_id=${zoneId}` : ""}`),
 
+  // Cyber-physical upgrade: Face ID, occupancy counts, device faults, rooms-intel.
+  faceCapabilities: () => request("/api/face/capabilities"),
+  faceMe: () => request("/api/face/me"),
+  faceRevokeMe: (reason) => request("/api/face/me/revoke", { method: "POST", body: { reason } }),
+  faceStaff: () => request("/api/face/users"),
+  faceRevokeUser: (id, reason) => request(`/api/face/users/${id}/revoke`, { method: "POST", body: { reason } }),
+  faceDisableUser: (id, reason) => request(`/api/face/users/${id}/disable`, { method: "POST", body: { reason } }),
+  occupancyMyClasses: () => request("/api/occupancy/my-classes"),
+  occupancyZone: (zoneId, hours = 3) => request(`/api/occupancy/zones/${zoneId}?hours=${hours}`),
+  occupancyOverview: () => request("/api/occupancy/overview"),
+  deviceFaults: (status) => request(`/api/device-faults${status ? `?status=${status}` : ""}`),
+  deviceFaultAction: (id, action, body = {}) =>
+    request(`/api/device-faults/${id}/${action}`, { method: "POST", body }),
+  deviceMaintenance: () => request("/api/device-faults/maintenance"),
+  campusMap: () => request("/api/rooms-intel/campus-map"),
+  roomProfileIntel: (zoneId) => request(`/api/rooms-intel/zones/${zoneId}/profile`),
+  roomTimeline: (zoneId, hours = 24) => request(`/api/rooms-intel/zones/${zoneId}/timeline?hours=${hours}`),
+
   getMe: () => request("/api/users/me"),
   updateProfile: (fields) => request("/api/users/me/profile", { method: "PATCH", body: fields }),
   changePassword: (currentPassword, newPassword) =>

@@ -10,11 +10,11 @@ from .database import Base, engine
 from .routers import (
     auth, users, credentials, doors, schedules, alerts, faculties, buildings, password_resets,
     energy, zones, academic, access_windows, anomalies, emergency_overrides, command_center,
-    audit_logs, investigations, search,
+    audit_logs, investigations, search, face, occupancy, device_faults, rooms_intel,
 )
 from .services import (
     mqtt_service, staleness_watchdog, energy_service, automation_engine, hardware_health_service,
-    emergency_override_service,
+    emergency_override_service, device_monitor_service,
 )
 
 MEDIA_DIR = Path(__file__).resolve().parent.parent / "media"
@@ -30,7 +30,9 @@ async def lifespan(app: FastAPI):
     automation_engine.start()
     hardware_health_service.start()
     emergency_override_service.start()
+    device_monitor_service.start()
     yield
+    device_monitor_service.stop()
     emergency_override_service.stop()
     hardware_health_service.stop()
     automation_engine.stop()
@@ -76,6 +78,10 @@ app.include_router(command_center.router)
 app.include_router(audit_logs.router)
 app.include_router(investigations.router)
 app.include_router(search.router)
+app.include_router(face.router)
+app.include_router(occupancy.router)
+app.include_router(device_faults.router)
+app.include_router(rooms_intel.router)
 
 app.mount("/media", StaticFiles(directory=str(MEDIA_DIR)), name="media")
 

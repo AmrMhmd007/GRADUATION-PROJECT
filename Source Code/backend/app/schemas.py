@@ -807,6 +807,7 @@ class ZoneOut(BaseModel):
     zone_type: str
     door_id: Optional[int] = None
     door_code: Optional[str] = None
+    capacity: Optional[int] = None
     occupancy_state: str  # OCCUPIED | EMPTY | VERIFYING | UNKNOWN
     occupancy_state_changed_at: Optional[datetime.datetime] = None
     verification_started_at: Optional[datetime.datetime] = None
@@ -826,6 +827,7 @@ class ZoneCreate(BaseModel):
     name: str
     zone_type: str = "ROOM"
     door_id: Optional[int] = None
+    capacity: Optional[int] = None
 
 
 class ZoneUpdate(BaseModel):
@@ -834,6 +836,7 @@ class ZoneUpdate(BaseModel):
     name: Optional[str] = None
     zone_type: Optional[str] = None
     door_id: Optional[int] = None
+    capacity: Optional[int] = None
 
 
 # ---------- Sensors ----------

@@ -41,6 +41,7 @@ def create_zone(payload: schemas.ZoneCreate, db: Session = Depends(get_db),
     zone = models.Zone(
         building_id=payload.building_id, floor=payload.floor, name=payload.name,
         zone_type=payload.zone_type, door_id=payload.door_id, occupancy_state="UNKNOWN",
+        capacity=payload.capacity,
     )
     db.add(zone)
     db.commit()
@@ -82,6 +83,8 @@ def update_zone(zone_id: int, payload: schemas.ZoneUpdate, db: Session = Depends
     if not zone:
         raise HTTPException(status_code=404, detail="Zone not found")
     data = payload.model_dump(exclude_unset=True)
+    if data.get("capacity") is not None and data["capacity"] < 1:
+        raise HTTPException(status_code=400, detail="capacity must be a positive integer")
     if "door_id" in data and data["door_id"] is not None:
         existing = (
             db.query(models.Zone)

@@ -64,3 +64,13 @@ def uid_index(plain_uid: str) -> str:
     only lets you test equality against a known candidate UID — it does
     not let you enumerate stored UIDs."""
     return hmac.new(_INDEX_KEY, plain_uid.encode(), hashlib.sha256).hexdigest()
+
+
+def encrypt_blob(plain: str) -> str:
+    """Same Fernet scheme as encrypt_uid, named for non-UID secrets such as
+    face templates so call sites read honestly."""
+    return encrypt_uid(plain)
+
+
+def decrypt_blob(token: str) -> str | None:
+    return decrypt_uid(token)
