@@ -105,7 +105,7 @@ Copy `Source Code/backend/.env.example` to `.env` (git-ignored). Key variables: 
 
 ## Database
 
-SQLAlchemy models create their tables at start-up (`Base.metadata.create_all`). For databases created by older versions, run the idempotent `migrate_*.py` scripts from `Source Code/backend` — they currently operate on `./access_control.db` only (see limitations). Back up the database before migrating. `.db` files are git-ignored.
+SQLAlchemy models create their tables at start-up (`Base.metadata.create_all`). For databases created by older versions, run the idempotent `migrate_*.py` scripts from `Source Code/backend` — they operate on the SQLite file named by `DATABASE_URL` (default `./access_control.db`) and refuse non-SQLite URLs. Back up the database before migrating. `.db` files are git-ignored.
 
 ## Testing
 
@@ -161,7 +161,7 @@ JWT authentication, bcrypt hashing, RBAC with scope enforcement, login lockout, 
 1. No Raspberry Pi code exists here; only the backend side of Face ID. The embedding provider is `none` by default.
 2. Firmware and gateway are prototypes; not compiled/run together in the latest audit. The gateway README references `rs485_protocol.h` and `test_cross_lang.py`, which are missing from `door_node_firmware/`.
 3. No per-student attendance anywhere in the system.
-4. Migrations are ad-hoc scripts bound to `./access_control.db`; there is no migration framework.
+4. Migrations are ad-hoc idempotent scripts (SQLite only; they honour a `sqlite:///` `DATABASE_URL` and refuse other databases); there is no migration framework such as Alembic.
 5. Dashboard `package.json` lists a macOS-specific optional dependency (`@rolldown/binding-darwin-arm64`).
 6. `ALLOWED_ORIGINS` defaults to `*` for convenience.
 

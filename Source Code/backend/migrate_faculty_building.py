@@ -8,8 +8,9 @@ Run this yourself in Terminal (same rules as migrate_doctor_category.py):
   4. Restart the backend: ./restart.sh   (or uvicorn app.main:app --reload)
 """
 import sqlite3
+from db_path import sqlite_db_path
 
-conn = sqlite3.connect("access_control.db")
+conn = sqlite3.connect(sqlite_db_path())
 cur = conn.cursor()
 
 cur.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='faculties'")

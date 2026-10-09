@@ -21,8 +21,9 @@ same name before inserting).
 """
 import json
 import sqlite3
+from db_path import sqlite_db_path
 
-conn = sqlite3.connect("access_control.db")
+conn = sqlite3.connect(sqlite_db_path())
 cur = conn.cursor()
 
 cur.execute("""

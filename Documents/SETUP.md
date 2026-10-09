@@ -32,7 +32,7 @@ DISABLE_MQTT=true uvicorn app.main:app --reload --port 8000
 - Drop `DISABLE_MQTT=true` once a broker is running.
 - Database: SQLite file `access_control.db` in the working directory by default; set `DATABASE_URL` for PostgreSQL.
 - Optional extra data (stop the server first for the second one): `python -m scripts.import_schedule_csv scripts/sample_timetable.csv` imports a mock timetable; `python3 seed_buildings.py` adds the building names B2, B8, B9, B10, B11 to the dropdown (edit the list for your campus; safe to re-run).
-- **Existing databases from older versions:** back them up, then run the needed `migrate_*.py` scripts from `Source Code/backend` (they are idempotent but operate on `./access_control.db`).
+- **Existing databases from older versions:** back them up, then run the needed `migrate_*.py` scripts from `Source Code/backend` (they are idempotent, SQLite-only, and use the file from `DATABASE_URL`, default `./access_control.db`).
 
 Generate persistent keys (do this for any real deployment):
 

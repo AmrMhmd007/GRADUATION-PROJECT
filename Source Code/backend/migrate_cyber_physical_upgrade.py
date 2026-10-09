@@ -10,11 +10,12 @@ Run from backend/ with the server stopped:  python3 migrate_cyber_physical_upgra
 Idempotent. (The server's lifespan create_all also creates the new tables.)
 """
 import sqlite3
+from db_path import sqlite_db_path
 
 from app.database import Base, engine
 from app import models  # noqa: F401  (registers tables)
 
-conn = sqlite3.connect("access_control.db")
+conn = sqlite3.connect(sqlite_db_path())
 cur = conn.cursor()
 cur.execute("PRAGMA table_info(zones)")
 if "capacity" not in {r[1] for r in cur.fetchall()}:

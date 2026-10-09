@@ -12,8 +12,9 @@ Steps:
   4. Restart the backend: uvicorn app.main:app --reload
 """
 import sqlite3
+from db_path import sqlite_db_path
 
-conn = sqlite3.connect("access_control.db")
+conn = sqlite3.connect(sqlite_db_path())
 cur = conn.cursor()
 
 # 1. Doors: add a category column (critical vs access_service) so the

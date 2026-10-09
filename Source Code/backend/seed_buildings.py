@@ -8,10 +8,11 @@ Then restart: ./restart.sh
 Safe to re-run — skips any name that's already there.
 """
 import sqlite3
+from db_path import sqlite_db_path
 
 BUILDINGS = ["B2", "B8", "B9", "B10", "B11"]
 
-conn = sqlite3.connect("access_control.db")
+conn = sqlite3.connect(sqlite_db_path())
 cur = conn.cursor()
 
 added = []

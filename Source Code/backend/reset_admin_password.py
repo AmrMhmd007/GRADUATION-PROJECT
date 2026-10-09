@@ -9,9 +9,10 @@ is available):
     python reset_admin_password.py
 """
 import sqlite3
+from db_path import sqlite_db_path
 import bcrypt
 
-DB_PATH = "access_control.db"
+DB_PATH = sqlite_db_path()
 ADMIN_EMAIL = "admin@aiu.is"   # change this if your admin uses a different email
 NEW_PASSWORD = "Admin123!"     # change this to whatever you want your new password to be
 

@@ -8,8 +8,9 @@ Run from backend/ with the server stopped:
 Then restart: ./restart.sh
 """
 import sqlite3
+from db_path import sqlite_db_path
 
-conn = sqlite3.connect("access_control.db")
+conn = sqlite3.connect(sqlite_db_path())
 cur = conn.cursor()
 
 cur.execute("PRAGMA table_info(users)")

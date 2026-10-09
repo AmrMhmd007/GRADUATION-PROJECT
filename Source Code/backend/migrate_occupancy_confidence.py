@@ -18,8 +18,9 @@ change) — so this script is much simpler.
 Idempotent: safe to run more than once.
 """
 import sqlite3
+from db_path import sqlite_db_path
 
-conn = sqlite3.connect("access_control.db")
+conn = sqlite3.connect(sqlite_db_path())
 cur = conn.cursor()
 
 existing_cols = {row[1] for row in cur.execute("PRAGMA table_info(zones)").fetchall()}
