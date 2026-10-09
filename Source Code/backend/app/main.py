@@ -10,7 +10,7 @@ from .database import Base, engine
 from .routers import (
     auth, users, credentials, doors, schedules, alerts, faculties, buildings, password_resets,
     energy, zones, academic, access_windows, anomalies, emergency_overrides, command_center,
-    audit_logs, investigations, search, face, occupancy, device_faults, rooms_intel,
+    audit_logs, investigations, search, face, occupancy, device_faults, rooms_intel, hvac,
 )
 from .services import (
     mqtt_service, staleness_watchdog, energy_service, automation_engine, hardware_health_service,
@@ -82,6 +82,7 @@ app.include_router(face.router)
 app.include_router(occupancy.router)
 app.include_router(device_faults.router)
 app.include_router(rooms_intel.router)
+app.include_router(hvac.router)
 
 app.mount("/media", StaticFiles(directory=str(MEDIA_DIR)), name="media")
 

@@ -164,7 +164,7 @@ def _on_connect(client, userdata, flags, rc, properties=None):
         (TOPIC_V2_SENSOR_TELEMETRY, 0), (TOPIC_V2_DEVICE_STATE, 0),
         (TOPIC_V2_OCCUPANCY, 0), (TOPIC_V2_HEALTH, 0),
         (TOPIC_FACE_VERIFY, 0), (TOPIC_FACE_ACK, 0),
-        (TOPIC_V2_OCCUPANCY_COUNT, 0), (TOPIC_V2_DEVICE_TELEMETRY, 0),
+        (TOPIC_V2_OCCUPANCY_COUNT, 0), (f"{_V2_ROOT}/hvac/telemetry", 0), (TOPIC_V2_DEVICE_TELEMETRY, 0),
     ])
 
 
@@ -388,6 +388,11 @@ def _on_v2_message(msg):
                 occupancy_service.ingest(db, zone, node_id=d.get("node_id"), count=d.get("count"),
                                          confidence=d.get("confidence"), sensor_status=d.get("sensor_status", "ok"),
                                          source="REAL")
+            elif len(rest) == 2 and rest[0] == "hvac" and rest[1] == "telemetry":
+                from . import hvac_service
+                d = json.loads(msg.payload)
+                hvac_service.ingest(db, zone, temperature_c=d.get("temperature_c"), airflow_m3h=d.get("airflow_m3h"),
+                                    fan_running=d.get("fan_running"), node_id=d.get("node_id"), source="REAL")
             elif len(rest) == 3 and rest[0] == "device" and rest[2] == "telemetry":
                 from . import device_monitor_service
                 d = json.loads(msg.payload)

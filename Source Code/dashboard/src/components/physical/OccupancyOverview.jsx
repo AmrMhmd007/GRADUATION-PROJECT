@@ -6,8 +6,10 @@ import { fmtTime } from "./util";
 export default function OccupancyOverview() {
   const [data, setData] = useState(null);
   const [err, setErr] = useState(null);
+  const [leads, setLeads] = useState([]);
   useEffect(() => {
     let live = true;
+    api.energyWasteCandidates().then((l) => live && setLeads(l)).catch(() => {});
     const load = () => api.occupancyOverview().then((d) => live && (setData(d), setErr(null))).catch((e) => live && setErr(e.message));
     load();
     const id = setInterval(load, 30000);
@@ -24,6 +26,13 @@ export default function OccupancyOverview() {
         <div className="ph-metric"><span>Rooms with live count</span><strong>{c.rooms_with_live_count} / {c.rooms_total}</strong></div>
         <div className="ph-metric"><span>Avg per counted room</span><strong>{c.average_per_counted_room ?? "—"}</strong></div>
       </div>
+      {leads.length > 0 && (
+        <section className="ph-card" aria-labelledby="ew-h">
+          <h3 id="ew-h">Potential energy waste (leads only)</h3>
+          <p className="ph-small muted">Fresh count of 0 with equipment apparently on. No action is taken from a single reading; automation still requires its verification window and rules.</p>
+          <ul className="ph-small">{leads.map((l) => <li key={l.zone_id}><strong>{l.room}</strong>: {l.findings.join("; ")}</li>)}</ul>
+        </section>
+      )}
       <div className="ph-legend" aria-label="Sensor health">
         {Object.entries(data.sensor_health).map(([k, v]) => <span key={k}><HealthPill state={k} /> {v}</span>)}
       </div>

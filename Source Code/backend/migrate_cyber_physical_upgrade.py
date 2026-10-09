@@ -28,5 +28,6 @@ conn.close()
 Base.metadata.create_all(bind=engine, tables=[
     models.FaceCredential.__table__, models.OccupancyReading.__table__,
     models.DeviceTelemetry.__table__, models.DeviceFaultAlert.__table__,
+    models.HvacSystem.__table__, models.HvacVent.__table__, models.HvacReading.__table__,
 ])
 print("New tables ensured.")

@@ -51,6 +51,22 @@ export default function RoomIntelPanel({ room, onClose, onOpenRoomProfile }) {
             {profile.health.reasons.length > 0 && (
               <ul className="ph-small">{profile.health.reasons.map((r) => <li key={r}>{r}</li>)}</ul>
             )}
+            <h3 className="ph-section-title">Central HVAC</h3>
+            {!profile.hvac ? <p className="muted">No HVAC vent is configured for this room.</p> : (
+              <div className="ph-small">
+                <p>
+                  {profile.hvac.system} → {profile.hvac.main_duct || "main duct —"} → {profile.hvac.branch_duct || "branch —"} → {profile.hvac.vent || "ceiling vent"}
+                  {" "}· blower node {profile.hvac.system_node_status}
+                </p>
+                {profile.hvac.state === "OK" ? (
+                  <p>
+                    Temperature {profile.hvac.temperature_c ?? "—"} °C · Airflow {profile.hvac.airflow_m3h ?? "—"} m³/h
+                    · Fan {profile.hvac.fan_running == null ? "not reported" : profile.hvac.fan_running ? "running" : "stopped"}{" "}
+                    <SourceBadge source={profile.hvac.source} />
+                  </p>
+                ) : <p><em>Conditions unavailable</em> — {profile.hvac.reason}</p>}
+              </div>
+            )}
             <h3 className="ph-section-title">Devices</h3>
             {profile.devices.length === 0 ? <p className="muted">No devices registered.</p> : (
               <ul className="ph-small">

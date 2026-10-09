@@ -53,3 +53,11 @@ REAL: only data received through MQTT/node-key endpoints. SIMULATED: explicit `s
 ## Verification
 Backend: 590 tests passed (37 new in `tests/test_cyber_physical.py`) + the new RBAC test; frontend `oxlint`: 0 errors (14 warnings, same as baseline); `vite build` succeeds.
 Known limits: browser-side face capture not implemented (needs an embedding adapter); live click-through in a browser and 390×844 visual QA were not performed in this session.
+
+## Addendum — Central HVAC and energy leads
+- Model: `HvacSystem` → `HvacVent` (main duct / branch duct / ceiling vent per room Zone) + append-only `HvacReading` (temperature, airflow, observed fan state; NULL = not measured). No per-room AC units are modelled; existing `Door.ac_*` fields are untouched.
+- APIs: `POST /api/hvac/systems`, `POST /api/hvac/systems/{id}/vents`, `GET /api/hvac` (unrestricted admin), `POST /api/hvac/telemetry` (node key). MQTT: `university/{u}/building/{b}/zone/{z}/hvac/telemetry`.
+- Room Health: a vent whose HVAC node is OFFLINE/DEGRADED marks the room DEGRADED. Missing/stale HVAC data shows "Conditions unavailable".
+- `GET /api/rooms-intel/energy-waste-candidates`: ANALYZE-only leads (fresh count 0 + light on / airflow). Issues no command; ACT remains with the automation engine's verification window.
+- No cooling or airflow is claimed unless a sensor reported it; the blower/duct prototype hardware is not integrated yet.
+- First-login: a new Doctor/TA's dashboard opens with the Face ID status card first (capture still needs an adapter; shown as UNAVAILABLE).

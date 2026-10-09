@@ -1529,3 +1529,56 @@ class DeviceFaultAlert(Base):
 
     device = relationship("Device")
     zone = relationship("Zone")
+
+
+# ============================================================================
+# Central HVAC representation. The campus uses ONE central HVAC/blower feeding
+# branch ducts and ceiling vents - there are NO per-room AC units in this
+# model (Door.ac_* / Device type 'AC' predate this and are left untouched).
+# Nothing here claims cooling/airflow: values exist only if a sensor reported.
+# ============================================================================
+
+class HvacSystem(Base):
+    __tablename__ = "hvac_systems"
+
+    hvac_id = Column(Integer, primary_key=True, index=True)
+    name = Column(String(80), nullable=False)
+    building_id = Column(Integer, ForeignKey("buildings.building_id"), nullable=True)
+    # HardwareHealth.node_id of the node monitoring the blower (communication status).
+    node_id = Column(String(80), nullable=True)
+    created_at = Column(DateTime, default=datetime.datetime.utcnow)
+
+    building = relationship("Building")
+    vents = relationship("HvacVent", back_populates="system", cascade="all, delete-orphan")
+
+
+class HvacVent(Base):
+    """Central HVAC -> main supply duct -> branch duct -> ceiling vent in one room (Zone)."""
+    __tablename__ = "hvac_vents"
+
+    vent_id = Column(Integer, primary_key=True, index=True)
+    hvac_id = Column(Integer, ForeignKey("hvac_systems.hvac_id"), nullable=False, index=True)
+    zone_id = Column(Integer, ForeignKey("zones.zone_id"), nullable=False, unique=True)
+    main_duct = Column(String(60), nullable=True)
+    branch_duct = Column(String(60), nullable=True)
+    label = Column(String(60), nullable=True)
+
+    system = relationship("HvacSystem", back_populates="vents")
+    zone = relationship("Zone")
+
+
+class HvacReading(Base):
+    """Append-only observed zone conditions. Any field may be NULL when the
+    sensor cannot measure it (never 0 as a stand-in)."""
+    __tablename__ = "hvac_readings"
+
+    reading_id = Column(Integer, primary_key=True, index=True)
+    zone_id = Column(Integer, ForeignKey("zones.zone_id"), nullable=False, index=True)
+    temperature_c = Column(Float, nullable=True)
+    airflow_m3h = Column(Float, nullable=True)
+    fan_running = Column(Boolean, nullable=True)  # observed blower state, if a sensor reports it
+    node_id = Column(String(80), nullable=True)
+    source = Column(String(10), nullable=False, default="REAL")
+    recorded_at = Column(DateTime, default=datetime.datetime.utcnow, index=True, nullable=False)
+
+    __table_args__ = (CheckConstraint("source IN ('REAL','SIMULATED')", name="ck_hvac_reading_source"),)

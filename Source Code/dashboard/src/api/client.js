@@ -456,6 +456,7 @@ export const api = {
   deviceMaintenance: () => request("/api/device-faults/maintenance"),
   campusMap: () => request("/api/rooms-intel/campus-map"),
   roomProfileIntel: (zoneId) => request(`/api/rooms-intel/zones/${zoneId}/profile`),
+  energyWasteCandidates: () => request("/api/rooms-intel/energy-waste-candidates"),
   roomTimeline: (zoneId, hours = 24) => request(`/api/rooms-intel/zones/${zoneId}/timeline?hours=${hours}`),
 
   getMe: () => request("/api/users/me"),

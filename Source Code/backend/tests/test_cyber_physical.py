@@ -500,3 +500,60 @@ def test_scope_restricted_admin_cannot_see_campus_wide_room_data(client, db_sess
     for path in ("/api/occupancy/overview", "/api/rooms-intel/campus-map", "/api/device-faults",
                  "/api/device-faults/maintenance"):
         assert client.get(path, headers=h).status_code == 403, path
+
+
+# ------------------------------------------------------------------ central HVAC + energy leads
+def _hvac(db, z, node="blower-1"):
+    s = models.HvacSystem(name="Central HVAC", node_id=node); db.add(s); db.flush()
+    db.add(models.HvacVent(hvac_id=s.hvac_id, zone_id=z.zone_id, main_duct="Main A", branch_duct="B2", label="Vent 1"))
+    db.commit()
+    return s
+
+
+def test_hvac_ingest_and_unavailable_not_zero(client, db_session, admin_token):
+    from app.services import hvac_service
+    _, z = mk_room(db_session); _hvac(db_session, z)
+    assert hvac_service.zone_hvac(db_session, z)["state"] == "UNAVAILABLE"
+    assert hvac_service.zone_hvac(db_session, z)["airflow_m3h"] is None
+    body = {"zone_id": z.zone_id, "temperature_c": 23.5, "airflow_m3h": 40.0}
+    assert client.post("/api/hvac/telemetry", json=body).status_code == 403
+    assert client.post("/api/hvac/telemetry", json=body, headers=NODE).status_code == 201
+    h = hvac_service.zone_hvac(db_session, z)
+    assert h["state"] == "OK" and h["temperature_c"] == 23.5 and h["source"] == "REAL"
+    assert client.post("/api/hvac/telemetry", json={"zone_id": z.zone_id}, headers=NODE).status_code == 422
+    _, z2 = mk_room(db_session, "R9")
+    assert client.post("/api/hvac/telemetry", json={"zone_id": z2.zone_id, "temperature_c": 20}, headers=NODE).status_code == 422
+    topo = client.get("/api/hvac", headers={"Authorization": f"Bearer {admin_token}"}).json()
+    assert topo[0]["vents"][0]["branch_duct"] == "B2"
+
+
+def test_hvac_node_down_degrades_room_and_stale_unavailable(db_session):
+    from app.services import hvac_service
+    _, z = mk_room(db_session); _hvac(db_session, z)
+    db_session.add(models.HardwareHealth(node_id="blower-1", zone_id=None, status="OFFLINE")); db_session.commit()
+    assert room_intel_service.room_health(db_session, z)["state"] == "DEGRADED"
+    old = NOW - datetime.timedelta(seconds=settings.HVAC_STALE_AFTER_SECONDS + 60)
+    hvac_service.ingest(db_session, z, temperature_c=22, now=old)
+    assert hvac_service.zone_hvac(db_session, z)["state"] == "UNAVAILABLE"
+
+
+def test_mqtt_hvac_topic(db_session):
+    from app.services import mqtt_service
+    _, z = mk_room(db_session); _hvac(db_session, z)
+    mqtt_service._on_message(None, None, FakeMsg(f"university/aiu/building/1/zone/{z.zone_id}/hvac/telemetry",
+                                                 json.dumps({"temperature_c": 24, "fan_running": True})))
+    assert db_session.query(models.HvacReading).one().fan_running is True
+
+
+def test_energy_waste_candidate_is_lead_only_no_action(client, db_session, admin_token):
+    _, z = mk_room(db_session)
+    lamp = models.Device(zone_id=z.zone_id, name="Lamp", type="LIGHT", status=True, last_command_status="STATE_CONFIRMED")
+    db_session.add(lamp); db_session.commit()
+    h = {"Authorization": f"Bearer {admin_token}"}
+    assert client.get("/api/rooms-intel/energy-waste-candidates", headers=h).json() == []  # no count yet
+    occupancy_service.ingest(db_session, z, node_id="o", count=0)
+    c = client.get("/api/rooms-intel/energy-waste-candidates", headers=h).json()
+    assert c and "recorded ON (not sensor-verified)" in c[0]["findings"][0] and c[0]["action"].startswith("NONE")
+    db_session.refresh(lamp); assert lamp.status is True
+    occupancy_service.ingest(db_session, z, node_id="o", count=None, sensor_status="error")
+    assert client.get("/api/rooms-intel/energy-waste-candidates", headers=h).json() == []  # offline != empty

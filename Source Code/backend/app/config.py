@@ -49,6 +49,7 @@ class Settings:
     DEVICE_ON_MIN_FRACTION_OF_RATED: float = float(os.getenv("DEVICE_ON_MIN_FRACTION_OF_RATED", "0.05"))
     MAINTENANCE_FAULT_THRESHOLD: int = int(os.getenv("MAINTENANCE_FAULT_THRESHOLD", "3"))
     MAINTENANCE_WINDOW_DAYS: int = int(os.getenv("MAINTENANCE_WINDOW_DAYS", "30"))
+    HVAC_STALE_AFTER_SECONDS: int = int(os.getenv("HVAC_STALE_AFTER_SECONDS", "600"))
     OCCUPANCY_STALE_AFTER_SECONDS: int = int(os.getenv("OCCUPANCY_STALE_AFTER_SECONDS", "180"))
 
     DISABLE_MQTT: bool = os.getenv("DISABLE_MQTT", "false").lower() == "true"

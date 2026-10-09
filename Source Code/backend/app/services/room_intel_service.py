@@ -19,7 +19,7 @@ import datetime
 import json
 
 from .. import models
-from . import occupancy_service
+from . import hvac_service, occupancy_service
 
 
 def _sources(db, zone, door, now):
@@ -53,6 +53,8 @@ def room_health(db, zone: models.Zone, now=None) -> dict:
     high = [f for f in faults if f.severity == "HIGH"]
     warn = [f for f in faults if f.severity in ("WARNING", "INFO")] + [a for a in alerts if a.severity == "WARNING"]
     bad_nodes = [n for n in nodes if n.status in ("DEGRADED", "OFFLINE")]
+    hv = hvac_service.zone_hvac(db, zone, now)
+    hvac_down = hv is not None and hv["system_node_status"] in ("OFFLINE", "DEGRADED")
     all_offline = bool(sources) and not any(up for _, up in sources)
     door_down_others_up = door is not None and not door.online and any(up for k, up in sources if k != "door")
 
@@ -62,12 +64,14 @@ def room_health(db, zone: models.Zone, now=None) -> dict:
     elif crit:
         state = "CRITICAL"
         reasons += [f"Critical: {getattr(x, 'reason', None) or getattr(x, 'type', '')}" for x in crit]
-    elif high or bad_nodes or door_down_others_up:
+    elif high or bad_nodes or door_down_others_up or hvac_down:
         state = "DEGRADED"
         reasons += [f"Fault: {f.reason}" for f in high]
         reasons += [f"Node {n.node_id} is {n.status}" for n in bad_nodes]
         if door_down_others_up:
             reasons.append("Door node offline")
+        if hvac_down:
+            reasons.append(f"Central HVAC node is {hv['system_node_status']}")
     elif warn:
         state = "WARNING"
         reasons += [getattr(x, "reason", None) or f"Alert: {x.type}" for x in warn]
@@ -149,6 +153,7 @@ def room_profile(db, zone: models.Zone, now=None) -> dict:
     faults = db.query(models.DeviceFaultAlert).filter(models.DeviceFaultAlert.zone_id == zone.zone_id,
                                                       models.DeviceFaultAlert.status != "RESOLVED").all()
     return {"zone_id": zone.zone_id, "name": zone.name, "building": zone.building_name, "floor": zone.floor,
+            "hvac": hvac_service.zone_hvac(db, zone, now),
             "health": room_health(db, zone, now), "occupancy": occupancy_service.current(db, zone, now),
             "sensor_health": occupancy_service.sensor_health(db, zone, now),
             "door": ({"code": door.code, "online": door.online, "locked": door.locked, "last_seen": door.last_seen}
@@ -156,3 +161,36 @@ def room_profile(db, zone: models.Zone, now=None) -> dict:
             "devices": [{"device_id": d.device_id, "name": d.name, "type": d.type, "status": d.status}
                         for d in zone.devices],
             "open_faults": [{"fault_id": f.fault_id, "severity": f.severity, "reason": f.reason} for f in faults]}
+
+
+def energy_waste_candidates(db, now=None) -> list[dict]:
+    """ANALYZE-only: rooms whose fresh occupancy count is 0 while a light is
+    recorded/observed ON and/or the HVAC vent reports airflow. This issues NO
+    command; ACT stays with the automation engine's verification window and
+    rules. A single reading is a lead, not a decision."""
+    now = now or datetime.datetime.utcnow()
+    out = []
+    for z in db.query(models.Zone).all():
+        occ = occupancy_service.current(db, z, now)
+        if occ["state"] != "OK" or occ["count"] != 0:
+            continue
+        reasons = []
+        for d in z.devices:
+            if d.type != "LIGHT":
+                continue
+            t = (db.query(models.DeviceTelemetry).filter(models.DeviceTelemetry.device_id == d.device_id)
+                 .order_by(models.DeviceTelemetry.recorded_at.desc()).first())
+            on_obs = t is not None and (now - t.recorded_at).total_seconds() < 600 and (
+                t.observed_on if t.observed_on is not None else (t.power_watts or 0) > 5)
+            if on_obs:
+                reasons.append(f"{d.name}: observed ON")
+            elif d.status:
+                reasons.append(f"{d.name}: recorded ON (not sensor-verified)")
+        hv = hvac_service.zone_hvac(db, z, now)
+        if hv and hv["state"] == "OK" and (hv["airflow_m3h"] or 0) > 0:
+            reasons.append("Central HVAC vent shows airflow")
+        if reasons:
+            out.append({"zone_id": z.zone_id, "room": z.name, "occupancy_count": 0,
+                        "occupancy_last_updated": occ["last_updated"], "findings": reasons,
+                        "action": "NONE - candidate only; automation requires verification window and rules"})
+    return out

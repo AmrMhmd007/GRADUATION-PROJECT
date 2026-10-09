@@ -33,3 +33,8 @@ def timeline(zone_id: int, hours: int = Query(24, ge=1, le=720), db: Session = D
              admin=Depends(security.require_unrestricted_admin)):
     since = datetime.datetime.utcnow() - datetime.timedelta(hours=hours)
     return room_intel_service.timeline(db, _zone(db, zone_id), since)
+
+
+@router.get("/energy-waste-candidates")
+def energy_waste(db: Session = Depends(get_db), admin=Depends(security.require_unrestricted_admin)):
+    return room_intel_service.energy_waste_candidates(db)

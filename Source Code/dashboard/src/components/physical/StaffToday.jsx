@@ -92,6 +92,8 @@ export default function StaffToday() {
   return (
     <div className="ph-staff">
       {err && <div className="form-error">{err}</div>}
+      {/* First-login: Face ID setup status is the first thing a new Doctor/TA sees. */}
+      <FaceIdCard />
       {faults.length > 0 && (
         <section className="ph-card" aria-labelledby="ph-faults-h">
           <div className="ph-card-head"><h3 id="ph-faults-h">Room alerts</h3><HealthPill state="WARNING" /></div>
@@ -105,7 +107,6 @@ export default function StaffToday() {
       <div className="ph-grid">
         {(classes || []).map((c, i) => <ClassCard key={`${c.door_code}-${c.start}-${i}`} c={c} />)}
       </div>
-      <FaceIdCard />
     </div>
   );
 }
