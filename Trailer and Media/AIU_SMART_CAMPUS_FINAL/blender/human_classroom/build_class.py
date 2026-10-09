@@ -1,4 +1,4 @@
-exec(open('/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/human_classroom/bridge_cls.py').read())
+exec(open('/Users/amrmohamed/Desktop/TOP PR/GRADUATION PROJECT/Trailer and Media/AIU_SMART_CAMPUS_FINAL/blender/human_classroom/bridge_cls.py').read())
 import json, os
 sc=bpy.context.scene; col=D.collections['HUMANS_CLASS']
 F0,F1=1,300
@@ -75,5 +75,5 @@ def lf(F):
     return head_motion(lec,p,F,5,16,4,bias_yaw=-8)
 mk_action(lec,'CLS_lecturer_action',range(F0,F1+1),lf)
 sc.frame_start=F0; sc.frame_end=F1
-json.dump(info,open('/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/human_classroom/seat_info.json','w'))
+json.dump(info,open('/Users/amrmohamed/Desktop/TOP PR/GRADUATION PROJECT/Trailer and Media/AIU_SMART_CAMPUS_FINAL/blender/human_classroom/seat_info.json','w'))
 print('built',len(info),'students + lecturer')

@@ -2,7 +2,7 @@
 Every second it checks bridge/cmd.py; when that file changes it runs it inside this Blender session and writes the output to bridge/cmd_log.txt.
 Stop it by writing the single word STOP into bridge/cmd.py (or just quit Blender). It only reads/executes this one file."""
 import bpy, os, traceback, io, contextlib
-ROOT = '/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/human_entry/bridge'
+ROOT = '/Users/amrmohamed/Desktop/TOP PR/GRADUATION PROJECT/Trailer and Media/AIU_SMART_CAMPUS_FINAL/blender/human_entry/bridge'
 CMD = ROOT + '/cmd.py'; LOG = ROOT + '/cmd_log.txt'
 _state = {'m': 0.0, 'run': True}
 def _poll():

@@ -17,7 +17,7 @@ def dbg_render(name, cam_loc, target, lens=35, frame=None, res=(640,360), sample
     if eng=='CYCLES':
         s0=sc.cycles.samples; sc.cycles.samples=samples
     if frame is not None: sc.frame_set(frame)
-    out=os.path.expanduser('~/Desktop/AIU_SMART_CAMPUS_FINAL/blender/human_entry/renders/'+name)
+    out=os.path.expanduser('~/Desktop/TOP PR/GRADUATION PROJECT/Trailer and Media/AIU_SMART_CAMPUS_FINAL/blender/human_entry/renders/'+name)
     sc.render.filepath=out; sc.render.image_settings.file_format='PNG'
     bpy.ops.render.render(write_still=True)
     if eng=='CYCLES': sc.cycles.samples=s0

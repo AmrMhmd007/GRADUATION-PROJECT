@@ -9,7 +9,7 @@ from parts import *
 import parts as _p
 
 FPS = 30
-BASE = "/sessions/great-sleepy-rubin/mnt/Desktop/AIU_SMART_CAMPUS_FINAL"
+BASE = "/sessions/great-sleepy-rubin/mnt/Desktop/TOP PR/GRADUATION PROJECT/Trailer and Media/AIU_SMART_CAMPUS_FINAL"
 PROTO = f"{BASE}/assets/prototype_original.jpg"
 APPDIR = f"{BASE}/application_recordings"
 CLIPS = "/tmp/work/v5/clips"

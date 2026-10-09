@@ -5,7 +5,7 @@ Blender 4.2-4.5 (Cycles, Metal on Apple silicon).  NOT YET RUN BY THE AUTHOR —
 Run (GUI):  Scripting workspace > Open this file > Run Script.  It builds the scene, saves the .blend and stops.
 Run (CLI):  /Applications/Blender.app/Contents/MacOS/Blender -b -P aiu_test01_corridor_door.py -- --mode preview
 Modes:  build (default) | still [--frame N] | preview | final [--frames A-B]
-Other:  --out <folder>   (default ~/Desktop/AIU_SMART_CAMPUS_FINAL/blender/renders)
+Other:  --out <folder>   (default ~/Desktop/TOP PR/GRADUATION PROJECT/Trailer and Media/AIU_SMART_CAMPUS_FINAL/blender/renders)
 
 CONCEPTUAL: the door/lock hardware is not yet connected in the real project.  The lecturer is NOT modelled (live action pending).
 Timeline (30 fps, 390 frames = 13 s):  A 1-150 tracking approach | B 151-240 reader macro | C 241-300 lock section macro | D 301-390 door opens
@@ -19,8 +19,8 @@ from mathutils import Vector
 argv = sys.argv; A = argv[argv.index('--') + 1:] if '--' in argv else []
 def arg(n, d=None): return A[A.index(n) + 1] if n in A else d
 MODE = arg('--mode', 'build'); STILL = int(arg('--frame', 120))
-OUT = os.path.expanduser(arg('--out', '~/Desktop/AIU_SMART_CAMPUS_FINAL/blender/renders'))
-HERE = os.path.expanduser('~/Desktop/AIU_SMART_CAMPUS_FINAL/blender')
+OUT = os.path.expanduser(arg('--out', '~/Desktop/TOP PR/GRADUATION PROJECT/Trailer and Media/AIU_SMART_CAMPUS_FINAL/blender/renders'))
+HERE = os.path.expanduser('~/Desktop/TOP PR/GRADUATION PROJECT/Trailer and Media/AIU_SMART_CAMPUS_FINAL/blender')
 os.makedirs(OUT, exist_ok=True); os.makedirs(HERE, exist_ok=True)
 random.seed(7)
 

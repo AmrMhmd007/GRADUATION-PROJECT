@@ -2,7 +2,7 @@
 Facts used: FastAPI backend (app/routers: auth, doors, schedules, occupancy, face, zones/automation, audit...), SQLAlchemy models on SQLite (PostgreSQL via DATABASE_URL),
 React/Vite dashboard calling the REST API, MQTT listener + automation engine, door-node firmware (Phase 2 prototype), occupancy ingest endpoint."""
 import cairo, math, sys, os
-sys.path.insert(0,'/sessions/great-sleepy-rubin/mnt/Desktop/AIU_SMART_CAMPUS_FINAL/blender/attendance_scene/overlay')
+sys.path.insert(0,'/sessions/great-sleepy-rubin/mnt/Desktop/TOP PR/GRADUATION PROJECT/Trailer and Media/AIU_SMART_CAMPUS_FINAL/blender/attendance_scene/overlay')
 from uilib import *
 OUT=os.path.dirname(os.path.abspath(__file__))+'/work/arch'; N=276
 def card(c,x,y,w,h,title,sub,badge,col,a,dashed=False,lines=()):

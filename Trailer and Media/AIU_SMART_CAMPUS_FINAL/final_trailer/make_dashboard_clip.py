@@ -10,7 +10,7 @@ alt=np.array(Image.open(S+'/occ_page_top.png').convert('RGB'))   # earlier real 
 top=top.copy(); top[488:532,892:932]=alt[488+105:532+105,892:932]   # cosmetic: replace the mouse-cursor patch with the same area from a cursor-free real capture
 H,W=top.shape[:2]; tall=np.vstack([top, sc[H-off:H]]) if off>0 else top
 print('tall',tall.shape)
-sc_f=1920/W; out='/sessions/great-sleepy-rubin/mnt/Desktop/AIU_SMART_CAMPUS_FINAL/recordings'; fr='/tmp/dfr'; os.makedirs(fr,exist_ok=True)
+sc_f=1920/W; out='/sessions/great-sleepy-rubin/mnt/Desktop/TOP PR/GRADUATION PROJECT/Trailer and Media/AIU_SMART_CAMPUS_FINAL/recordings'; fr='/tmp/dfr'; os.makedirs(fr,exist_ok=True)
 F=30; N=8*F; ease=lambda x:x*x*(3-2*x)
 big=cv2.resize(tall,(1920,int(tall.shape[0]*sc_f)),interpolation=cv2.INTER_CUBIC); vh=int(H*sc_f); maxoff=big.shape[0]-vh
 fnt=ImageFont.truetype('/usr/share/fonts/truetype/crosextra/Carlito-Bold.ttf',26)

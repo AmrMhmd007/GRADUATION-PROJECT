@@ -1,6 +1,6 @@
 import bpy, math
 D=bpy.data
-R='/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/blender/human_entry/renders'
+R='/Users/amrmohamed/Desktop/TOP PR/GRADUATION PROJECT/Trailer and Media/AIU_SMART_CAMPUS_FINAL/blender/human_entry/renders'
 def studio(out, cam_loc, cam_rot_deg, lens=50, res=(1280,640), samples=24, frame=None):
     sc=bpy.context.scene
     for m in sc.timeline_markers:

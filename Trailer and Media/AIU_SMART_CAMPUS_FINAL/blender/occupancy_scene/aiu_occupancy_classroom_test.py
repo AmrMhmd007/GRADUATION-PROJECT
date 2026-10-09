@@ -23,7 +23,7 @@ def P(*a): print(*a, flush=True)
 argv = sys.argv; A = argv[argv.index('--') + 1:] if '--' in argv else []
 def arg(n, d=None): return A[A.index(n) + 1] if n in A else d
 MODE = arg('--mode', 'build')
-ROOT = os.path.expanduser('~/Desktop/AIU_SMART_CAMPUS_FINAL/blender')
+ROOT = os.path.expanduser('~/Desktop/TOP PR/GRADUATION PROJECT/Trailer and Media/AIU_SMART_CAMPUS_FINAL/blender')
 HERE = os.path.join(ROOT, 'occupancy_scene')
 OUT = os.path.abspath(os.path.expanduser(arg('--out', os.path.join(HERE, 'renders', 'review_occ_v1'))))
 APPROVED = os.path.join(ROOT, 'AIU_TEST01_corridor_door.blend')

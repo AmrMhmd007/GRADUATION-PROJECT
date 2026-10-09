@@ -1,5 +1,5 @@
 import json, os, time, urllib.request
-S='/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/recordings/software'
+S='/Users/amrmohamed/Desktop/TOP PR/GRADUATION PROJECT/Trailer and Media/AIU_SMART_CAMPUS_FINAL/recordings/software'
 API='http://127.0.0.1:8001'; APP='http://localhost:5174'
 def token():
     c=json.load(open(S+'/.demo_credentials.json'))

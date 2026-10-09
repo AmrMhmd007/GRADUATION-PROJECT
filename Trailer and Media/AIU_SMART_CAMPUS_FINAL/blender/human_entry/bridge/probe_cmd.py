@@ -1,5 +1,5 @@
 import subprocess, os
-OUT='/Users/amrmohamed/Desktop/AIU_SMART_CAMPUS_FINAL/recordings/software/probe.txt'
+OUT='/Users/amrmohamed/Desktop/TOP PR/GRADUATION PROJECT/Trailer and Media/AIU_SMART_CAMPUS_FINAL/recordings/software/probe.txt'
 os.makedirs(os.path.dirname(OUT),exist_ok=True)
 def sh(c,t=60):
     try:

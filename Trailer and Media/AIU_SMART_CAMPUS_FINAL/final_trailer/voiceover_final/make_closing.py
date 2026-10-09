@@ -1,9 +1,9 @@
 """Closing card animation: real AIU photo (supplied by project team) blurred+darkened, title cues on the VO tagline. 9.3 s = 279 frames."""
 import cairo, sys, os, numpy as np
 from PIL import Image, ImageFilter
-sys.path.insert(0,'/sessions/great-sleepy-rubin/mnt/Desktop/AIU_SMART_CAMPUS_FINAL/blender/attendance_scene/overlay')
+sys.path.insert(0,'/sessions/great-sleepy-rubin/mnt/Desktop/TOP PR/GRADUATION PROJECT/Trailer and Media/AIU_SMART_CAMPUS_FINAL/blender/attendance_scene/overlay')
 from uilib import *
-R='/sessions/great-sleepy-rubin/mnt/Desktop/AIU_SMART_CAMPUS_FINAL/'
+R='/sessions/great-sleepy-rubin/mnt/Desktop/TOP PR/GRADUATION PROJECT/Trailer and Media/AIU_SMART_CAMPUS_FINAL/'
 OUT=R+'final_trailer/voiceover_final/work/close'; N=279
 ph=Image.open(R+'assets/collected_references/aiu_exterior_03_flags_logo.png').convert('RGB')
 def cover(im,w,h,z):
