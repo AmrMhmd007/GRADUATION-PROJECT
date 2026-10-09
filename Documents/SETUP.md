@@ -79,7 +79,7 @@ cp gateway_config.example.yaml gateway_config.yaml   # set serial.port, nodes, m
 python rs485_gateway.py --config gateway_config.yaml
 ```
 
-Without hardware, use `tests/fake_node_sim.py` with a virtual serial pair (`socat`) and a local broker, as described in `Source Code/gateway/README.md`.
+Without hardware, run the automated simulation `Source Code/gateway/tests/run_e2e_simulation.sh` (needs `socat` and a throw-away venv with `amqtt pyserial PyYAML paho-mqtt==2.1.0`; see the header of the script for the environment variables). It passed on 2026-10-09 in a Linux sandbox.
 
 ## 6. ESP32 door-node firmware (hardware only)
 

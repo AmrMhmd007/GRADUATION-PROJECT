@@ -41,7 +41,7 @@ flowchart LR
 | Backend API | `Source Code/backend/app` | REST API, auth/RBAC, access decisions, audit trail, automation, occupancy, energy, health | TESTED (595 passing tests on 2026-10-09) |
 | Database | SQLAlchemy models; `Base.metadata.create_all` at start-up plus `migrate_*.py` scripts | Persistence of users, doors, zones, devices, events, readings, audit | TESTED (schema create + idempotent migrations on a temp DB) |
 | Dashboard | `Source Code/dashboard` | Admin / doctor / instructor UI | Lint (0 errors, 14 warnings) and production build verified; browser flows not re-verified in this audit |
-| Gateway | `Source Code/gateway` (extracted from the phase-6 snapshot) | Relay RS-485 node traffic to MQTT `site/{code}/…` | PROTOTYPE (compiles; no broker/hardware run in this audit) |
+| Gateway | `Source Code/gateway` (extracted from the phase-6 snapshot) | Relay RS-485 node traffic to MQTT `site/{code}/…` | PROTOTYPE; **verified in simulation** (backend ⇄ broker ⇄ gateway ⇄ virtual serial ⇄ Python fake nodes, see `gateway/tests/run_e2e_simulation.sh`); not run with real RS-485 hardware or ESP32 firmware |
 | Door-node firmware | `Source Code/door_node_firmware` | ESP32 reader, lock control, MQTT/RS-485 | PROTOTYPE (not compiled here: PlatformIO unavailable) |
 | Face ID | `app/routers/face.py`, `app/services/face_service.py` | Encrypted templates, verification, authoritative grant/deny. Embedding provider default `none` ⇒ enrollment capture reports UNAVAILABLE | IMPLEMENTED backend; edge capture PLANNED |
 | Occupancy | `app/routers/occupancy.py`, `occupancy_service.py` | Anonymous people-count ingest; source REAL or SIMULATED | TESTED; counts only, no identification |
@@ -54,7 +54,7 @@ flowchart LR
 - **Door node ⇄ backend:** MQTT topics `site/{code}/status|event|alert` (node→backend) and `site/{code}/cmd` (backend→node). `…/ac|light|plug/…` carry room devices and `…/occupancy/status` a boolean presence flag.
 - **Newer hierarchy:** `university/{uid}/building/{bid}/zone/{zid}/…` for sensor telemetry and device commands. Messages for unknown zones/malformed topics are logged and ignored.
 - **Face verification:** MQTT `…/face/verify` and `…/face/ack`, or HTTP node endpoints guarded by `X-Node-Key` (disabled with 403 while `FACE_NODE_API_KEY` is empty).
-- **Gateway:** subscribes to `site/{code}/cmd` per configured node and republishes node reports onto the same topics the backend subscribes to (verified by reading both sides; not run against a broker in this audit).
+- **Gateway (simulation-verified):** an end-to-end run on 2026-10-09 showed gateway-relayed node status updating the backend, an admin unlock override reaching a simulated node over a virtual RS-485 link, and the node's access event and ack returning through MQTT into the backend's access-event log. The node was a Python stand-in, not the ESP32 firmware. Subscribes to `site/{code}/cmd` per configured node and republishes node reports onto the same topics the backend subscribes to (verified by reading both sides; not run against a broker in this audit).
 
 ## 4. Authentication and authorization
 
@@ -71,6 +71,6 @@ Occupancy and energy readings in the demo are SIMULATED and labelled so. The occ
 ## 7. Known integration gaps
 
 1. No Raspberry Pi code exists in the repository; only the backend side of Face ID.
-2. Firmware and gateway were not run together against the backend; compatibility is documented, not demonstrated.
+2. The ESP32 firmware has never been run together with the gateway and backend here; the chain was demonstrated only with a Python fake node (`gateway/tests/fake_node_sim.py`).
 3. Schema changes are applied by ad-hoc `migrate_*.py` scripts (hard-coded to `./access_control.db`) instead of a migration framework.
 4. Attendance (per-student presence) is **not** implemented anywhere; the indoor attendance camera in the graduation film is a concept visualisation.

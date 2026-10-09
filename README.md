@@ -135,7 +135,7 @@ Details: [`Hardware/HARDWARE_INTEGRATION.md`](./Hardware/HARDWARE_INTEGRATION.md
 | `university/{uid}/building/{bid}/zone/{zid}/…` | both | sensor telemetry / device commands |
 | `…/face/verify`, `…/face/ack` | node ⇄ backend | face verification handshake |
 
-The gateway and backend agree on these topics by code inspection; they were not run together in the latest audit.
+Verified in simulation (no hardware): `Source Code/gateway/tests/run_e2e_simulation.sh` runs backend + a pure-Python MQTT broker + the gateway + a virtual RS-485 serial pair + fake nodes and checks status relay, an unlock command reaching the node, and the node's event landing in the backend (passed on 2026-10-09). The ESP32 firmware itself was not part of that run.
 
 ## Simulation mode
 
@@ -159,7 +159,7 @@ JWT authentication, bcrypt hashing, RBAC with scope enforcement, login lockout, 
 ## Known limitations
 
 1. No Raspberry Pi code exists here; only the backend side of Face ID. The embedding provider is `none` by default.
-2. Firmware and gateway are prototypes; not compiled/run together in the latest audit. The gateway README references `rs485_protocol.h` and `test_cross_lang.py`, which are missing from `door_node_firmware/`.
+2. Firmware and gateway are prototypes. The gateway ⇄ backend path is verified only against simulated nodes; the ESP32 firmware was not compiled or run. The gateway README references `rs485_protocol.h` and `test_cross_lang.py`, which are missing from `door_node_firmware/`.
 3. No per-student attendance anywhere in the system.
 4. Migrations are ad-hoc idempotent scripts (SQLite only; they honour a `sqlite:///` `DATABASE_URL` and refuse other databases); there is no migration framework such as Alembic.
 5. Dashboard `package.json` lists a macOS-specific optional dependency (`@rolldown/binding-darwin-arm64`).
