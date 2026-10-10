@@ -1,3 +1,5 @@
+> **Setup and troubleshooting for the whole project: see [`Documents/SETUP.md`](../../Documents/SETUP.md).** Quick start here: `npm install && cp .env.example .env && npm run dev` (needs the backend running on port 8000).
+
 # Access Control Dashboard — Phase 4
 
 React (Vite) admin dashboard implementing the wireframe from the Phase 1

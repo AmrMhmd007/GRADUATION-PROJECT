@@ -1,3 +1,5 @@
+> **Setup, configuration and troubleshooting for the whole project: see [`Documents/SETUP.md`](../../Documents/SETUP.md) and [`Documents/CONFIGURATION.md`](../../Documents/CONFIGURATION.md).** This file is the original phase-3 backend README and is partly historical (for example, CORS is now configurable via `ALLOWED_ORIGINS`).
+
 # Access Control Backend — Phase 3 (+ Phase 5 security, Phase 6 multi-node, Phase 7 fixes)
 
 FastAPI backend implementing the REST API spec, MQTT topic structure, and

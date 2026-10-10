@@ -71,37 +71,29 @@ GRADUATION PROJECT/
 
 ## Installation and startup
 
-Full, verified step-by-step guide (backend, dashboard, MQTT, gateway, firmware, troubleshooting): **[`Documents/SETUP.md`](./Documents/SETUP.md)**. Quick version:
-
-Requirements: Python 3.10+, Node.js 18+ (22 tested), optionally `mosquitto`.
+**Complete step-by-step manual setup (prerequisites, backend, dashboard, MQTT, gateway, firmware, security checklist, troubleshooting): [`Documents/SETUP.md`](./Documents/SETUP.md).** Quick start (backend + dashboard, no hardware or broker needed):
 
 ```bash
-git clone https://github.com/AmrMhmd007/GRADUATION-PROJECT.git
-cd GRADUATION-PROJECT
+git clone https://github.com/AmrMhmd007/GRADUATION-PROJECT.git && cd GRADUATION-PROJECT
 
-# 1. Backend (one-time) — start.sh expects Source Code/backend/venv
+# Terminal 1 - backend (Python 3.10+)
 cd "Source Code/backend"
 python3 -m venv venv && source venv/bin/activate
 pip install -r requirements.txt
-cp .env.example .env            # then edit values (see Configuration)
-python -m scripts.seed_db       # creates tables + a sample admin account
-deactivate && cd ../..
+cp .env.example .env
+python -m scripts.seed_db                              # database + sample users/doors (logins are printed)
+DISABLE_MQTT=true uvicorn app.main:app --reload --port 8000
 
-# 2. Dashboard (one-time)
-cd "Source Code/dashboard" && npm install && cp .env.example .env && cd ../..
-
-# 3. Run everything
-./start.sh                      # backend :8000 + dashboard :5173 (mosquitto if installed)
-./start_lan.sh                  # same, reachable from other devices on the network
+# Terminal 2 - dashboard (Node 18+)
+cd "Source Code/dashboard"
+npm install && cp .env.example .env && npm run dev     # http://localhost:5173
 ```
 
-Open `http://localhost:5173` and sign in with the admin created by `seed_db.py`. Manual alternative: `uvicorn app.main:app --reload` in `Source Code/backend` and `npm run dev` in `Source Code/dashboard`.
-
-> `start.sh` creates the backend venv and `.env` on first run, and stops only a previous uvicorn backend on port 8000 (it refuses to kill other programs).
+Sign in at `http://localhost:5173`; API docs at `http://localhost:8000/docs`. After the one-time setup, `./start.sh` (or `./start_lan.sh` for other devices on your network) starts everything. `start.sh` creates the venv and `.env` on first run and stops only a previous uvicorn on port 8000 (it refuses to kill other programs).
 
 ## Configuration
 
-Copy `Source Code/backend/.env.example` to `.env` (git-ignored). Key variables: `DATABASE_URL`, `JWT_SECRET`, `JWT_EXPIRE_MINUTES`, `MQTT_BROKER_HOST/PORT/USE_TLS/USERNAME/PASSWORD`, `DISABLE_MQTT`, `ALLOWED_ORIGINS` (CORS; `*` is for local development only), `CREDENTIAL_ENCRYPTION_KEY` and `CREDENTIAL_INDEX_KEY` (must be persisted), `FACE_NODE_API_KEY`, `FACE_EMBEDDING_PROVIDER`. The backend logs a warning at start-up for insecure defaults (never printing secret values). Firmware secrets live in `door_node_firmware/include/secrets.h` (git-ignored; template: `secrets_example.h`). The dashboard needs `VITE_API_BASE_URL` only for a non-default backend host.
+Copy `Source Code/backend/.env.example` to `.env` (git-ignored). Every variable with its default is listed in [`Documents/CONFIGURATION.md`](./Documents/CONFIGURATION.md). Key variables: `DATABASE_URL`, `JWT_SECRET`, `JWT_EXPIRE_MINUTES`, `MQTT_BROKER_HOST/PORT/USE_TLS/USERNAME/PASSWORD`, `DISABLE_MQTT`, `ALLOWED_ORIGINS` (CORS; `*` is for local development only), `CREDENTIAL_ENCRYPTION_KEY` and `CREDENTIAL_INDEX_KEY` (must be persisted), `FACE_NODE_API_KEY`, `FACE_EMBEDDING_PROVIDER`. The backend logs a warning at start-up for insecure defaults (never printing secret values). Firmware secrets live in `door_node_firmware/include/secrets.h` (git-ignored; template: `secrets_example.h`). The dashboard needs `VITE_API_BASE_URL` only for a non-default backend host.
 
 ## Database
 
@@ -170,7 +162,7 @@ Full prioritised backlog: [`Reports and Audits/REPOSITORY_AUDIT_2026-10-09.md`](
 
 ## Documentation index
 
-- [Manual setup guide](./Documents/SETUP.md) · [Architecture](./Documents/ARCHITECTURE.md) · [System Design Document](./Documents/System_Design_Document.docx) · [Proposal](./Documents/Access_Control_System_Proposal_Revised.docx) · [Project timeline](./Documents/Access_Control_System_Project_Timeline.xlsx)
+- [Manual setup guide](./Documents/SETUP.md) · [Configuration reference](./Documents/CONFIGURATION.md) · [Architecture](./Documents/ARCHITECTURE.md) · [System Design Document](./Documents/System_Design_Document.docx) · [Proposal](./Documents/Access_Control_System_Proposal_Revised.docx) · [Project timeline](./Documents/Access_Control_System_Project_Timeline.xlsx)
 - [Security Review (phase 5)](./Documents/Phase5_Security_Review.pdf) · [Multi-node deployment guide](./Documents/Phase6_Multi_Node_Deployment_Guide.pdf) · [System test report (phase 7)](./Documents/Phase7_System_Test_Report.pdf) · [Wiring & bench test](./Documents/Phase2_Wiring_and_Bench_Test_Guide.docx) · [Study guide](./Documents/Study_Guide_Access_Control_Project.pdf)
 - Import templates: `Documents/door_import_template.xlsx`, `Documents/staff_import_template.xlsx`
 
