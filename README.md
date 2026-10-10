@@ -55,18 +55,18 @@ flowchart LR
 ```
 GRADUATION PROJECT/
 ├─ README.md
-├─ start.sh / start_lan.sh      Start mosquitto + backend + dashboard (needs the backend venv, see below)
+├─ start.sh, start_lan.sh   start mosquitto + backend + dashboard
 ├─ Source Code/
-│  ├─ backend/                  FastAPI app: app/routers, app/services, app/hardware, tests/, scripts/, migrate_*.py
-│  ├─ dashboard/                React + Vite admin dashboard
-│  ├─ door_node_firmware/       ESP32 firmware (PlatformIO)
-│  ├─ gateway/                  RS-485 ⇄ MQTT gateway (from the phase-6 snapshot)
-│  └─ Archive (phase snapshots)/  Original zipped phase snapshots — preserved
-├─ Documents/                   ARCHITECTURE.md, design document, proposal, phase guides, import templates
-├─ Reports and Audits/          Phase 9–11 reports (historical) and the 2026-10-09 repository audit
-├─ Hardware/                    Bill of materials, integration guide, readiness checklist
-├─ Energy Impact Study/         model.py, report (docx/pdf), presentation, charts
-└─ Trailer and Media/           Graduation-film scripts, reports and tooling (large media is not stored in git)
+│  ├─ backend/              FastAPI app, tests, scripts, migrations
+│  ├─ dashboard/            React + Vite admin dashboard
+│  ├─ door_node_firmware/   ESP32 firmware (PlatformIO)
+│  ├─ gateway/              RS-485 to MQTT gateway (phase-6 source)
+│  └─ Archive (phase snapshots)/   original zipped snapshots (kept)
+├─ Documents/               SETUP, CONFIGURATION, ARCHITECTURE, design docs
+├─ Reports and Audits/      phase 9-11 reports + 2026-10-09 audit
+├─ Hardware/                bill of materials, integration, readiness
+├─ Energy Impact Study/     energy model, report, presentation, charts
+└─ Trailer and Media/       film scripts, reports, tooling (no media)
 ```
 
 ## Installation and startup
@@ -74,19 +74,35 @@ GRADUATION PROJECT/
 **Complete step-by-step manual setup (prerequisites, backend, dashboard, MQTT, gateway, firmware, security checklist, troubleshooting): [`Documents/SETUP.md`](./Documents/SETUP.md).** Quick start (backend + dashboard, no hardware or broker needed):
 
 ```bash
-git clone https://github.com/AmrMhmd007/GRADUATION-PROJECT.git && cd GRADUATION-PROJECT
+git clone https://github.com/AmrMhmd007/GRADUATION-PROJECT.git
+cd GRADUATION-PROJECT
+```
 
-# Terminal 1 - backend (Python 3.10+)
+**Terminal 1 - backend** (Python 3.10+):
+
+```bash
 cd "Source Code/backend"
-python3 -m venv venv && source venv/bin/activate
+python3 -m venv venv
+source venv/bin/activate
 pip install -r requirements.txt
 cp .env.example .env
-python -m scripts.seed_db                              # database + sample users/doors (logins are printed)
-DISABLE_MQTT=true uvicorn app.main:app --reload --port 8000
+```
 
-# Terminal 2 - dashboard (Node 18+)
+Create the database with sample users and doors (the sample logins are
+printed), then start the API:
+
+```bash
+python -m scripts.seed_db
+DISABLE_MQTT=true uvicorn app.main:app --reload --port 8000
+```
+
+**Terminal 2 - dashboard** (Node 18+), from the repository root:
+
+```bash
 cd "Source Code/dashboard"
-npm install && cp .env.example .env && npm run dev     # http://localhost:5173
+npm install
+cp .env.example .env
+npm run dev
 ```
 
 Sign in at `http://localhost:5173`; API docs at `http://localhost:8000/docs`. After the one-time setup, `./start.sh` (or `./start_lan.sh` for other devices on your network) starts everything. `start.sh` creates the venv and `.env` on first run and stops only a previous uvicorn on port 8000 (it refuses to kill other programs).
@@ -103,8 +119,11 @@ SQLAlchemy models create their tables at start-up (`Base.metadata.create_all`). 
 
 ```bash
 cd "Source Code/backend" && source venv/bin/activate
-DISABLE_MQTT=true pytest -q         # serial; each test run uses its own SQLite file
-# optional, faster: pip install pytest-xdist && DISABLE_MQTT=true pytest -q -n auto   (one DB file per worker)
+DISABLE_MQTT=true pytest -q
+
+# optional, faster (one SQLite file per worker):
+pip install pytest-xdist
+DISABLE_MQTT=true pytest -q -n auto
 cd ../dashboard && npm run lint && npm run build
 ```
 

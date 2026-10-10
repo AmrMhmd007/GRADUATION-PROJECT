@@ -5,8 +5,12 @@ All settings are environment variables read by `Source Code/backend/app/config.p
 Generate keys:
 
 ```bash
-python -c "from cryptography.fernet import Fernet; print(Fernet.generate_key().decode())"   # CREDENTIAL_ENCRYPTION_KEY
-python -c "import secrets; print(secrets.token_urlsafe(48))"                                  # JWT_SECRET, CREDENTIAL_INDEX_KEY, FACE_NODE_API_KEY
+# CREDENTIAL_ENCRYPTION_KEY
+python -c "from cryptography.fernet import Fernet; \
+print(Fernet.generate_key().decode())"
+
+# JWT_SECRET, CREDENTIAL_INDEX_KEY, FACE_NODE_API_KEY (run once per value)
+python -c "import secrets; print(secrets.token_urlsafe(48))"
 ```
 
 Dashboard: `Source Code/dashboard/.env` — `VITE_API_BASE_URL` only if the API is not on the dashboard's host at port 8000. Firmware: `door_node_firmware/include/secrets.h` (from `secrets_example.h`).

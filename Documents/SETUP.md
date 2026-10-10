@@ -11,23 +11,34 @@ Follow this top to bottom and the system runs on your machine with nothing else 
 ```bash
 git clone https://github.com/AmrMhmd007/GRADUATION-PROJECT.git
 cd GRADUATION-PROJECT
+```
 
-# --- Terminal 1: backend ---
+**Terminal 1 - backend:**
+
+```bash
 cd "Source Code/backend"
 python3 -m venv venv
-source venv/bin/activate                 # Windows (PowerShell): venv\Scripts\Activate.ps1
+source venv/bin/activate
 pip install -r requirements.txt
 cp .env.example .env
-python -m scripts.seed_db                # creates the database + sample users and doors
+python -m scripts.seed_db
 DISABLE_MQTT=true uvicorn app.main:app --reload --port 8000
-#   Windows PowerShell:  $env:DISABLE_MQTT="true"; uvicorn app.main:app --reload --port 8000
+```
 
-# --- Terminal 2: dashboard ---
+- Windows PowerShell: activate with `venv\Scripts\Activate.ps1`, and start
+  with `$env:DISABLE_MQTT="true"; uvicorn app.main:app --reload --port 8000`.
+- `seed_db` creates the database with sample users and doors.
+
+**Terminal 2 - dashboard** (from the repository root):
+
+```bash
 cd "Source Code/dashboard"
 npm install
 cp .env.example .env
-npm run dev                              # opens on http://localhost:5173
+npm run dev
 ```
+
+The dashboard opens on http://localhost:5173.
 
 Open **http://localhost:5173** and sign in with a sample account. `seed_db` prints the sample logins when it runs (they are defined in `Source Code/backend/scripts/seed_db.py`; they are for local use only — change or delete them before any shared deployment).
 
@@ -41,9 +52,11 @@ You should see the dashboard with four sample doors (Room A101, Room A102, Main 
 
 ### Check that it works
 
+Both commands should print `200`:
+
 ```bash
-curl -s -o /dev/null -w "%{http_code}\n" http://localhost:8000/docs      # expect 200
-curl -s -o /dev/null -w "%{http_code}\n" http://localhost:5173/          # expect 200
+curl -s -o /dev/null -w "%{http_code}\n" http://localhost:8000/docs
+curl -s -o /dev/null -w "%{http_code}\n" http://localhost:5173/
 ```
 
 Then sign in on the dashboard. If the login page loads but sign-in fails, see *Troubleshooting*.
@@ -108,8 +121,11 @@ npm run dev
 ## 5. One-command start (after the one-time setup in sections 1–4)
 
 ```bash
-./start.sh          # mosquitto (if installed) + backend :8000 + dashboard :5173
-./start_lan.sh      # same, reachable from other devices on your network
+# mosquitto (if installed) + backend :8000 + dashboard :5173
+./start.sh
+
+# same, but reachable from other devices on your network
+./start_lan.sh
 ```
 
 `start.sh` creates the backend `venv` and `.env` on first run if missing, stops a previous uvicorn on port 8000 (it refuses to touch any other program using that port), writes backend output to `backend.log`, and stops the backend when you press Ctrl+C. It uses `lsof`, so run it on macOS, Linux or WSL. *(Script logic was dry-run checked; a full start with mosquitto was not executed in the audit.)*
@@ -120,8 +136,12 @@ npm run dev
 
 1. Generate keys and put them in `.env`:
    ```bash
-   python -c "from cryptography.fernet import Fernet; print(Fernet.generate_key().decode())"   # CREDENTIAL_ENCRYPTION_KEY
-   python -c "import secrets; print(secrets.token_urlsafe(48))"                                  # JWT_SECRET, CREDENTIAL_INDEX_KEY
+   # CREDENTIAL_ENCRYPTION_KEY
+   python -c "from cryptography.fernet import Fernet; \
+   print(Fernet.generate_key().decode())"
+
+   # JWT_SECRET and CREDENTIAL_INDEX_KEY (run twice for two different values)
+   python -c "import secrets; print(secrets.token_urlsafe(48))"
    ```
    Keep `CREDENTIAL_ENCRYPTION_KEY` and `CREDENTIAL_INDEX_KEY` **stable** — if they change, stored encrypted credentials cannot be read.
 2. Set `ALLOWED_ORIGINS` to the dashboard URL(s) (the backend warns at start-up while it is `*`).
@@ -134,7 +154,13 @@ npm run dev
 ## 7. MQTT broker (optional — needed for doors, gateway and live device messages)
 
 ```bash
-brew install mosquitto && mosquitto -d          # macOS     (Ubuntu: sudo apt install mosquitto && sudo systemctl start mosquitto)
+# macOS
+brew install mosquitto
+mosquitto -d
+
+# Ubuntu / Debian
+sudo apt install mosquitto
+sudo systemctl start mosquitto
 ```
 
 Then remove `DISABLE_MQTT=true` and set `MQTT_BROKER_HOST` / `MQTT_BROKER_PORT` in `.env`. The default is `localhost:1883`, unauthenticated, for local development only. Topic reference: [`../Hardware/HARDWARE_INTEGRATION.md`](../Hardware/HARDWARE_INTEGRATION.md) and the README.
@@ -150,7 +176,8 @@ Then remove `DISABLE_MQTT=true` and set `MQTT_BROKER_HOST` / `MQTT_BROKER_PORT` 
 ```bash
 cd "Source Code/gateway"
 pip install -r requirements.txt
-cp gateway_config.example.yaml gateway_config.yaml     # set serial.port, nodes (addr -> door code), mqtt
+cp gateway_config.example.yaml gateway_config.yaml
+# edit gateway_config.yaml: serial.port, nodes (addr -> door code), mqtt
 python rs485_gateway.py --config gateway_config.yaml
 ```
 *Not run against real RS-485 hardware.*
@@ -172,11 +199,18 @@ The backend supports it (`X-Node-Key` HTTP endpoints, set `FACE_NODE_API_KEY`; `
 
 ```bash
 cd "Source Code/backend" && source venv/bin/activate
-DISABLE_MQTT=true pytest -q                       # 600 tests, serial (~6-8 min on a small machine)
-pip install pytest-xdist && DISABLE_MQTT=true pytest -q -n auto     # optional, parallel
-cd ../dashboard && npm run lint && npm run build
+DISABLE_MQTT=true pytest -q
+
+# optional, parallel (one SQLite file per worker):
+pip install pytest-xdist
+DISABLE_MQTT=true pytest -q -n auto
+
+# dashboard
+cd ../dashboard
+npm run lint
+npm run build
 ```
-Tests use their own SQLite files and never touch your real `access_control.db`. GitHub Actions (`.github/workflows/ci.yml`) runs the same checks on every push.
+The suite has 600 tests and takes roughly 6-8 minutes serially on a small machine. Tests use their own SQLite files and never touch your real `access_control.db`. GitHub Actions (`.github/workflows/ci.yml`) runs the same checks on every push.
 
 ---
 
@@ -198,8 +232,11 @@ Tests use their own SQLite files and never touch your real `access_control.db`. 
 ## 11. Getting updates
 ```bash
 git pull
-cd "Source Code/backend" && source venv/bin/activate && pip install -r requirements.txt
-cd ../dashboard && npm install
+cd "Source Code/backend"
+source venv/bin/activate
+pip install -r requirements.txt
+cd ../dashboard
+npm install
 ```
 Apply any new `migrate_*.py` scripts to an existing database (see section 3).
 
