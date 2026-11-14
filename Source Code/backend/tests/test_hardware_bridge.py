@@ -141,7 +141,13 @@ def test_freestanding_device_resolves_to_generic_controller(db_session):
 def test_missing_backing_door_returns_none_not_an_error(db_session):
     zone = _zone(db_session)
     # door_ref_id points at nothing that exists — must fail soft, never raise.
-    device = _device(db_session, zone.zone_id, "AC", door_ref_id=999999)
+    # A dangling reference cannot be stored where foreign keys are enforced
+    # (PostgreSQL rejects it; SQLite does not), so the Device is built in memory
+    # only and never added to the session. get_relay_controller reads just
+    # door_ref_id/plug_ref_id/type, so this exercises the same lookup.
+    device = models.Device(zone_id=zone.zone_id, name="HW Device", type="AC", criticality="NON_CRITICAL",
+                           status=False, door_ref_id=999999)
+    assert db_session.query(models.Door).filter(models.Door.door_id == 999999).first() is None
 
     controller = get_relay_controller(db_session, device)
 
