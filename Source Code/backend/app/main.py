@@ -28,6 +28,21 @@ async def lifespan(app: FastAPI):
     Base.metadata.create_all(bind=engine)
     for _w in insecure_configuration_warnings():
         logging.getLogger("app.config").warning("Configuration: %s", _w)
+    try:  # report-only; must never stop start-up, and never prints a secret
+        from .database import SessionLocal
+        from .services import device_auth_service
+        _db = SessionLocal()
+        try:
+            _h = device_auth_service.secret_health(_db)
+        finally:
+            _db.close()
+        if _h["undecryptable"]:
+            logging.getLogger("app.config").warning(
+                "Configuration: %d of %d active device identities have a secret that cannot be decrypted with "
+                "the current CREDENTIAL_ENCRYPTION_KEY; those devices will fail authentication until it is "
+                "restored or their secrets are rotated.", _h["undecryptable"], _h["active_identities"])
+    except Exception:
+        logging.getLogger("app.config").debug("device identity secret check skipped", exc_info=True)
     mqtt_service.start()
     staleness_watchdog.start()
     energy_service.start()

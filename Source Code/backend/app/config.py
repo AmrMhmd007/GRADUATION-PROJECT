@@ -245,4 +245,28 @@ def insecure_configuration_warnings() -> list[str]:
         warnings.append("CORS allows any origin (ALLOWED_ORIGINS=*); restrict it to the dashboard URL when deploying.")
     if not os.getenv("CREDENTIAL_ENCRYPTION_KEY"):
         warnings.append("CREDENTIAL_ENCRYPTION_KEY is unset: a temporary key is generated each start, so stored encrypted credentials will not survive a restart.")
+    if not os.getenv("CREDENTIAL_INDEX_KEY"):
+        warnings.append("CREDENTIAL_INDEX_KEY is unset: the card-UID lookup index uses a development key, and changing it later breaks credential lookups.")
+    problem = encryption_key_problem()
+    if problem:
+        warnings.append(problem)
+    if (settings.MQTT_AUTH_MODE or "") not in ("off", "warn", "enforce"):
+        warnings.append("MQTT_AUTH_MODE is not one of off/warn/enforce; 'warn' is being used.")
+    elif settings.MQTT_AUTH_MODE == "off":
+        warnings.append("MQTT_AUTH_MODE=off: device message authentication is not being checked at all.")
     return warnings
+
+
+def encryption_key_problem() -> str | None:
+    """None if CREDENTIAL_ENCRYPTION_KEY is unset (development fallback) or a
+    valid Fernet key; otherwise a message that never contains the key itself."""
+    key = settings.CREDENTIAL_ENCRYPTION_KEY
+    if not key:
+        return None
+    try:
+        from cryptography.fernet import Fernet
+        Fernet(key.encode())
+    except (ValueError, TypeError):
+        return ("CREDENTIAL_ENCRYPTION_KEY is set but is not a valid Fernet key (it must be 32 url-safe "
+                "base64-encoded bytes); see Documents/CONFIGURATION.md for how to generate one.")
+    return None

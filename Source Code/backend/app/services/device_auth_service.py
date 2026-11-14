@@ -395,3 +395,12 @@ def update_scope(db, ident: models.DeviceIdentity, *, message_types, zone_ids, d
     ident.allowed_message_types = json.dumps(sorted(set(message_types)))
     ident.allowed_zone_ids = json.dumps(sorted(set(zone_ids)))
     ident.allowed_door_codes = json.dumps(sorted(set(door_codes)))
+
+
+def secret_health(db) -> dict:
+    """Counts ACTIVE identities whose stored secret cannot be decrypted with the
+    current CREDENTIAL_ENCRYPTION_KEY (wrong/rotated/temporary key). Returns
+    counts only - never a secret or any part of one."""
+    active = db.query(models.DeviceIdentity).filter(models.DeviceIdentity.status == "ACTIVE").all()
+    bad = sum(1 for r in active if crypto.decrypt_blob(r.secret_enc) is None)
+    return {"active_identities": len(active), "undecryptable": bad}

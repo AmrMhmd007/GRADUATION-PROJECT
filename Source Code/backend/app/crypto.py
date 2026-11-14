@@ -40,6 +40,15 @@ def _dev_fallback_key(seed: str) -> bytes:
 _ENC_KEY = settings.CREDENTIAL_ENCRYPTION_KEY.encode() if settings.CREDENTIAL_ENCRYPTION_KEY else _dev_fallback_key("dev-only-encryption-key")
 _INDEX_KEY = settings.CREDENTIAL_INDEX_KEY.encode() if settings.CREDENTIAL_INDEX_KEY else _dev_fallback_key("dev-only-index-key")
 
+# Fail fast with a clear, secret-free message instead of an opaque Fernet
+# traceback. An invalid key is never silently replaced by the development key:
+# that would make existing encrypted data unreadable without any signal.
+from .config import encryption_key_problem  # noqa: E402
+
+_key_problem = encryption_key_problem()
+if _key_problem:
+    raise RuntimeError(_key_problem)
+
 _fernet = Fernet(_ENC_KEY)
 
 

@@ -31,6 +31,46 @@ Dashboard: `Source Code/dashboard/.env` — `VITE_API_BASE_URL` only if the API 
 | `LOGIN_MAX_ATTEMPTS` | int | `5` |
 | `LOGIN_LOCKOUT_SECONDS` | int | `300` |
 
+### Encryption key (`CREDENTIAL_ENCRYPTION_KEY`): generate, persist, rotate
+
+It is used for card UIDs, Face ID templates and the **device identity secrets**
+(Phase 1B). Treat it like a database password.
+
+- **Generate once**, with the Fernet command at the top of this page, and store it
+  in `.env` or your secret manager. Keep a copy somewhere that is backed up
+  separately from the database.
+- **Persist it.** If it is unset the API still starts (development), but uses a
+  temporary key, so everything encrypted with it is unreadable after the next
+  restart. Device identities would then fail authentication (`SECRET_UNAVAILABLE`).
+- **Invalid value:** the API refuses to start with a message that names the
+  setting but never prints its value. It does not fall back to the development key.
+- **Start-up checks** log warnings (never values) for an unset encryption key,
+  an unset `CREDENTIAL_INDEX_KEY`, and any active device identity whose secret
+  cannot be decrypted with the current key.
+- **Rotation is not automatic.** Changing the key makes existing ciphertext
+  unreadable: stored card UIDs and Face ID templates cannot be recovered, and
+  device secrets must be re-issued with `POST /api/device-identities/{id}/rotate-secret`.
+  There is no re-encryption tool yet. Do not change the key on a database that
+  holds real credentials without a tested plan. `CREDENTIAL_INDEX_KEY` is
+  likewise fixed once credentials exist: changing it breaks card lookups.
+
+### Device authentication (Phase 1B)
+
+| Variable | Type | Default |
+|---|---|---|
+| `MQTT_AUTH_MODE` | str | `warn` (`off`, `warn`, `enforce`; anything else = `warn`) |
+| `MQTT_AUTH_MAX_SKEW_SECONDS` | int | `120` |
+| `MQTT_AUTH_EVENT_THROTTLE_SECONDS` | int | `300` |
+
+`warn` records findings and blocks nothing. `enforce` is implemented but not
+enabled and has never been run against a live broker. See `DEVICE_AUTHENTICATION.md`.
+
+### Database
+
+`DATABASE_URL` selects SQLite (default) or PostgreSQL
+(`postgresql+psycopg2://…`, needs `pip install -r requirements-postgres.txt`).
+Schema management is described in `DATABASE_MIGRATIONS.md`.
+
 ## MQTT
 
 Connection to the broker. `DISABLE_MQTT=true` runs the API with no broker (used by the tests). `MQTT_UNIVERSITY_ID` is the id used in the `university/{id}/…` topic tree.
