@@ -75,10 +75,6 @@ jobs:
           python schema_check.py
           python -m alembic current
       - name: "Tests against PostgreSQL"
-        # continue-on-error until this job has been seen to pass once on GitHub:
-        # it has never been executed, so a first failure should be read, not hidden.
-        # Remove this line once it is green.
-        continue-on-error: true
         env:
           TEST_DATABASE_URL: postgresql+psycopg2://ci:ci@localhost:5432/access_control_ci
           # the suite fails if it silently falls back to SQLite
