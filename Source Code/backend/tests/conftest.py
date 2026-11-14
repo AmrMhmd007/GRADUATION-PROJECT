@@ -15,7 +15,13 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 # `pytest -n auto` does not have workers clobbering each other's tables.
 _DB_SUFFIX = ("_" + os.environ["PYTEST_XDIST_WORKER"]) if os.environ.get("PYTEST_XDIST_WORKER") else ""
 _DB_FILE = f"test_access_control{_DB_SUFFIX}.db"
-os.environ["DATABASE_URL"] = f"sqlite:///./{_DB_FILE}"
+# Phase 1C: set TEST_DATABASE_URL (e.g. postgresql+psycopg2://...) to run the
+# same suite against another database. Unset (the default) = the SQLite file
+# above, exactly as before. The target database is dropped and recreated
+# between tests, so only ever point this at a throw-away database.
+_EXTERNAL_DB_URL = os.environ.get("TEST_DATABASE_URL", "").strip()
+_TEST_DB_URL = _EXTERNAL_DB_URL or f"sqlite:///./{_DB_FILE}"
+os.environ["DATABASE_URL"] = _TEST_DB_URL
 os.environ["DISABLE_MQTT"] = "true"
 os.environ["JWT_SECRET"] = "test-secret"
 
@@ -25,7 +31,7 @@ from app import models, security, crypto, rate_limit  # noqa: E402
 
 TEST_DB_PATH = Path(__file__).resolve().parent.parent / _DB_FILE
 
-engine = create_engine(f"sqlite:///./{_DB_FILE}", connect_args={"check_same_thread": False})
+engine = create_engine(_TEST_DB_URL, **({} if _EXTERNAL_DB_URL else {"connect_args": {"check_same_thread": False}}))
 TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 

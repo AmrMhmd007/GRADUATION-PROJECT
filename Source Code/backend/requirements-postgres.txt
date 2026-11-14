@@ -1,0 +1,3 @@
+# Only needed when DATABASE_URL points at PostgreSQL.
+-r requirements.txt
+psycopg2-binary>=2.9

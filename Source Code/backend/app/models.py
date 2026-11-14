@@ -1429,7 +1429,12 @@ class FaceCredential(Base):
     quality_score = Column(Float, nullable=True)
     liveness_checked = Column(Boolean, nullable=False, default=False)
     liveness_passed = Column(Boolean, nullable=True)
-    enrolled_source = Column(String(10), nullable=False, default="REAL")  # REAL | SIMULATED
+    # Phase 1C: the default is SIMULATED. A credential must be explicitly marked
+    # REAL, and only the (not yet existing) trusted enrollment pipeline may do so
+    # (see face_service.enroll). This is a Python-side default: no DDL default
+    # exists in any database, so changing it needs no schema migration and
+    # leaves existing rows (including any REAL ones) untouched.
+    enrolled_source = Column(String(10), nullable=False, default="SIMULATED")  # REAL | SIMULATED
     enrolled_at = Column(DateTime, default=datetime.datetime.utcnow)
     enrolled_by_id = Column(Integer, ForeignKey("users.user_id"), nullable=True)
     revoked_at = Column(DateTime, nullable=True)
