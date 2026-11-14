@@ -6,6 +6,8 @@ app/services/anomaly_detection_service.py and the
 import datetime
 import json
 
+import pytest
+
 from app import models, security
 from app.services import access_authorization_service
 from app.services import anomaly_detection_service as anomalies
@@ -42,6 +44,29 @@ def _event(db, door, *, user=None, credential_id=None, method="card", result="gr
 
 
 NOW = datetime.datetime(2026, 9, 24, 18, 0)
+
+
+@pytest.fixture(autouse=True)
+def _frozen_service_clock(monkeypatch):
+    """The fixtures below place events on fixed dates (2026-09-24) and the
+    service looks back ANOMALY_DEFAULT_LOOKBACK_DAYS (30) from "now". Tests that
+    go through the HTTP API do not pass `now`, so they used the real clock and
+    began failing once the real date passed 2026-10-24 (verified by freezing
+    the service clock on either side of that boundary - Phase 1C). Freezing
+    ONLY the service's own clock makes them date-independent; production code
+    is unchanged and still uses the real clock."""
+    import types
+
+    class _FrozenDateTime(datetime.datetime):
+        @classmethod
+        def utcnow(cls):
+            return NOW
+
+    frozen = types.ModuleType("datetime")
+    frozen.__dict__.update({k: getattr(datetime, k) for k in dir(datetime) if not k.startswith("__")})
+    frozen.datetime = _FrozenDateTime
+    monkeypatch.setattr(anomalies, "datetime", frozen)
+    yield
 
 
 # ---------------------------------------------------------------------------
