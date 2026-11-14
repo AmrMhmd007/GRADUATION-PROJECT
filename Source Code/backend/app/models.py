@@ -2,7 +2,7 @@ import datetime
 
 from sqlalchemy import (
     Boolean, CheckConstraint, Column, DateTime, Float, ForeignKey, Integer, SmallInteger,
-    String, Text, Time,
+    String, Text, Time, UniqueConstraint,
 )
 from sqlalchemy.orm import relationship
 
@@ -1582,3 +1582,79 @@ class HvacReading(Base):
     recorded_at = Column(DateTime, default=datetime.datetime.utcnow, index=True, nullable=False)
 
     __table_args__ = (CheckConstraint("source IN ('REAL','SIMULATED')", name="ck_hvac_reading_source"),)
+
+
+# ============================================================================
+# Phase 1B - device trust foundation (additive; three NEW tables, nothing
+# existing is altered). A "device identity" is a communicating NODE (ESP32,
+# Raspberry Pi, gateway), not a controlled appliance: models.Device is an
+# AC/light/plug that a node drives, HardwareHealth is a node's heartbeat
+# state, and neither can carry credentials. DeviceIdentity.node_id is the
+# same id HardwareHealth.node_id uses, so the two line up without a FK.
+# Deliberately separate from User auth (JWT) and the door-node X-Node-Key.
+# ============================================================================
+
+class DeviceIdentity(Base):
+    """Per-device MQTT identity. The HMAC secret is stored Fernet-encrypted
+    (HMAC needs the raw key server-side, so it cannot be one-way hashed) and
+    is shown exactly once, at creation or rotation. 'Unknown' is not a stored
+    state: it is the absence of a row. Rows are never deleted - revocation
+    sets status='REVOKED' so history stays auditable."""
+    __tablename__ = "device_identities"
+
+    identity_id = Column(Integer, primary_key=True, index=True)
+    device_id = Column(String(64), nullable=False, unique=True, index=True)   # public id carried in each message
+    name = Column(String(120), nullable=True)
+    node_id = Column(String(80), nullable=True)            # matches HardwareHealth.node_id / payload "node_id"
+    status = Column(String(10), nullable=False, default="ACTIVE")  # ACTIVE | REVOKED
+    secret_enc = Column(Text, nullable=False)
+    secret_version = Column(Integer, nullable=False, default=1)
+    secret_rotated_at = Column(DateTime, nullable=True)
+    # JSON lists, fail-closed: an empty/absent list authorizes NOTHING.
+    allowed_message_types = Column(Text, nullable=False, default="[]")
+    allowed_zone_ids = Column(Text, nullable=False, default="[]")
+    allowed_door_codes = Column(Text, nullable=False, default="[]")
+    created_at = Column(DateTime, default=datetime.datetime.utcnow)
+    created_by_id = Column(Integer, ForeignKey("users.user_id"), nullable=True)
+    revoked_at = Column(DateTime, nullable=True)
+    revoked_by_id = Column(Integer, ForeignKey("users.user_id"), nullable=True)
+    revoke_reason = Column(String(200), nullable=True)
+    last_seen_at = Column(DateTime, nullable=True)            # any message claiming this id
+    last_authenticated_at = Column(DateTime, nullable=True)   # last fully verified message
+
+    __table_args__ = (CheckConstraint("status IN ('ACTIVE','REVOKED')", name="ck_device_identity_status"),)
+
+
+class DeviceSecurityEvent(Base):
+    """Structured, secret-free record of a device-trust finding. Never holds a
+    payload, signature, nonce value or secret. Repetitive findings (e.g. a
+    legacy simulator that is never going to sign) are throttled per source and
+    carry suppressed_count instead of one row per message."""
+    __tablename__ = "device_security_events"
+
+    event_id = Column(Integer, primary_key=True, index=True)
+    occurred_at = Column(DateTime, default=datetime.datetime.utcnow, index=True, nullable=False)
+    event_type = Column(String(32), nullable=False, index=True)
+    severity = Column(String(10), nullable=False, default="WARNING")   # INFO | WARNING | CRITICAL
+    claimed_device_id = Column(String(64), nullable=True)
+    identity_id = Column(Integer, ForeignKey("device_identities.identity_id"), nullable=True, index=True)
+    topic = Column(String(200), nullable=True)
+    zone_id = Column(Integer, nullable=True)
+    enforcement_mode = Column(String(10), nullable=False)               # mode in force when it happened
+    action_taken = Column(String(20), nullable=False)                   # PROCESSED_UNVERIFIED | DROPPED | ACCEPTED
+    detail = Column(String(300), nullable=True)
+    suppressed_count = Column(Integer, nullable=False, default=0)
+
+
+class DeviceMessageNonce(Base):
+    """Replay protection: one row per accepted (identity, nonce) inside the
+    timestamp window. Persisted so a backend restart does not reopen the
+    window. Pruned opportunistically."""
+    __tablename__ = "device_message_nonces"
+
+    nonce_id = Column(Integer, primary_key=True, index=True)
+    identity_id = Column(Integer, ForeignKey("device_identities.identity_id"), nullable=False)
+    nonce = Column(String(64), nullable=False)
+    seen_at = Column(DateTime, default=datetime.datetime.utcnow, index=True, nullable=False)
+
+    __table_args__ = (UniqueConstraint("identity_id", "nonce", name="uq_device_nonce"),)

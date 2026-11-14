@@ -168,7 +168,44 @@ def _on_connect(client, userdata, flags, rc, properties=None):
     ])
 
 
+class _ScreenedMsg:
+    """What the existing handlers see after device-auth screening: the same
+    topic, and the payload with any authentication envelope removed."""
+    __slots__ = ("topic", "payload", "auth_status")
+
+    def __init__(self, topic, payload, auth_status):
+        self.topic, self.payload, self.auth_status = topic, payload, auth_status
+
+
+def _screen_message(msg):
+    """Phase 1B device-trust hook. Returns the message to process, or None to
+    drop it (only ever in 'enforce' mode, which is not enabled by default).
+    In 'off'/'warn' mode this can never stop a message that would have been
+    processed before, and it never grants anything new: every downstream
+    check in the handlers is unchanged. A failure inside the screening itself
+    fails OPEN in off/warn (behaviour identical to pre-Phase-1B) and CLOSED in
+    enforce."""
+    from . import device_auth_service
+    mode = device_auth_service.effective_mode()
+    if mode == "off":
+        return msg
+    db = SessionLocal()
+    try:
+        res = device_auth_service.process_incoming(db, msg.topic, msg.payload)
+    except Exception:
+        logger.exception("device-auth screening failed on %s", msg.topic)
+        return None if mode == "enforce" else msg
+    finally:
+        db.close()
+    if not res.process:
+        return None
+    return _ScreenedMsg(msg.topic, res.payload, res.status)
+
+
 def _on_message(client, userdata, msg):
+    msg = _screen_message(msg)
+    if msg is None:
+        return
     if msg.topic.startswith("university/"):
         _on_v2_message(msg)
         return

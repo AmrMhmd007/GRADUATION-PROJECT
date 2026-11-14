@@ -59,6 +59,18 @@ class Settings:
 
     DISABLE_MQTT: bool = os.getenv("DISABLE_MQTT", "false").lower() == "true"
 
+    # Phase 1B - per-device MQTT message authentication (HMAC-SHA256).
+    #   off      - no inspection at all (pre-Phase-1B behaviour)
+    #   warn     - DEFAULT. Verify and record security events, but process
+    #              messages exactly as before; grants nothing new.
+    #   enforce  - NOT enabled by default. Drops any message that is not a
+    #              fully verified, authorized device message.
+    # An unrecognised value falls back to "warn" (never silently to enforce).
+    MQTT_AUTH_MODE: str = os.getenv("MQTT_AUTH_MODE", "warn").strip().lower()
+    MQTT_AUTH_MAX_SKEW_SECONDS: int = int(os.getenv("MQTT_AUTH_MAX_SKEW_SECONDS", "120"))
+    # Per-source throttle for repetitive security events (e.g. legacy unsigned).
+    MQTT_AUTH_EVENT_THROTTLE_SECONDS: int = int(os.getenv("MQTT_AUTH_EVENT_THROTTLE_SECONDS", "300"))
+
     # Phase 5: at-rest encryption for credential data (card UIDs). Must be a
     # Fernet key (32 url-safe base64 bytes) — generate with:
     #   python -c "from cryptography.fernet import Fernet; print(Fernet.generate_key().decode())"
