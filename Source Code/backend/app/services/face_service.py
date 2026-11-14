@@ -72,9 +72,19 @@ def face_status(db, user_id: int) -> dict:
 
 
 def enroll(db, user: models.User, *, embedding, quality: float, liveness_passed: bool | None,
-           model_version: str | None, source: str, actor: models.User) -> models.FaceCredential:
+           model_version: str | None, source: str, actor: models.User,
+           trusted_pipeline: bool = False) -> models.FaceCredential:
     """Quality-gated enrollment. Re-enrollment supersedes (REVOKES) the
-    previous ENROLLED row rather than overwriting it."""
+    previous ENROLLED row rather than overwriting it.
+
+    Defence in depth: a REAL credential may only be created by a trusted
+    server-side pipeline (which passes trusted_pipeline=True). No such
+    pipeline exists yet, so every current caller can only create SIMULATED
+    rows, whatever its input says."""
+    if source not in ("REAL", "SIMULATED"):
+        raise ValueError("source must be REAL or SIMULATED")
+    if source == "REAL" and not trusted_pipeline:
+        raise PermissionError("REAL Face ID credentials can only be created by the trusted enrollment pipeline")
     if user.status != "active":
         raise ValueError("Account is not active")
     if quality is None or quality < settings.FACE_MIN_QUALITY:

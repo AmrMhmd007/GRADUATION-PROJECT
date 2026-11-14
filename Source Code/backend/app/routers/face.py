@@ -41,7 +41,10 @@ class EnrollIn(BaseModel):
     quality: float
     liveness_passed: Optional[bool] = None
     model_version: Optional[str] = None
-    source: str = "REAL"  # REAL | SIMULATED (tests / dev adapters must say so)
+    # This endpoint accepts a CLIENT-SUPPLIED embedding, which can never be
+    # trusted as a real biometric. It therefore only records SIMULATED
+    # credentials; REAL ones need the (not yet built) server-side pipeline.
+    source: str = "SIMULATED"
 
 
 class RevokeIn(BaseModel):
@@ -99,6 +102,10 @@ def my_status(user=Depends(security.get_current_user), db: Session = Depends(get
 def enroll_me(payload: EnrollIn, user=Depends(security.get_current_user), db: Session = Depends(get_db)):
     if payload.source not in ("REAL", "SIMULATED"):
         raise HTTPException(status_code=400, detail="source must be REAL or SIMULATED")
+    if payload.source != "SIMULATED":
+        raise HTTPException(status_code=403, detail="REAL Face ID enrollment from client-supplied data is not "
+                                                     "permitted; only SIMULATED enrollment is available until the "
+                                                     "trusted server-side enrollment pipeline exists")
     try:
         face_service.enroll(db, user, embedding=payload.embedding, quality=payload.quality,
                             liveness_passed=payload.liveness_passed, model_version=payload.model_version,
