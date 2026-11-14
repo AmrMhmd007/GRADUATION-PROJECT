@@ -16,18 +16,19 @@ Graduation project, **Alamein International University (AIU)**. A smart-campus p
 
 ## Verified platform capabilities
 
-Verified = covered by backend automated tests that were run (600 passing on 2026-10-09; see the [audit report](./Reports%20and%20Audits/REPOSITORY_AUDIT_2026-10-09.md)).
+Verified = covered by backend automated tests that were run (668 passing on SQLite on 2026-11-15; see [`Documents/FEATURE_MATRIX.md`](./Documents/FEATURE_MATRIX.md) for the evidence behind every status and [`Documents/TESTING_AND_VERIFICATION.md`](./Documents/TESTING_AND_VERIFICATION.md) for what was not run).
 
 - **Access & authorization:** scheduled/temporary access windows, WHO/WHEN authorization check, persisted access events with investigation detail, emergency overrides, anomaly indicators.
 - **Accounts & RBAC:** admin / doctor / instructor roles with organizational and operational scope, forced password change, password reset, lockout after repeated failures, audit log.
 - **Smart Building:** buildings, rooms, zones, sensors and devices; automation engine with a verification window and decision log; HVAC model; hardware-node health; staleness watchdog.
 - **Occupancy:** anonymous people-count ingest (`REAL` or `SIMULATED`). Counts people only — it does not identify anyone.
 - **Academic administration:** colleges, departments, courses, doctors and teaching assistants, Excel import.
+- **Device trust (software only):** per-device identity registry, HMAC-signed MQTT messages with replay protection, in **warn-only** mode (nothing is blocked yet). Not tested with a live broker or hardware. See [`Documents/DEVICE_AUTHENTICATION.md`](./Documents/DEVICE_AUTHENTICATION.md).
 - **Dashboard:** command hub, global search, command palette, role-based sidebar (builds and lints; browser flows not re-verified in the latest audit).
 
 ## Architecture
 
-Full document with maturity labels: [`Documents/ARCHITECTURE.md`](./Documents/ARCHITECTURE.md).
+Full document with maturity labels: [`Documents/ARCHITECTURE.md`](./Documents/ARCHITECTURE.md). Documentation index: [`Documents/README.md`](./Documents/README.md).
 
 ```mermaid
 flowchart LR
@@ -109,11 +110,11 @@ Sign in at `http://localhost:5173`; API docs at `http://localhost:8000/docs`. Af
 
 ## Configuration
 
-Copy `Source Code/backend/.env.example` to `.env` (git-ignored). Every variable with its default is listed in [`Documents/CONFIGURATION.md`](./Documents/CONFIGURATION.md). Key variables: `DATABASE_URL`, `JWT_SECRET`, `JWT_EXPIRE_MINUTES`, `MQTT_BROKER_HOST/PORT/USE_TLS/USERNAME/PASSWORD`, `DISABLE_MQTT`, `ALLOWED_ORIGINS` (CORS; `*` is for local development only), `CREDENTIAL_ENCRYPTION_KEY` and `CREDENTIAL_INDEX_KEY` (must be persisted), `FACE_NODE_API_KEY`, `FACE_EMBEDDING_PROVIDER`. The backend logs a warning at start-up for insecure defaults (never printing secret values). Firmware secrets live in `door_node_firmware/include/secrets.h` (git-ignored; template: `secrets_example.h`). The dashboard needs `VITE_API_BASE_URL` only for a non-default backend host.
+Copy `Source Code/backend/.env.example` to `.env` (git-ignored). Every variable with its default is listed in [`Documents/CONFIGURATION.md`](./Documents/CONFIGURATION.md). Key variables: `DATABASE_URL`, `JWT_SECRET`, `JWT_EXPIRE_MINUTES`, `MQTT_BROKER_HOST/PORT/USE_TLS/USERNAME/PASSWORD`, `DISABLE_MQTT`, `ALLOWED_ORIGINS` (CORS; `*` is for local development only), `CREDENTIAL_ENCRYPTION_KEY` and `CREDENTIAL_INDEX_KEY` (must be persisted; an invalid encryption key stops start-up), `MQTT_AUTH_MODE` (`warn` by default), `FACE_NODE_API_KEY`, `FACE_EMBEDDING_PROVIDER`. The backend logs a warning at start-up for insecure defaults (never printing secret values). Firmware secrets live in `door_node_firmware/include/secrets.h` (git-ignored; template: `secrets_example.h`). The dashboard needs `VITE_API_BASE_URL` only for a non-default backend host.
 
 ## Database
 
-SQLAlchemy models create their tables at start-up (`Base.metadata.create_all`). For databases created by older versions, run the idempotent `migrate_*.py` scripts from `Source Code/backend` — they operate on the SQLite file named by `DATABASE_URL` (default `./access_control.db`) and refuse non-SQLite URLs. Back up the database before migrating. `.db` files are git-ignored.
+SQLAlchemy models create their missing tables at start-up (`Base.metadata.create_all`). Schema management uses **Alembic** with a conservative baseline (`python3 -m alembic upgrade head`, read-only `python3 schema_check.py`, run from `Source Code/backend`); it only creates missing tables and cannot be downgraded. Databases created by older versions may also need the idempotent SQLite-only `migrate_*.py` scripts for missing columns. Back up the database before migrating. PostgreSQL is supported through `DATABASE_URL` but has **never been executed**; its CI job exists and has not run. Details: [`Documents/DATABASE_MIGRATIONS.md`](./Documents/DATABASE_MIGRATIONS.md). `.db` files are git-ignored.
 
 ## Testing
 
@@ -127,7 +128,7 @@ DISABLE_MQTT=true pytest -q -n auto
 cd ../dashboard && npm run lint && npm run build
 ```
 
-Latest run (2026-10-09, isolated copy, Python 3.10, Node 22): backend: 600 tests passing (serial, and again in parallel with `-n 4`); lint 0 errors / 14 warnings; production build succeeds. Firmware compilation and live hardware/MQTT tests were **not** run.
+Latest run (2026-11-15, Python 3.10, SQLite, serial, 44 files): **668 backend tests passed, 0 failed**. Dashboard lint: 0 errors, 14 warnings. **Not run:** the backend on PostgreSQL, the GitHub Actions jobs (none observed passing yet), the dashboard production build in this round, browser flows, a live MQTT broker, firmware compilation, and any hardware. See [`Documents/TESTING_AND_VERIFICATION.md`](./Documents/TESTING_AND_VERIFICATION.md).
 
 ## API documentation
 
@@ -159,7 +160,7 @@ Runtime: energy readings, waste leads and HVAC modelling in the backend (simulat
 
 ## Security and privacy
 
-JWT authentication, bcrypt hashing, RBAC with scope enforcement, login lockout, encrypted credential storage, audit logging; secrets are read from the environment and `.env`/`secrets.h`/databases are git-ignored. Occupancy is anonymous counting; face templates are encrypted and never shown; the face embedding provider defaults to `none`. **Before any shared deployment:** set a strong `JWT_SECRET`, persist the encryption keys, restrict `ALLOWED_ORIGINS`, enable MQTT authentication/TLS, and use HTTPS. This repository has not had an external penetration test.
+JWT authentication, bcrypt hashing, RBAC with scope enforcement, login lockout, encrypted credential storage, audit logging; secrets are read from the environment and `.env`/`secrets.h`/databases are git-ignored. Occupancy is anonymous counting; face templates are encrypted and never shown; the face embedding provider defaults to `none`. **Current limits** (full register: [`Documents/SECURITY_LIMITATIONS.md`](./Documents/SECURITY_LIMITATIONS.md)): MQTT device authentication is warn-only; the broker uses shared credentials; backend commands are unsigned; the encryption key cannot be rotated; Face ID has no real enrolment or liveness, and any legacy `REAL` Face ID credentials need a manual review. **Before any shared deployment:** set a strong `JWT_SECRET`, persist the encryption keys, restrict `ALLOWED_ORIGINS`, enable MQTT authentication/TLS, and use HTTPS. This repository has not had an external penetration test.
 
 ## Troubleshooting
 
@@ -173,15 +174,18 @@ JWT authentication, bcrypt hashing, RBAC with scope enforcement, login lockout, 
 1. No Raspberry Pi code exists here; only the backend side of Face ID. The embedding provider is `none` by default.
 2. Firmware and gateway are prototypes. The gateway ⇄ backend path is verified only against simulated nodes; the ESP32 firmware was not compiled or run. The gateway README references `rs485_protocol.h` and `test_cross_lang.py`, which are missing from `door_node_firmware/`.
 3. No per-student attendance anywhere in the system.
-4. Migrations are ad-hoc idempotent scripts (SQLite only; they honour a `sqlite:///` `DATABASE_URL` and refuse other databases); there is no migration framework such as Alembic.
+4. Alembic has a baseline only (no column-level revisions); the legacy `migrate_*.py` scripts remain SQLite-only. PostgreSQL and the GitHub Actions jobs have not been run.
 5. Dashboard `package.json` lists a macOS-specific optional dependency (`@rolldown/binding-darwin-arm64`).
 6. `ALLOWED_ORIGINS` defaults to `*` for convenience.
+7. MQTT authentication is warn-only, backend-to-device messages are unsigned and the broker login is shared. Face ID enrolment, capture and liveness are not implemented.
+8. The AI engine, Copilot and Simulation Lab do not exist; the Digital Twin is a data skeleton. See [`Documents/ROADMAP.md`](./Documents/ROADMAP.md).
 
 Full prioritised backlog: [`Reports and Audits/REPOSITORY_AUDIT_2026-10-09.md`](./Reports%20and%20Audits/REPOSITORY_AUDIT_2026-10-09.md).
 
 ## Documentation index
 
-- [Manual setup guide](./Documents/SETUP.md) · [Configuration reference](./Documents/CONFIGURATION.md) · [Architecture](./Documents/ARCHITECTURE.md) · [System Design Document](./Documents/System_Design_Document.docx) · [Proposal](./Documents/Access_Control_System_Proposal_Revised.docx) · [Project timeline](./Documents/Access_Control_System_Project_Timeline.xlsx)
+- **Start here:** [Documentation index](./Documents/README.md) · [Architecture](./Documents/ARCHITECTURE.md) · [Feature matrix](./Documents/FEATURE_MATRIX.md) · [Security limitations](./Documents/SECURITY_LIMITATIONS.md) · [Testing and verification](./Documents/TESTING_AND_VERIFICATION.md) · [Developer guide](./Documents/DEVELOPER_GUIDE.md) · [Roadmap](./Documents/ROADMAP.md) · [Device authentication](./Documents/DEVICE_AUTHENTICATION.md) · [Database migrations](./Documents/DATABASE_MIGRATIONS.md)
+- [Manual setup guide](./Documents/SETUP.md) · [Configuration reference](./Documents/CONFIGURATION.md) · [System Design Document](./Documents/System_Design_Document.docx) · [Proposal](./Documents/Access_Control_System_Proposal_Revised.docx) · [Project timeline](./Documents/Access_Control_System_Project_Timeline.xlsx)
 - [Security Review (phase 5)](./Documents/Phase5_Security_Review.pdf) · [Multi-node deployment guide](./Documents/Phase6_Multi_Node_Deployment_Guide.pdf) · [System test report (phase 7)](./Documents/Phase7_System_Test_Report.pdf) · [Wiring & bench test](./Documents/Phase2_Wiring_and_Bench_Test_Guide.docx) · [Study guide](./Documents/Study_Guide_Access_Control_Project.pdf)
 - Import templates: `Documents/door_import_template.xlsx`, `Documents/staff_import_template.xlsx`
 

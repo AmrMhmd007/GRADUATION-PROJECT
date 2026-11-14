@@ -2,7 +2,7 @@
 
 Follow this top to bottom and the system runs on your machine with nothing else needed. **Time: about 10 minutes.**
 
-**What was verified.** On 2026-10-09 / 10 the *Quick start* below was executed from a clean `git archive` of the repository in a Linux sandbox (new virtualenv, `pip install -r requirements.txt`, seed, API start, `npm install`, Vite dev server, login through the API with a browser `Origin` header): backend `/docs` = 200, dashboard `/` = 200, login = 200 with CORS headers. The backend test suite (600 tests) and the dashboard lint/build also passed. **Not executed** (no hardware or matching OS in the audit environment): Windows, a real MQTT broker via `mosquitto`, `start.sh` end to end, ESP32 firmware, the RS-485 gateway on real serial hardware, Face ID capture. Those sections say so.
+**What was verified.** On 2026-10-09 / 10 the *Quick start* below was executed from a clean `git archive` of the repository in a Linux sandbox (new virtualenv, `pip install -r requirements.txt`, seed, API start, `npm install`, Vite dev server, login through the API with a browser `Origin` header): backend `/docs` = 200, dashboard `/` = 200, login = 200 with CORS headers. The backend test suite and the dashboard lint/build also passed at that time (600 tests then; 668 tests passed on SQLite on 2026-11-15, see `TESTING_AND_VERIFICATION.md`). **Not executed** (no hardware or matching OS in the audit environment): Windows, a real MQTT broker via `mosquitto`, `start.sh` end to end, ESP32 firmware, the RS-485 gateway on real serial hardware, Face ID capture. Those sections say so.
 
 ---
 
@@ -89,14 +89,14 @@ cp .env.example .env
 
 1. **Edit `.env`** (git-ignored). For local development the defaults work. For anything shared, set the keys in section 6 and read [`CONFIGURATION.md`](./CONFIGURATION.md) (every variable, its default and meaning).
 2. **Create the database:** `python -m scripts.seed_db`. It is safe to re-run (it skips if users already exist). Tables are also created automatically whenever the API starts.
-   - SQLite file `access_control.db` is created in `Source Code/backend/` (git-ignored). To use PostgreSQL set `DATABASE_URL=postgresql+psycopg2://user:pass@host/db` and `pip install psycopg2-binary` *(PostgreSQL was not tested in the audit)*.
+   - SQLite file `access_control.db` is created in `Source Code/backend/` (git-ignored). To use PostgreSQL set `DATABASE_URL=postgresql+psycopg2://user:pass@host/db` and `pip install -r requirements-postgres.txt` *(PostgreSQL has never been executed in this project; use `requirements-postgres.txt`)*.
 3. **Optional demo data:**
    - `python -m scripts.import_schedule_csv scripts/sample_timetable.csv` — mock timetable.
    - `python3 seed_buildings.py` — adds building names B2, B8, B9, B10, B11 to the dropdown (stop the server first; edit the list for your campus).
 4. **Run:** `uvicorn app.main:app --reload --port 8000` (add `--host 0.0.0.0` to allow other devices). Without a broker set `DISABLE_MQTT=true`.
 
 ### Keep an existing database up to date
-Back up `access_control.db` first, then from `Source Code/backend` run the `migrate_*.py` scripts you need (`python migrate_<name>.py`). They are idempotent, SQLite-only and use the file named by `DATABASE_URL` (default `./access_control.db`). A fresh database never needs them.
+Back up `access_control.db` first. From `Source Code/backend` run `python3 schema_check.py` (read-only). If it reports missing columns, apply the matching legacy `migrate_*.py` script (idempotent, SQLite-only, honours `DATABASE_URL`), then run `python3 -m alembic upgrade head`, which only creates missing tables. A fresh database needs none of this. See [`DATABASE_MIGRATIONS.md`](./DATABASE_MIGRATIONS.md).
 
 ### Reset to a clean state
 Stop the server, delete `Source Code/backend/access_control.db`, run `python -m scripts.seed_db` again.
@@ -143,7 +143,7 @@ npm run dev
    # JWT_SECRET and CREDENTIAL_INDEX_KEY (run twice for two different values)
    python -c "import secrets; print(secrets.token_urlsafe(48))"
    ```
-   Keep `CREDENTIAL_ENCRYPTION_KEY` and `CREDENTIAL_INDEX_KEY` **stable** — if they change, stored encrypted credentials cannot be read.
+   Keep `CREDENTIAL_ENCRYPTION_KEY` and `CREDENTIAL_INDEX_KEY` **stable** — if they change, stored encrypted credentials, Face ID templates and device secrets cannot be read, and there is no rotation tool. An invalid encryption key stops start-up.
 2. Set `ALLOWED_ORIGINS` to the dashboard URL(s) (the backend warns at start-up while it is `*`).
 3. Replace or remove the seeded sample users; use HTTPS in front of the API and dashboard.
 4. Enable MQTT authentication and TLS (`MQTT_USERNAME`, `MQTT_PASSWORD`, `MQTT_USE_TLS=true`).
@@ -210,7 +210,7 @@ cd ../dashboard
 npm run lint
 npm run build
 ```
-The suite has 600 tests and takes roughly 6-8 minutes serially on a small machine. Tests use their own SQLite files and never touch your real `access_control.db`. GitHub Actions (`.github/workflows/ci.yml`) runs the same checks on every push.
+The suite has 668 tests (668 passed on SQLite on 2026-11-15) and takes several minutes serially. Tests use their own SQLite files and never touch your real `access_control.db`. GitHub Actions (`.github/workflows/ci.yml`) runs the same checks on every push.
 
 ---
 
@@ -238,7 +238,7 @@ pip install -r requirements.txt
 cd ../dashboard
 npm install
 ```
-Apply any new `migrate_*.py` scripts to an existing database (see section 3).
+Check and update an existing database as described in section 3.
 
 ## 12. Not provided
 No Docker/Docker Compose files are included, and there is no hosted demo. Windows and PostgreSQL paths are documented but untested.
