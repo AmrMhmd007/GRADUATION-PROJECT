@@ -201,3 +201,16 @@ def test_secret_health_counts_undecryptable_secrets_without_exposing_them(client
     db_session.commit()
     h = das.secret_health(db_session)
     assert h == {"active_identities": 1, "undecryptable": 1} and secret not in str(h)
+
+
+# ------------------------------------------------------------ which database is the suite really on?
+def test_suite_runs_on_the_requested_database(db_session):
+    """Guards against the PostgreSQL CI job silently running on SQLite. CI sets
+    EXPECT_DB_DIALECT; locally it defaults to the dialect implied by
+    TEST_DATABASE_URL (or sqlite when that is unset)."""
+    from app.database import engine as app_engine
+    url = os.environ.get("TEST_DATABASE_URL", "").strip()
+    default = url.split(":", 1)[0].split("+", 1)[0] if url else "sqlite"
+    expected = os.environ.get("EXPECT_DB_DIALECT") or default
+    assert db_session.get_bind().dialect.name == expected
+    assert app_engine.dialect.name == expected       # the application's own engine, not just the test one
