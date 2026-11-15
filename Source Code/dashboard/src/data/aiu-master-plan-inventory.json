@@ -1,0 +1,19 @@
+{
+  "inventory_version": "2026-11-15.1",
+  "purpose": "Reference list of facility names from the historical master plan document. NOT geographic data: this file contains no coordinates and must never be merged into aiu-campus.geojson.",
+  "source_id": "aiu-faculties-pdf-2020",
+  "source_status": "PARTIAL: only page headings were read. Page 6 (master plan image) labels and relative arrangement have NOT been read because the file could not be downloaded in the working environment.",
+  "built_status_note": "Presence in a 2020 master plan does not mean the facility is built or operational.",
+  "facilities": [
+    { "original_name": "ADMINISTRATION BUILDING", "document_page": 7, "evidence": "page heading (text layer)", "on_master_plan_page_6": "unknown - not read", "relative_position": null, "built_status": "UNCONFIRMED" },
+    { "original_name": "CONFERENCE HALL", "document_page": 8, "evidence": "page heading (text layer)", "on_master_plan_page_6": "unknown - not read", "relative_position": null, "built_status": "UNCONFIRMED" },
+    { "original_name": "LIBRARY", "document_page": 9, "evidence": "page heading (text layer)", "on_master_plan_page_6": "unknown - not read", "relative_position": null, "built_status": "UNCONFIRMED" },
+    { "original_name": "UNIVERSITY HOSPITAL", "document_page": 10, "evidence": "page heading (text layer)", "on_master_plan_page_6": "unknown - not read", "relative_position": null, "built_status": "UNCONFIRMED" },
+    { "original_name": "STUDENT ENTERTAINMENT", "document_page": 11, "evidence": "page heading (text layer)", "on_master_plan_page_6": "unknown - not read", "relative_position": null, "built_status": "UNCONFIRMED" }
+  ],
+  "other_headings": [
+    { "document_page": 4, "original_text": "GENERAL VIEW", "note": "aerial architectural rendering (image)" },
+    { "document_page": 5, "original_text": "ALAMEIN CITY", "note": "image" },
+    { "document_page": 6, "original_text": "MASTER PLAN", "note": "image with labels - not read" }
+  ]
+}

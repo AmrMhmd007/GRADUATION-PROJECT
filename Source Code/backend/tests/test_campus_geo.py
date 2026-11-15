@@ -131,3 +131,48 @@ def test_unmapped_dataset_feature_never_counts_as_linked(data):
             f["properties"]["backend_building_name"] = "Service Building B16"
     assert geo.validate(d) == []
     assert geo.map_to_backend(d, ["Service Building B16"])["linked"] == []
+
+
+# ---- Phase 2A continuation: historical master plan register and reference files ----
+import json as _json
+from pathlib import Path as _Path
+
+_DATA = geo.DATASET_PATH.parent
+
+
+def _ref(name):
+    return _json.loads((_DATA / name).read_text(encoding="utf-8"))
+
+
+def test_master_plan_source_is_registered_with_limitations(data):
+    s = next(x for x in data["dataset"]["sources"] if x["id"] == "aiu-faculties-pdf-2020")
+    assert s["document_date"] == "2020-10"
+    assert s["source_type"] == "historical architectural master plan"
+    assert "not current satellite imagery" in s["limitations"] and "not surveyed GIS" in s["limitations"]
+    assert any(r.startswith("6") for r in s["page_refs"])
+
+
+def test_master_plan_adds_no_geometry(data):
+    assert [f["id"] for f in data["features"] if f["geometry"]] == ["aiu-campus-reference"]
+
+
+def test_reference_files_contain_no_coordinates():
+    for name in ("aiu-master-plan-inventory.json", "aiu-facility-matching.json"):
+        text = (_DATA / name).read_text(encoding="utf-8")
+        for banned in ('"coordinates"', '"geometry"', '"lat"', '"lng"', '"lon"'):
+            assert banned not in text, f"{name} must not carry {banned}"
+
+
+def test_matching_never_verifies_without_evidence():
+    for row in _ref("aiu-facility-matching.json")["rows"]:
+        if row["verification_status"] == "VERIFIED":
+            assert row["satellite_match"] and row["confidence"] in ("MEDIUM", "HIGH")
+        else:
+            assert row["missing_evidence"]
+
+
+def test_inventory_does_not_claim_built_status():
+    for f in _ref("aiu-master-plan-inventory.json")["facilities"]:
+        assert f["built_status"] in ("UNCONFIRMED", "CONFIRMED_BUILT")
+        if f["built_status"] == "CONFIRMED_BUILT":
+            assert f["evidence"] != "page heading (text layer)"

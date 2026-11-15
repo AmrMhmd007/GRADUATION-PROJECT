@@ -85,3 +85,31 @@ The detail panel reads the existing `GET /api/rooms-intel/campus-map` (unrestric
 ## 10. Limits
 
 Not verified in a browser or with screenshots. No test covers the React view or the browser-side validator (there is no frontend test runner). The Python and JavaScript validators are separate copies of the same rules.
+
+## 11. Historical master plan (added 2026-11-15)
+
+Registered as source `aiu-faculties-pdf-2020`: *Faculties & Scientific Departments, Vol. 2*, October 2020, `https://aiu.edu.eg/wp-content/uploads/2023/05/Faculties-ScientificDepartments.pdf`. Type: historical architectural master plan. Limitations: not current satellite imagery, not surveyed GIS geometry, shows planned facilities.
+
+**What was and was not read.** The PDF text was fetched. Page 4 ("GENERAL VIEW"), 5 ("ALAMEIN CITY") and 6 ("MASTER PLAN") are images: only their headings came through. **The labels and relative arrangement on page 6 have not been read.** The sandbox cannot download the file (proxy returns 403 for `aiu.edu.eg`), and no workaround was used. Page headings 7 to 11 name: ADMINISTRATION BUILDING, CONFERENCE HALL, LIBRARY, UNIVERSITY HOSPITAL, STUDENT ENTERTAINMENT.
+
+Reference files (no coordinates; tests forbid them; never merge into the GeoJSON):
+
+| File | Content |
+|---|---|
+| `dashboard/src/data/aiu-master-plan-inventory.json` | Original names, page, evidence, built status (all `UNCONFIRMED`) |
+| `dashboard/src/data/aiu-facility-matching.json` | Matching table: backend record, satellite match, confidence, status, missing evidence. All `UNVERIFIED` |
+
+The seed creates no `Building` rows (only doors labelled "Building A/B"); the real database was not inspected, so a backend match is unknown rather than absent. No schematic layer was built: it needs page 6.
+
+## 12. Current imagery: investigation
+
+Nothing is configured, no tile was downloaded, and no capture date is claimed. Findings from a search on 2026-11-15 (not legal advice; read each provider's current terms before use):
+
+| Provider | Terms and attribution | Capture date | Fit |
+|---|---|---|---|
+| Esri World Imagery | Sources conflict: the OSM wiki says CC BY 4.0, an undated Esri staff reply says tile access needs an ArcGIS licence and excludes commercial use. Standard credit: "Sources: Esri, Maxar, Earthstar Geographics, and the GIS User Community". | Per location, in Esri's metadata/Wayback layers; must be checked at the campus | Plausible; terms must be confirmed on the item's Terms of Use |
+| Mapbox Satellite | Account token and Terms of Service; logo and text attribution required. Imagery blended from commercial providers (Maxar Vivid at zoom 8 to 18) plus NASA/USGS. | Egypt capture dates not found | Plausible with an account |
+| EOX Sentinel-2 cloudless | Older years CC BY 4.0; newer years non-commercial with attribution, commercial use needs a licence. Credit includes the data year. | Yearly mosaic | 10 m pixels: too coarse for building outlines |
+| Google Maps | Not researched. The uniRank page embeds it with its own key; that key is not used. | | Not evaluated |
+
+A university graduation project is likely non-commercial, but that is the owner's call. To enable a layer, the owner opens an account with a provider, accepts its terms, checks the capture date over the campus, and sets `VITE_SATELLITE_TILE_URL` and `VITE_SATELLITE_ATTRIBUTION`. Record provider, date and licence here when done.

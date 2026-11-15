@@ -4,7 +4,7 @@
   "crs_note": "RFC 7946 GeoJSON: WGS 84 (EPSG:4326), coordinates are [longitude, latitude] in decimal degrees.",
   "dataset": {
     "schema_version": 1,
-    "dataset_version": "2026-11-15.1",
+    "dataset_version": "2026-11-15.2",
     "crs": "EPSG:4326",
     "policy": "No coordinate is invented. A feature with geometry_status UNMAPPED has geometry null. VERIFIED requires a polygon, a source, a source_date and MEDIUM/HIGH confidence.",
     "sources": [
@@ -39,6 +39,22 @@
         "accessed": null,
         "provides": "NOT RETRIEVED: refused by robots.txt from the automation environment. Photographs and renders are not satellite imagery and are not geometry sources.",
         "licence_note": "Not used."
+      },
+      {
+        "id": "aiu-faculties-pdf-2020",
+        "title": "Faculties & Scientific Departments, Vol. 2 (AIU)",
+        "url": "https://aiu.edu.eg/wp-content/uploads/2023/05/Faculties-ScientificDepartments.pdf",
+        "accessed": "2026-11-15",
+        "document_date": "2020-10",
+        "page_refs": [
+          "4 (General view, aerial rendering)",
+          "6 (Master plan)",
+          "7-11 (facility pages)"
+        ],
+        "source_type": "historical architectural master plan",
+        "limitations": "Dated October 2020. Architectural/planning material, not current satellite imagery and not surveyed GIS geometry. Shows planned facilities; none is assumed built or operational. Pages 4 and 6 are images: only their headings were read (text extraction); the labels on page 6 were NOT read.",
+        "provides": "Facility page headings (text layer): Administration Building, Conference Hall, Library, University Hospital, Student Entertainment. Page 6 labels and arrangement: not yet read.",
+        "licence_note": "Official university publication. Used only as a textual reference; no image or drawing is copied or traced into the dataset."
       }
     ]
   },
@@ -46,13 +62,21 @@
     {
       "type": "Feature",
       "id": "aiu-campus-reference",
-      "geometry": { "type": "Point", "coordinates": [28.9298125, 30.8116875] },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          28.9298125,
+          30.8116875
+        ]
+      },
       "properties": {
         "kind": "campus_reference",
         "name": "AIU main campus (reference point)",
         "backend_building_name": null,
         "geometry_status": "APPROXIMATE",
-        "source_ids": ["unirank-location"],
+        "source_ids": [
+          "unirank-location"
+        ],
         "source_date": "2026-11-15",
         "confidence": "LOW",
         "floor_plan_refs": [],
@@ -84,7 +108,9 @@
         "name": "Service Building B16",
         "backend_building_name": null,
         "geometry_status": "UNMAPPED",
-        "source_ids": ["emco-profile-2025"],
+        "source_ids": [
+          "emco-profile-2025"
+        ],
         "source_date": "2025-09-01",
         "confidence": "NONE",
         "floor_plan_refs": [],

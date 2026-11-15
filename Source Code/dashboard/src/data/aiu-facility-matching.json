@@ -1,0 +1,13 @@
+{
+  "matching_version": "2026-11-15.1",
+  "rule": "Evidence table only. No row may be VERIFIED without a satellite visual match and a licensed imagery source. Backend records are never renamed or created from this table.",
+  "backend_inspection": "The repository seed creates no Building rows (only Doors with building strings 'Building A' and 'Building B', placeholders). The real database was not inspected, so any backend match is unknown, not absent.",
+  "rows": [
+    { "master_plan_name": "ADMINISTRATION BUILDING", "backend_building": null, "satellite_match": null, "confidence": "NONE", "verification_status": "UNVERIFIED", "missing_evidence": ["page 6 position", "backend building list from the real database", "licensed recent imagery", "visual match"] },
+    { "master_plan_name": "CONFERENCE HALL", "backend_building": null, "satellite_match": null, "confidence": "NONE", "verification_status": "UNVERIFIED", "missing_evidence": ["page 6 position", "backend building list from the real database", "licensed recent imagery", "visual match"] },
+    { "master_plan_name": "LIBRARY", "backend_building": null, "satellite_match": null, "confidence": "NONE", "verification_status": "UNVERIFIED", "missing_evidence": ["page 6 position", "backend building list from the real database", "licensed recent imagery", "visual match"] },
+    { "master_plan_name": "UNIVERSITY HOSPITAL", "backend_building": null, "satellite_match": null, "confidence": "NONE", "verification_status": "UNVERIFIED", "missing_evidence": ["page 6 position", "evidence it was built", "licensed recent imagery", "visual match"] },
+    { "master_plan_name": "STUDENT ENTERTAINMENT", "backend_building": null, "satellite_match": null, "confidence": "NONE", "verification_status": "UNVERIFIED", "missing_evidence": ["page 6 position", "evidence it was built", "licensed recent imagery", "visual match"] },
+    { "master_plan_name": "Service Building B16 (EMCO profile, not in the 2020 document)", "backend_building": null, "satellite_match": null, "confidence": "NONE", "verification_status": "UNVERIFIED", "missing_evidence": ["position", "page 6 label if any", "licensed recent imagery", "visual match"] }
+  ]
+}
