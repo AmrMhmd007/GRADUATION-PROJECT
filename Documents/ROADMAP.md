@@ -47,7 +47,7 @@ Not a new feature; it makes later claims trustworthy.
 
 ## Stage 3 — Campus Digital Twin v1 (L)
 
-*Today:* building, zone, occupancy, room-health, timeline and campus-map read models; floor/room grid UI. *Depends on:* Stage 2.
+*Today:* building, zone, occupancy, room-health, timeline and campus-map read models; floor/room grid UI. Phase 2A (unmerged branch) adds a geographic data model and a map view with no verified outlines yet; obtaining them from the official campus map is the next blocker. *Depends on:* Stage 2.
 
 - Spatial model: nullable coordinates and floor-plan references on zones (Alembic revision), zone adjacency.
 - Stored twin-state snapshots (state history), not only on-the-fly read models.

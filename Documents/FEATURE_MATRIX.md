@@ -87,7 +87,7 @@
 
 | Planned system | Status | What exists today | What is missing |
 |---|---|---|---|
-| Campus Digital Twin | PARTIAL | Building, zone, occupancy, room-health read models, floor grid | Geometry, stored twin state and history, versioned twin API, rendering |
+| Campus Digital Twin | PARTIAL | Building, zone, occupancy, room-health read models, floor grid; Phase 2A (branch `feature/campus-digital-twin`, unpushed): geographic dataset format, validator, Leaflet map with unmapped/unavailable states (see `CAMPUS_GEOGRAPHY.md`) | **Any verified building outline** (none exists), campus boundary, licensed basemap, stored twin state and history, versioned twin API, browser verification |
 | Intelligent Automation | PARTIAL | Safe occupancy-driven shutdown (section B) | General triggers and actions, rule builder, optimisation |
 | AI Intelligence Engine | MISSING | Rule-based anomaly and maintenance indicators; energy and occupancy tables | Forecasting, prediction, models, feature pipeline, real data |
 | Cybersecurity Center | PARTIAL | Audit log, lockout, device registry, HMAC warn mode, security events API | Dashboard, enforcement, broker ACLs, intrusion detection, alert routing |

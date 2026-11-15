@@ -64,9 +64,10 @@ flowchart LR
 
 ## 3. Frontend architecture
 
-- React 19 and Vite 8, linted with oxlint. The only runtime dependencies are `react` and `react-dom`: there is no router library and no state library. `package.json` also lists a macOS-only optional dependency (`@rolldown/binding-darwin-arm64`).
+- React 19 and Vite 8, linted with oxlint. The runtime dependencies are `react`, `react-dom` and (Phase 2A, unmerged branch) `leaflet` for the Campus Twin map, which is lazy-loaded; there is no router library and no state library. `package.json` also lists a macOS-only optional dependency (`@rolldown/binding-darwin-arm64`).
 - `src/pages/Dashboard.jsx` (about 1,100 lines) owns navigation as tab/domain state and most data loading. `src/components/AccountMenu.jsx` (about 1,200 lines) holds the profile and password UI. Feature areas are folders: `academic/`, `physical/`, `smart-building/`.
 - `src/api/client.js` is the single API client. The JWT is stored in `localStorage` (key `access_control_token`). `AuthContext.jsx` decodes the token **only to show the role**; the server enforces every permission.
+- Campus Twin (Phase 2A): `physical/CampusTwinMap.jsx` renders `src/data/aiu-campus.geojson` on Leaflet. It draws only VERIFIED polygons (none exist yet), marks everything else unmapped, and reads live figures from the existing `/api/rooms-intel/campus-map`, showing "Unavailable" when missing. No new table or endpoint. See [`CAMPUS_GEOGRAPHY.md`](./CAMPUS_GEOGRAPHY.md).
 - The Face ID screens (`physical/FaceIdCard.jsx`, `FaceIdAdmin.jsx`) show status and administration only. There is no camera or enrolment UI, and the enrol button is permanently disabled.
 - Status: lint 0 errors, 14 warnings (re-run 2026-11-15). A production build succeeded in an earlier audit and was not re-run in this phase. **No frontend unit tests exist and no browser flow was verified in the latest work.**
 
