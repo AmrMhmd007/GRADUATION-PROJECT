@@ -1,0 +1,95 @@
+{
+  "type": "FeatureCollection",
+  "name": "aiu-campus-geography",
+  "crs_note": "RFC 7946 GeoJSON: WGS 84 (EPSG:4326), coordinates are [longitude, latitude] in decimal degrees.",
+  "dataset": {
+    "schema_version": 1,
+    "dataset_version": "2026-11-15.1",
+    "crs": "EPSG:4326",
+    "policy": "No coordinate is invented. A feature with geometry_status UNMAPPED has geometry null. VERIFIED requires a polygon, a source, a source_date and MEDIUM/HIGH confidence.",
+    "sources": [
+      {
+        "id": "unirank-location",
+        "title": "uniRank - Al Alamein International University location page",
+        "url": "https://www.unirank.org/eg/uni/al-alamein-international-university/map/",
+        "accessed": "2026-11-15",
+        "provides": "Plus Code RW8J+JWW and a map embed centred on 30.8116875, 28.9298125 (zoom 18). A point reference only; no building outlines.",
+        "licence_note": "Third-party site embedding Google Maps. Only the published point is used; no imagery or tiles are copied."
+      },
+      {
+        "id": "emco-profile-2025",
+        "title": "EMCO Company Profile, September 2025",
+        "url": "https://emcoegypt.com/wp-content/uploads/2025/09/EMCO-Company-Profile-2025-Sept.pdf",
+        "accessed": "2026-11-15",
+        "provides": "Names one campus building: 'Alamein University - Service Building B16' (HVAC and fire-fighting, New Alamein City). No coordinates or drawings.",
+        "licence_note": "Company brochure; used only as a textual name reference."
+      },
+      {
+        "id": "aiu-campus-maps",
+        "title": "AIU official campus maps",
+        "url": "https://aiu.edu.eg/campus-maps/",
+        "accessed": null,
+        "provides": "NOT RETRIEVED: the fetch was refused by the site's robots.txt policy from the automation environment. Needs a manual review by a person.",
+        "licence_note": "Not used."
+      },
+      {
+        "id": "aiu-gallery",
+        "title": "AIU official gallery",
+        "url": "https://aiu.edu.eg/gallery-2/",
+        "accessed": null,
+        "provides": "NOT RETRIEVED: refused by robots.txt from the automation environment. Photographs and renders are not satellite imagery and are not geometry sources.",
+        "licence_note": "Not used."
+      }
+    ]
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "id": "aiu-campus-reference",
+      "geometry": { "type": "Point", "coordinates": [28.9298125, 30.8116875] },
+      "properties": {
+        "kind": "campus_reference",
+        "name": "AIU main campus (reference point)",
+        "backend_building_name": null,
+        "geometry_status": "APPROXIMATE",
+        "source_ids": ["unirank-location"],
+        "source_date": "2026-11-15",
+        "confidence": "LOW",
+        "floor_plan_refs": [],
+        "notes": "Centre of a third-party map embed, not a surveyed point and not the campus centroid. Used only to place the initial view."
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "aiu-campus-boundary",
+      "geometry": null,
+      "properties": {
+        "kind": "campus_boundary",
+        "name": "AIU campus boundary",
+        "backend_building_name": null,
+        "geometry_status": "UNMAPPED",
+        "source_ids": [],
+        "source_date": null,
+        "confidence": "NONE",
+        "floor_plan_refs": [],
+        "notes": "No verified boundary is available. Awaiting the official campus map or a licensed survey."
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "aiu-service-building-b16",
+      "geometry": null,
+      "properties": {
+        "kind": "building",
+        "name": "Service Building B16",
+        "backend_building_name": null,
+        "geometry_status": "UNMAPPED",
+        "source_ids": ["emco-profile-2025"],
+        "source_date": "2025-09-01",
+        "confidence": "NONE",
+        "floor_plan_refs": [],
+        "notes": "Existence and name per the EMCO profile (month-level date). Position and outline unknown. Not linked to a backend building because no backend record carries this name."
+      }
+    }
+  ]
+}
