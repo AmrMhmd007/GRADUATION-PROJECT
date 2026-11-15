@@ -1110,3 +1110,43 @@ button.danger-highrisk:disabled { background: var(--border-strong); border-color
 .ph-fault { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding: 10px 12px; border: 1px solid var(--border); border-left: 4px solid #D97706; border-radius: var(--radius-sm); }
 .ph-fault[data-severity="HIGH"] { border-left-color: #EA580C; }
 .ph-fault[data-severity="CRITICAL"] { border-left-color: var(--red); }
+
+/* ---- Campus Twin (Phase 2A): dark geographic view ---- */
+.twin { display: grid; grid-template-columns: 280px 1fr; gap: 0; height: calc(100vh - 220px); min-height: 480px; background: #14123a; border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-card); color: #e8e9f5; }
+.twin-side { display: flex; flex-direction: column; padding: 14px; gap: 10px; background: #1c1a4e; border-right: 1px solid rgba(255,255,255,.08); min-height: 0; }
+.twin-search { background: rgba(255,255,255,.07); color: #fff; border: 1px solid rgba(255,255,255,.15); }
+.twin-search::placeholder { color: #9496ac; }
+.twin-count { font-size: 12px; color: #9ea1c4; }
+.twin-list { list-style: none; margin: 0; padding: 0; overflow-y: auto; display: flex; flex-direction: column; gap: 4px; }
+.twin-row { width: 100%; display: flex; justify-content: space-between; align-items: center; gap: 8px; background: transparent; color: #e8e9f5; text-align: left; padding: 8px 10px; border: 1px solid transparent; }
+.twin-row:hover:not(:disabled) { background: rgba(255,255,255,.07); }
+.twin-row.active { background: rgba(168,26,31,.25); border-color: rgba(168,26,31,.7); }
+.twin-badge { font-size: 10px; letter-spacing: .04em; text-transform: uppercase; padding: 2px 6px; border-radius: 999px; border: 1px solid rgba(255,255,255,.2); color: #b9bcdc; white-space: nowrap; }
+.twin-badge.verified { color: #7fe0b5; border-color: #2f8f69; }
+.twin-badge.approximate { color: #f2c14e; border-color: #8a6d1f; }
+.twin-empty, .twin-note, .twin-hint { font-size: 12px; color: #9ea1c4; }
+.twin-stage { position: relative; min-width: 0; }
+.twin-map { position: absolute; inset: 0; background: #0f0e2b; background-image: linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px); background-size: 48px 48px; }
+.twin-map .leaflet-control-attribution { background: rgba(20,18,58,.8); color: #9ea1c4; }
+.twin-map .leaflet-control-attribution a { color: #b9bcdc; }
+.twin-tip { background: #1c1a4e; color: #fff; border: 1px solid rgba(255,255,255,.2); box-shadow: none; }
+.twin-banner { position: absolute; left: 50%; bottom: 36px; transform: translateX(-50%); z-index: 500; max-width: 560px; padding: 10px 14px; font-size: 12.5px; background: rgba(20,18,58,.92); border: 1px solid rgba(242,193,78,.45); border-radius: var(--radius-sm); }
+.twin-controls { position: absolute; top: 12px; right: 12px; z-index: 500; width: 220px; padding: 12px; font-size: 12.5px; display: flex; flex-direction: column; gap: 6px; background: rgba(20,18,58,.92); border: 1px solid rgba(255,255,255,.12); border-radius: var(--radius-sm); backdrop-filter: blur(6px); }
+.twin-controls label { display: flex; gap: 6px; align-items: center; }
+.twin-controls label.disabled { opacity: .5; }
+.twin-ctl-title { font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase; color: #9ea1c4; margin-top: 4px; }
+.twin-legend { display: flex; flex-direction: column; gap: 4px; margin-top: 6px; color: #b9bcdc; }
+.twin-legend .sw { display: inline-block; width: 12px; height: 12px; margin-right: 6px; border-radius: 3px; vertical-align: -2px; }
+.sw.verified { background: #4c5cc4; border: 1.5px solid #8fa8ff; }
+.sw.approx { border: 2px dashed #f2c14e; border-radius: 50%; }
+.sw.unmapped { border: 1px dashed #6d7094; }
+.twin-detail { position: absolute; left: 12px; top: 12px; z-index: 500; width: 300px; max-height: calc(100% - 60px); overflow-y: auto; padding: 14px; background: rgba(20,18,58,.94); border: 1px solid rgba(255,255,255,.14); border-radius: var(--radius-sm); }
+.twin-detail h3 { margin: 0 24px 8px 0; font-size: 16px; color: #fff; }
+.twin-close { position: absolute; top: 8px; right: 8px; background: transparent; padding: 0 8px; font-size: 18px; }
+.twin-kv { display: flex; justify-content: space-between; gap: 10px; font-size: 12.5px; padding: 3px 0; }
+.twin-kv span { color: #9ea1c4; }
+.twin-notes { font-size: 12px; color: #b9bcdc; margin: 8px 0; }
+.twin-unavail { font-size: 12.5px; color: #f2c14e; margin: 4px 0; }
+.twin-sources { position: absolute; left: 12px; bottom: 8px; z-index: 500; max-width: 460px; font-size: 11.5px; background: rgba(20,18,58,.92); border: 1px solid rgba(255,255,255,.12); border-radius: var(--radius-sm); padding: 6px 10px; }
+.twin-sources ul { margin: 6px 0 0; padding-left: 16px; max-height: 180px; overflow-y: auto; }
+@media (max-width: 900px) { .twin { grid-template-columns: 1fr; height: auto; } .twin-stage { height: 70vh; } }

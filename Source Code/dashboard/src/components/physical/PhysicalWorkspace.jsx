@@ -1,11 +1,14 @@
-import { useState } from "react";
+import { Suspense, lazy, useState } from "react";
 import CampusMap from "./CampusMap";
+// Leaflet is only loaded when the Campus Twin tab is opened.
+const CampusTwinMap = lazy(() => import("./CampusTwinMap"));
 import OccupancyOverview from "./OccupancyOverview";
 import DeviceFaultsAdmin from "./DeviceFaultsAdmin";
 import FaceIdAdmin from "./FaceIdAdmin";
 
 const TABS = [
   { key: "map", label: "Campus Map" },
+  { key: "twin", label: "Campus Twin" },
   { key: "occupancy", label: "Occupancy" },
   { key: "faults", label: "Device Faults" },
   { key: "face", label: "Face ID" },
@@ -27,6 +30,7 @@ export default function PhysicalWorkspace({ onOpenRoomProfile }) {
       </div>
       <div id="ph-panel" role="tabpanel" aria-labelledby={`ph-tab-${tab}`}>
         {tab === "map" && <CampusMap onOpenRoomProfile={onOpenRoomProfile} />}
+        {tab === "twin" && <Suspense fallback={<p className="muted">Loading map…</p>}><CampusTwinMap /></Suspense>}
         {tab === "occupancy" && <OccupancyOverview />}
         {tab === "faults" && <DeviceFaultsAdmin />}
         {tab === "face" && <FaceIdAdmin />}
