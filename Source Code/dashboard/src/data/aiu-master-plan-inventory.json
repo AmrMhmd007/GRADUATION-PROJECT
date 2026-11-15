@@ -1,19 +1,328 @@
 {
-  "inventory_version": "2026-11-15.1",
-  "purpose": "Reference list of facility names from the historical master plan document. NOT geographic data: this file contains no coordinates and must never be merged into aiu-campus.geojson.",
+  "inventory_version": "2026-11-15.2",
+  "purpose": "Reference list of facility labels from the historical master plan. NOT geographic data: no coordinates, never merge into aiu-campus.geojson.",
   "source_id": "aiu-faculties-pdf-2020",
-  "source_status": "PARTIAL: only page headings were read. Page 6 (master plan image) labels and relative arrangement have NOT been read because the file could not be downloaded in the working environment.",
-  "built_status_note": "Presence in a 2020 master plan does not mean the facility is built or operational.",
+  "source_status": "Page images inspected at 300 dpi (printed pages 4 and 6). Labels transcribed exactly as printed, including source spellings and spacing.",
+  "built_status_note": "Presence in a 2020 master plan does not mean the facility is built or operational. All entries are UNCONFIRMED.",
+  "orientation_note": "The plan has no scale bar and no north arrow. 'Top', 'left' etc. below refer to the page as printed only.",
+  "relative_arrangement": [
+    "The site is a five-sided plot ringed by roads, with parking and landscaped strips around the edge.",
+    "West (left) side, top to bottom: International Law Studies / Business Administration; Computer Science and Engineering 1 (dark-blue cluster); Art & Design and Engineering 2 (light-blue block); Utility Building; female staff/postgrad and student accommodation; Faculty of Tourism and Hospitability near the bottom-left.",
+    "Top centre: Outdoor Theater (hatched), with University Management (red ring) beside it and Central Library & Students Facilities (orange courtyard) just to its lower right.",
+    "Right (east) of centre: Faculty of Pharmacy (upper right), then a yellow cluster for Sciences, Postgrad, Dentistry and Medical School; Dentistry Hospital and Indoor Sports Hall sit between that cluster and the hospital.",
+    "Lower right of centre: University Hospital, the largest building. Bottom: male staff/postgrad and student accommodation.",
+    "Several peach-coloured courtyard blocks in the middle of the plan have no label."
+  ],
+  "leader_line_caveat": "Facilities were matched to blocks by following dotted leader lines in a 300 dpi raster of a low-resolution image. Where one leader serves two labels, or several labels point into one cluster, the split is not recoverable and is recorded as such.",
   "facilities": [
-    { "original_name": "ADMINISTRATION BUILDING", "document_page": 7, "evidence": "page heading (text layer)", "on_master_plan_page_6": "unknown - not read", "relative_position": null, "built_status": "UNCONFIRMED" },
-    { "original_name": "CONFERENCE HALL", "document_page": 8, "evidence": "page heading (text layer)", "on_master_plan_page_6": "unknown - not read", "relative_position": null, "built_status": "UNCONFIRMED" },
-    { "original_name": "LIBRARY", "document_page": 9, "evidence": "page heading (text layer)", "on_master_plan_page_6": "unknown - not read", "relative_position": null, "built_status": "UNCONFIRMED" },
-    { "original_name": "UNIVERSITY HOSPITAL", "document_page": 10, "evidence": "page heading (text layer)", "on_master_plan_page_6": "unknown - not read", "relative_position": null, "built_status": "UNCONFIRMED" },
-    { "original_name": "STUDENT ENTERTAINMENT", "document_page": 11, "evidence": "page heading (text layer)", "on_master_plan_page_6": "unknown - not read", "relative_position": null, "built_status": "UNCONFIRMED" }
+    {
+      "id": "mp-01",
+      "original_name": "FACULTY OF INTERNATIONAL LAW STUDIES",
+      "document_page": 6,
+      "pdf_page": 8,
+      "evidence": "master plan label (page image, read visually)",
+      "label_side": "W",
+      "leader_note": "shares one leader line with the next label",
+      "schematic_block": "law_business",
+      "built_status": "UNCONFIRMED"
+    },
+    {
+      "id": "mp-02",
+      "original_name": "FACULTY OF BUSINESS ADMINISTRATION",
+      "document_page": 6,
+      "pdf_page": 8,
+      "evidence": "master plan label (page image, read visually)",
+      "label_side": "W",
+      "leader_note": "shares one leader line with the previous label",
+      "schematic_block": "law_business",
+      "built_status": "UNCONFIRMED"
+    },
+    {
+      "id": "mp-03",
+      "original_name": "FACULTY OF COMPUTER SCIENCE",
+      "document_page": 6,
+      "pdf_page": 8,
+      "evidence": "master plan label (page image, read visually)",
+      "label_side": "W",
+      "leader_note": "leader ends on the dark-blue cluster; split with Engineering 1 not distinguishable",
+      "schematic_block": "cs_eng1",
+      "built_status": "UNCONFIRMED"
+    },
+    {
+      "id": "mp-04",
+      "original_name": "FACULTY OF ENGINEERING  1-",
+      "document_page": 6,
+      "pdf_page": 8,
+      "evidence": "master plan label (page image, read visually)",
+      "label_side": "W",
+      "leader_note": "printed with a trailing '1-'; leader ends on the dark-blue cluster",
+      "schematic_block": "cs_eng1",
+      "built_status": "UNCONFIRMED"
+    },
+    {
+      "id": "mp-05",
+      "original_name": "FACULTY OF ART & DESIGN",
+      "document_page": 6,
+      "pdf_page": 8,
+      "evidence": "master plan label (page image, read visually)",
+      "label_side": "W",
+      "leader_note": "leader ends near the central peach courtyard blocks; block uncertain",
+      "schematic_block": "art_eng2",
+      "built_status": "UNCONFIRMED"
+    },
+    {
+      "id": "mp-06",
+      "original_name": "FACULTY OF ENGINEERING 2-",
+      "document_page": 6,
+      "pdf_page": 8,
+      "evidence": "master plan label (page image, read visually)",
+      "label_side": "W",
+      "leader_note": "printed with a trailing '2-'; leader ends on the light-blue block",
+      "schematic_block": "art_eng2",
+      "built_status": "UNCONFIRMED"
+    },
+    {
+      "id": "mp-07",
+      "original_name": "UTILITY  BUILDING",
+      "document_page": 6,
+      "pdf_page": 8,
+      "evidence": "master plan label (page image, read visually)",
+      "label_side": "W",
+      "leader_note": "grey block; double space in the original",
+      "schematic_block": "utility",
+      "built_status": "UNCONFIRMED"
+    },
+    {
+      "id": "mp-08",
+      "original_name": "STAFF AND POSTGRAD ACCOMODATION (FEMALE)",
+      "document_page": 6,
+      "pdf_page": 8,
+      "evidence": "master plan label (page image, read visually)",
+      "label_side": "SW",
+      "leader_note": "spelling 'ACCOMODATION' as printed; shares one leader with the next label",
+      "schematic_block": "female_accom",
+      "built_status": "UNCONFIRMED"
+    },
+    {
+      "id": "mp-09",
+      "original_name": "STUDENTS ACCOMODATION (FEMALE)",
+      "document_page": 6,
+      "pdf_page": 8,
+      "evidence": "master plan label (page image, read visually)",
+      "label_side": "SW",
+      "leader_note": "spelling as printed; shares one leader with the previous label",
+      "schematic_block": "female_accom",
+      "built_status": "UNCONFIRMED"
+    },
+    {
+      "id": "mp-10",
+      "original_name": "FACULTY OF TOURISM AND HOSPITABILITY",
+      "document_page": 6,
+      "pdf_page": 8,
+      "evidence": "master plan label (page image, read visually)",
+      "label_side": "SW",
+      "leader_note": "spelling 'HOSPITABILITY' as printed",
+      "schematic_block": "tourism",
+      "built_status": "UNCONFIRMED"
+    },
+    {
+      "id": "mp-11",
+      "original_name": "OUTDOOR THEATER",
+      "document_page": 6,
+      "pdf_page": 8,
+      "evidence": "master plan label (page image, read visually)",
+      "label_side": "N",
+      "leader_note": "hatched seating area at the top",
+      "schematic_block": "theater",
+      "built_status": "UNCONFIRMED"
+    },
+    {
+      "id": "mp-12",
+      "original_name": "UNIVERSITY MANAGEMENT",
+      "document_page": 6,
+      "pdf_page": 8,
+      "evidence": "master plan label (page image, read visually)",
+      "label_side": "N",
+      "leader_note": "red ring-shaped block",
+      "schematic_block": "management",
+      "built_status": "UNCONFIRMED"
+    },
+    {
+      "id": "mp-13",
+      "original_name": "CENTRAL LIBRARY & STUDENTS FACILITIES",
+      "document_page": 6,
+      "pdf_page": 8,
+      "evidence": "master plan label (page image, read visually)",
+      "label_side": "N",
+      "leader_note": "two-line label; orange courtyard block",
+      "schematic_block": "library",
+      "built_status": "UNCONFIRMED"
+    },
+    {
+      "id": "mp-14",
+      "original_name": "FACULTY OF PHARMACY",
+      "document_page": 6,
+      "pdf_page": 8,
+      "evidence": "master plan label (page image, read visually)",
+      "label_side": "E",
+      "leader_note": "orange-red cluster, upper right",
+      "schematic_block": "pharmacy",
+      "built_status": "UNCONFIRMED"
+    },
+    {
+      "id": "mp-15",
+      "original_name": "FACULTY OF SCIENCES",
+      "document_page": 6,
+      "pdf_page": 8,
+      "evidence": "master plan label (page image, read visually)",
+      "label_side": "E",
+      "leader_note": "yellow cluster; split among the next three labels not distinguishable",
+      "schematic_block": "yellow_cluster",
+      "built_status": "UNCONFIRMED"
+    },
+    {
+      "id": "mp-16",
+      "original_name": "FACULTY OF POSTGRAD",
+      "document_page": 6,
+      "pdf_page": 8,
+      "evidence": "master plan label (page image, read visually)",
+      "label_side": "E",
+      "leader_note": "yellow cluster; block uncertain",
+      "schematic_block": "yellow_cluster",
+      "built_status": "UNCONFIRMED"
+    },
+    {
+      "id": "mp-17",
+      "original_name": "FACULTY OF DENTISTRY",
+      "document_page": 6,
+      "pdf_page": 8,
+      "evidence": "master plan label (page image, read visually)",
+      "label_side": "E",
+      "leader_note": "yellow cluster; block uncertain",
+      "schematic_block": "yellow_cluster",
+      "built_status": "UNCONFIRMED"
+    },
+    {
+      "id": "mp-18",
+      "original_name": "MEDICAL SCHOOL",
+      "document_page": 6,
+      "pdf_page": 8,
+      "evidence": "master plan label (page image, read visually)",
+      "label_side": "E",
+      "leader_note": "yellow cluster; block uncertain",
+      "schematic_block": "yellow_cluster",
+      "built_status": "UNCONFIRMED"
+    },
+    {
+      "id": "mp-19",
+      "original_name": "DENTISTRY HOSPITAL",
+      "document_page": 6,
+      "pdf_page": 8,
+      "evidence": "master plan label (page image, read visually)",
+      "label_side": "E",
+      "leader_note": "small teal block between the yellow cluster and the hospital",
+      "schematic_block": "dent_hospital",
+      "built_status": "UNCONFIRMED"
+    },
+    {
+      "id": "mp-20",
+      "original_name": "INDOOR SPORTS HALL",
+      "document_page": 6,
+      "pdf_page": 8,
+      "evidence": "master plan label (page image, read visually)",
+      "label_side": "E",
+      "leader_note": "mint block near the centre",
+      "schematic_block": "sports",
+      "built_status": "UNCONFIRMED"
+    },
+    {
+      "id": "mp-21",
+      "original_name": "UNIVERSITY HOSPITAL",
+      "document_page": 6,
+      "pdf_page": 8,
+      "evidence": "master plan label (page image, read visually)",
+      "label_side": "SE",
+      "leader_note": "large green-teal courtyard building",
+      "schematic_block": "hospital",
+      "built_status": "UNCONFIRMED"
+    },
+    {
+      "id": "mp-22",
+      "original_name": "STAFF AND POSTGRAD ACCOMODATION (MALE)",
+      "document_page": 6,
+      "pdf_page": 8,
+      "evidence": "master plan label (page image, read visually)",
+      "label_side": "S",
+      "leader_note": "spelling as printed; shares one leader with the next label",
+      "schematic_block": "male_accom",
+      "built_status": "UNCONFIRMED"
+    },
+    {
+      "id": "mp-23",
+      "original_name": "STUDENTS ACCOMODATION (MALE)",
+      "document_page": 6,
+      "pdf_page": 8,
+      "evidence": "master plan label (page image, read visually)",
+      "label_side": "S",
+      "leader_note": "spelling as printed; shares one leader with the previous label",
+      "schematic_block": "male_accom",
+      "built_status": "UNCONFIRMED"
+    }
+  ],
+  "facility_page_headings": [
+    {
+      "original_name": "ADMINISTRATION BUILDING",
+      "document_page": 7,
+      "evidence": "page heading (text layer)",
+      "built_status": "UNCONFIRMED",
+      "master_plan_label": null
+    },
+    {
+      "original_name": "CONFERENCE HALL",
+      "document_page": 8,
+      "evidence": "page heading (text layer)",
+      "built_status": "UNCONFIRMED",
+      "master_plan_label": null,
+      "note": "The page 4 rendering shows a sign reading MAIN CONFERENCE HALL; a rendering is not evidence of construction."
+    },
+    {
+      "original_name": "LIBRARY",
+      "document_page": 9,
+      "evidence": "page heading (text layer)",
+      "built_status": "UNCONFIRMED",
+      "master_plan_label": null,
+      "note": "Not assumed identical to 'CENTRAL LIBRARY & STUDENTS FACILITIES'."
+    },
+    {
+      "original_name": "UNIVERSITY HOSPITAL",
+      "document_page": 10,
+      "evidence": "page heading (text layer)",
+      "built_status": "UNCONFIRMED",
+      "master_plan_label": "mp-21"
+    },
+    {
+      "original_name": "STUDENT ENTERTAINMENT",
+      "document_page": 11,
+      "evidence": "page heading (text layer)",
+      "built_status": "UNCONFIRMED",
+      "master_plan_label": null
+    }
   ],
   "other_headings": [
-    { "document_page": 4, "original_text": "GENERAL VIEW", "note": "aerial architectural rendering (image)" },
-    { "document_page": 5, "original_text": "ALAMEIN CITY", "note": "image" },
-    { "document_page": 6, "original_text": "MASTER PLAN", "note": "image with labels - not read" }
+    {
+      "document_page": 4,
+      "original_text": "GENERAL VIEW",
+      "note": "aerial architectural rendering; buildings drawn without labels"
+    },
+    {
+      "document_page": 5,
+      "original_text": "ALAMEIN CITY",
+      "note": "image"
+    },
+    {
+      "document_page": 6,
+      "original_text": "MASTER PLAN",
+      "note": "labelled plan"
+    }
   ]
 }

@@ -1,13 +1,366 @@
 {
-  "matching_version": "2026-11-15.1",
-  "rule": "Evidence table only. No row may be VERIFIED without a satellite visual match and a licensed imagery source. Backend records are never renamed or created from this table.",
-  "backend_inspection": "The repository seed creates no Building rows (only Doors with building strings 'Building A' and 'Building B', placeholders). The real database was not inspected, so any backend match is unknown, not absent.",
+  "matching_version": "2026-11-15.2",
+  "rule": "Evidence table only. A row is VERIFIED only with a satellite visual match from licensed imagery of known date and MEDIUM/HIGH confidence. plan_block_confidence says how sure the label-to-block reading is on the 2020 plan; it says nothing about the real campus. Backend records are never renamed or created from this table.",
+  "backend_inspection": "The repository seed creates no Building rows (only door labels 'Building A' and 'Building B', placeholders). The real database was not inspected, so a backend match is unknown, not absent. Matching must be by exact Building.name supplied by the owner; no name is guessed.",
   "rows": [
-    { "master_plan_name": "ADMINISTRATION BUILDING", "backend_building": null, "satellite_match": null, "confidence": "NONE", "verification_status": "UNVERIFIED", "missing_evidence": ["page 6 position", "backend building list from the real database", "licensed recent imagery", "visual match"] },
-    { "master_plan_name": "CONFERENCE HALL", "backend_building": null, "satellite_match": null, "confidence": "NONE", "verification_status": "UNVERIFIED", "missing_evidence": ["page 6 position", "backend building list from the real database", "licensed recent imagery", "visual match"] },
-    { "master_plan_name": "LIBRARY", "backend_building": null, "satellite_match": null, "confidence": "NONE", "verification_status": "UNVERIFIED", "missing_evidence": ["page 6 position", "backend building list from the real database", "licensed recent imagery", "visual match"] },
-    { "master_plan_name": "UNIVERSITY HOSPITAL", "backend_building": null, "satellite_match": null, "confidence": "NONE", "verification_status": "UNVERIFIED", "missing_evidence": ["page 6 position", "evidence it was built", "licensed recent imagery", "visual match"] },
-    { "master_plan_name": "STUDENT ENTERTAINMENT", "backend_building": null, "satellite_match": null, "confidence": "NONE", "verification_status": "UNVERIFIED", "missing_evidence": ["page 6 position", "evidence it was built", "licensed recent imagery", "visual match"] },
-    { "master_plan_name": "Service Building B16 (EMCO profile, not in the 2020 document)", "backend_building": null, "satellite_match": null, "confidence": "NONE", "verification_status": "UNVERIFIED", "missing_evidence": ["position", "page 6 label if any", "licensed recent imagery", "visual match"] }
+    {
+      "master_plan_id": "mp-01",
+      "master_plan_name": "FACULTY OF INTERNATIONAL LAW STUDIES",
+      "backend_building": null,
+      "satellite_match": null,
+      "plan_block_confidence": "MEDIUM",
+      "confidence": "NONE",
+      "verification_status": "UNVERIFIED",
+      "missing_evidence": [
+        "backend Building list from the real database",
+        "licensed recent imagery with known capture date",
+        "visual match to a current building",
+        "evidence the facility was built"
+      ]
+    },
+    {
+      "master_plan_id": "mp-02",
+      "master_plan_name": "FACULTY OF BUSINESS ADMINISTRATION",
+      "backend_building": null,
+      "satellite_match": null,
+      "plan_block_confidence": "MEDIUM",
+      "confidence": "NONE",
+      "verification_status": "UNVERIFIED",
+      "missing_evidence": [
+        "backend Building list from the real database",
+        "licensed recent imagery with known capture date",
+        "visual match to a current building",
+        "evidence the facility was built"
+      ]
+    },
+    {
+      "master_plan_id": "mp-03",
+      "master_plan_name": "FACULTY OF COMPUTER SCIENCE",
+      "backend_building": null,
+      "satellite_match": null,
+      "plan_block_confidence": "LOW",
+      "confidence": "NONE",
+      "verification_status": "UNVERIFIED",
+      "missing_evidence": [
+        "backend Building list from the real database",
+        "licensed recent imagery with known capture date",
+        "visual match to a current building",
+        "evidence the facility was built"
+      ]
+    },
+    {
+      "master_plan_id": "mp-04",
+      "master_plan_name": "FACULTY OF ENGINEERING  1-",
+      "backend_building": null,
+      "satellite_match": null,
+      "plan_block_confidence": "MEDIUM",
+      "confidence": "NONE",
+      "verification_status": "UNVERIFIED",
+      "missing_evidence": [
+        "backend Building list from the real database",
+        "licensed recent imagery with known capture date",
+        "visual match to a current building",
+        "evidence the facility was built"
+      ]
+    },
+    {
+      "master_plan_id": "mp-05",
+      "master_plan_name": "FACULTY OF ART & DESIGN",
+      "backend_building": null,
+      "satellite_match": null,
+      "plan_block_confidence": "LOW",
+      "confidence": "NONE",
+      "verification_status": "UNVERIFIED",
+      "missing_evidence": [
+        "backend Building list from the real database",
+        "licensed recent imagery with known capture date",
+        "visual match to a current building",
+        "evidence the facility was built"
+      ]
+    },
+    {
+      "master_plan_id": "mp-06",
+      "master_plan_name": "FACULTY OF ENGINEERING 2-",
+      "backend_building": null,
+      "satellite_match": null,
+      "plan_block_confidence": "MEDIUM",
+      "confidence": "NONE",
+      "verification_status": "UNVERIFIED",
+      "missing_evidence": [
+        "backend Building list from the real database",
+        "licensed recent imagery with known capture date",
+        "visual match to a current building",
+        "evidence the facility was built"
+      ]
+    },
+    {
+      "master_plan_id": "mp-07",
+      "master_plan_name": "UTILITY  BUILDING",
+      "backend_building": null,
+      "satellite_match": null,
+      "plan_block_confidence": "MEDIUM",
+      "confidence": "NONE",
+      "verification_status": "UNVERIFIED",
+      "missing_evidence": [
+        "backend Building list from the real database",
+        "licensed recent imagery with known capture date",
+        "visual match to a current building",
+        "evidence the facility was built"
+      ]
+    },
+    {
+      "master_plan_id": "mp-08",
+      "master_plan_name": "STAFF AND POSTGRAD ACCOMODATION (FEMALE)",
+      "backend_building": null,
+      "satellite_match": null,
+      "plan_block_confidence": "MEDIUM",
+      "confidence": "NONE",
+      "verification_status": "UNVERIFIED",
+      "missing_evidence": [
+        "backend Building list from the real database",
+        "licensed recent imagery with known capture date",
+        "visual match to a current building",
+        "evidence the facility was built"
+      ]
+    },
+    {
+      "master_plan_id": "mp-09",
+      "master_plan_name": "STUDENTS ACCOMODATION (FEMALE)",
+      "backend_building": null,
+      "satellite_match": null,
+      "plan_block_confidence": "MEDIUM",
+      "confidence": "NONE",
+      "verification_status": "UNVERIFIED",
+      "missing_evidence": [
+        "backend Building list from the real database",
+        "licensed recent imagery with known capture date",
+        "visual match to a current building",
+        "evidence the facility was built"
+      ]
+    },
+    {
+      "master_plan_id": "mp-10",
+      "master_plan_name": "FACULTY OF TOURISM AND HOSPITABILITY",
+      "backend_building": null,
+      "satellite_match": null,
+      "plan_block_confidence": "MEDIUM",
+      "confidence": "NONE",
+      "verification_status": "UNVERIFIED",
+      "missing_evidence": [
+        "backend Building list from the real database",
+        "licensed recent imagery with known capture date",
+        "visual match to a current building",
+        "evidence the facility was built"
+      ]
+    },
+    {
+      "master_plan_id": "mp-11",
+      "master_plan_name": "OUTDOOR THEATER",
+      "backend_building": null,
+      "satellite_match": null,
+      "plan_block_confidence": "MEDIUM",
+      "confidence": "NONE",
+      "verification_status": "UNVERIFIED",
+      "missing_evidence": [
+        "backend Building list from the real database",
+        "licensed recent imagery with known capture date",
+        "visual match to a current building",
+        "evidence the facility was built"
+      ]
+    },
+    {
+      "master_plan_id": "mp-12",
+      "master_plan_name": "UNIVERSITY MANAGEMENT",
+      "backend_building": null,
+      "satellite_match": null,
+      "plan_block_confidence": "MEDIUM",
+      "confidence": "NONE",
+      "verification_status": "UNVERIFIED",
+      "missing_evidence": [
+        "backend Building list from the real database",
+        "licensed recent imagery with known capture date",
+        "visual match to a current building",
+        "evidence the facility was built"
+      ]
+    },
+    {
+      "master_plan_id": "mp-13",
+      "master_plan_name": "CENTRAL LIBRARY & STUDENTS FACILITIES",
+      "backend_building": null,
+      "satellite_match": null,
+      "plan_block_confidence": "MEDIUM",
+      "confidence": "NONE",
+      "verification_status": "UNVERIFIED",
+      "missing_evidence": [
+        "backend Building list from the real database",
+        "licensed recent imagery with known capture date",
+        "visual match to a current building",
+        "evidence the facility was built"
+      ]
+    },
+    {
+      "master_plan_id": "mp-14",
+      "master_plan_name": "FACULTY OF PHARMACY",
+      "backend_building": null,
+      "satellite_match": null,
+      "plan_block_confidence": "MEDIUM",
+      "confidence": "NONE",
+      "verification_status": "UNVERIFIED",
+      "missing_evidence": [
+        "backend Building list from the real database",
+        "licensed recent imagery with known capture date",
+        "visual match to a current building",
+        "evidence the facility was built"
+      ]
+    },
+    {
+      "master_plan_id": "mp-15",
+      "master_plan_name": "FACULTY OF SCIENCES",
+      "backend_building": null,
+      "satellite_match": null,
+      "plan_block_confidence": "LOW",
+      "confidence": "NONE",
+      "verification_status": "UNVERIFIED",
+      "missing_evidence": [
+        "backend Building list from the real database",
+        "licensed recent imagery with known capture date",
+        "visual match to a current building",
+        "evidence the facility was built"
+      ]
+    },
+    {
+      "master_plan_id": "mp-16",
+      "master_plan_name": "FACULTY OF POSTGRAD",
+      "backend_building": null,
+      "satellite_match": null,
+      "plan_block_confidence": "LOW",
+      "confidence": "NONE",
+      "verification_status": "UNVERIFIED",
+      "missing_evidence": [
+        "backend Building list from the real database",
+        "licensed recent imagery with known capture date",
+        "visual match to a current building",
+        "evidence the facility was built"
+      ]
+    },
+    {
+      "master_plan_id": "mp-17",
+      "master_plan_name": "FACULTY OF DENTISTRY",
+      "backend_building": null,
+      "satellite_match": null,
+      "plan_block_confidence": "LOW",
+      "confidence": "NONE",
+      "verification_status": "UNVERIFIED",
+      "missing_evidence": [
+        "backend Building list from the real database",
+        "licensed recent imagery with known capture date",
+        "visual match to a current building",
+        "evidence the facility was built"
+      ]
+    },
+    {
+      "master_plan_id": "mp-18",
+      "master_plan_name": "MEDICAL SCHOOL",
+      "backend_building": null,
+      "satellite_match": null,
+      "plan_block_confidence": "LOW",
+      "confidence": "NONE",
+      "verification_status": "UNVERIFIED",
+      "missing_evidence": [
+        "backend Building list from the real database",
+        "licensed recent imagery with known capture date",
+        "visual match to a current building",
+        "evidence the facility was built"
+      ]
+    },
+    {
+      "master_plan_id": "mp-19",
+      "master_plan_name": "DENTISTRY HOSPITAL",
+      "backend_building": null,
+      "satellite_match": null,
+      "plan_block_confidence": "MEDIUM",
+      "confidence": "NONE",
+      "verification_status": "UNVERIFIED",
+      "missing_evidence": [
+        "backend Building list from the real database",
+        "licensed recent imagery with known capture date",
+        "visual match to a current building",
+        "evidence the facility was built"
+      ]
+    },
+    {
+      "master_plan_id": "mp-20",
+      "master_plan_name": "INDOOR SPORTS HALL",
+      "backend_building": null,
+      "satellite_match": null,
+      "plan_block_confidence": "MEDIUM",
+      "confidence": "NONE",
+      "verification_status": "UNVERIFIED",
+      "missing_evidence": [
+        "backend Building list from the real database",
+        "licensed recent imagery with known capture date",
+        "visual match to a current building",
+        "evidence the facility was built"
+      ]
+    },
+    {
+      "master_plan_id": "mp-21",
+      "master_plan_name": "UNIVERSITY HOSPITAL",
+      "backend_building": null,
+      "satellite_match": null,
+      "plan_block_confidence": "MEDIUM",
+      "confidence": "NONE",
+      "verification_status": "UNVERIFIED",
+      "missing_evidence": [
+        "backend Building list from the real database",
+        "licensed recent imagery with known capture date",
+        "visual match to a current building",
+        "evidence the facility was built"
+      ]
+    },
+    {
+      "master_plan_id": "mp-22",
+      "master_plan_name": "STAFF AND POSTGRAD ACCOMODATION (MALE)",
+      "backend_building": null,
+      "satellite_match": null,
+      "plan_block_confidence": "MEDIUM",
+      "confidence": "NONE",
+      "verification_status": "UNVERIFIED",
+      "missing_evidence": [
+        "backend Building list from the real database",
+        "licensed recent imagery with known capture date",
+        "visual match to a current building",
+        "evidence the facility was built"
+      ]
+    },
+    {
+      "master_plan_id": "mp-23",
+      "master_plan_name": "STUDENTS ACCOMODATION (MALE)",
+      "backend_building": null,
+      "satellite_match": null,
+      "plan_block_confidence": "MEDIUM",
+      "confidence": "NONE",
+      "verification_status": "UNVERIFIED",
+      "missing_evidence": [
+        "backend Building list from the real database",
+        "licensed recent imagery with known capture date",
+        "visual match to a current building",
+        "evidence the facility was built"
+      ]
+    },
+    {
+      "master_plan_id": null,
+      "master_plan_name": "Service Building B16 (EMCO profile; not on the 2020 plan)",
+      "backend_building": null,
+      "satellite_match": null,
+      "plan_block_confidence": "NONE",
+      "confidence": "NONE",
+      "verification_status": "UNVERIFIED",
+      "missing_evidence": [
+        "position",
+        "licensed recent imagery",
+        "visual match"
+      ]
+    }
   ]
 }

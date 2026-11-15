@@ -1,0 +1,248 @@
+{
+  "schematic_version": "2026-11-15.1",
+  "banner": "HISTORICAL MASTER PLAN \u2014 NOT GEOGRAPHICALLY VERIFIED",
+  "coordinate_space": "SCHEMATIC_PAGE_UNITS",
+  "coordinate_note": "x, y, w, h are positions on a 100 x 100 sketch of the printed plan (x right, y down, block centres). They are not latitude/longitude, have no scale, no orientation and no relation to the ground. Do not convert them to geographic coordinates.",
+  "source_id": "aiu-faculties-pdf-2020",
+  "drawn_by": "hand-placed abstraction of the printed plan; the source image is not traced or embedded",
+  "site_outline_page_units": [
+    [
+      12,
+      22
+    ],
+    [
+      48,
+      14
+    ],
+    [
+      94,
+      34
+    ],
+    [
+      88,
+      78
+    ],
+    [
+      72,
+      98
+    ],
+    [
+      48,
+      92
+    ],
+    [
+      18,
+      78
+    ]
+  ],
+  "blocks": [
+    {
+      "id": "law_business",
+      "x": 27,
+      "y": 29,
+      "w": 18,
+      "h": 6,
+      "fill": "#2f6fc4",
+      "labels": [
+        "mp-01",
+        "mp-02"
+      ],
+      "placement_confidence": "MEDIUM"
+    },
+    {
+      "id": "cs_eng1",
+      "x": 33,
+      "y": 38,
+      "w": 12,
+      "h": 11,
+      "fill": "#1c3f8f",
+      "labels": [
+        "mp-03",
+        "mp-04"
+      ],
+      "placement_confidence": "LOW"
+    },
+    {
+      "id": "art_eng2",
+      "x": 37,
+      "y": 47,
+      "w": 17,
+      "h": 7,
+      "fill": "#6fa8ee",
+      "labels": [
+        "mp-05",
+        "mp-06"
+      ],
+      "placement_confidence": "LOW"
+    },
+    {
+      "id": "utility",
+      "x": 30,
+      "y": 56,
+      "w": 7,
+      "h": 7,
+      "fill": "#5d6678",
+      "labels": [
+        "mp-07"
+      ],
+      "placement_confidence": "MEDIUM"
+    },
+    {
+      "id": "female_accom",
+      "x": 39,
+      "y": 65,
+      "w": 21,
+      "h": 11,
+      "fill": "#b49be0",
+      "labels": [
+        "mp-08",
+        "mp-09"
+      ],
+      "placement_confidence": "MEDIUM"
+    },
+    {
+      "id": "tourism",
+      "x": 45,
+      "y": 75,
+      "w": 10,
+      "h": 6,
+      "fill": "#1fa6c4",
+      "labels": [
+        "mp-10"
+      ],
+      "placement_confidence": "MEDIUM"
+    },
+    {
+      "id": "theater",
+      "x": 45,
+      "y": 26,
+      "w": 5,
+      "h": 5,
+      "fill": "#8c90a6",
+      "labels": [
+        "mp-11"
+      ],
+      "placement_confidence": "MEDIUM"
+    },
+    {
+      "id": "management",
+      "x": 53,
+      "y": 30,
+      "w": 8,
+      "h": 7,
+      "fill": "#d24b2a",
+      "labels": [
+        "mp-12"
+      ],
+      "placement_confidence": "MEDIUM"
+    },
+    {
+      "id": "library",
+      "x": 62,
+      "y": 37,
+      "w": 9,
+      "h": 8,
+      "fill": "#f08a3c",
+      "labels": [
+        "mp-13"
+      ],
+      "placement_confidence": "MEDIUM"
+    },
+    {
+      "id": "pharmacy",
+      "x": 81,
+      "y": 38,
+      "w": 14,
+      "h": 10,
+      "fill": "#f26a1b",
+      "labels": [
+        "mp-14"
+      ],
+      "placement_confidence": "MEDIUM"
+    },
+    {
+      "id": "yellow_cluster",
+      "x": 79,
+      "y": 52,
+      "w": 27,
+      "h": 14,
+      "fill": "#f2d13c",
+      "labels": [
+        "mp-15",
+        "mp-16",
+        "mp-17",
+        "mp-18"
+      ],
+      "placement_confidence": "LOW"
+    },
+    {
+      "id": "dent_hospital",
+      "x": 67,
+      "y": 57,
+      "w": 7,
+      "h": 5,
+      "fill": "#5fb3a5",
+      "labels": [
+        "mp-19"
+      ],
+      "placement_confidence": "LOW"
+    },
+    {
+      "id": "sports",
+      "x": 55,
+      "y": 60,
+      "w": 8,
+      "h": 6,
+      "fill": "#8de0c4",
+      "labels": [
+        "mp-20"
+      ],
+      "placement_confidence": "MEDIUM"
+    },
+    {
+      "id": "hospital",
+      "x": 71,
+      "y": 67,
+      "w": 18,
+      "h": 14,
+      "fill": "#4f8f84",
+      "labels": [
+        "mp-21"
+      ],
+      "placement_confidence": "MEDIUM"
+    },
+    {
+      "id": "male_accom",
+      "x": 60,
+      "y": 82,
+      "w": 15,
+      "h": 12,
+      "fill": "#7a5ce0",
+      "labels": [
+        "mp-22",
+        "mp-23"
+      ],
+      "placement_confidence": "MEDIUM"
+    },
+    {
+      "id": "unlabelled_peach_1",
+      "x": 45,
+      "y": 43,
+      "w": 9,
+      "h": 9,
+      "fill": "#f0b98a",
+      "labels": [],
+      "placement_confidence": "MEDIUM"
+    },
+    {
+      "id": "unlabelled_peach_2",
+      "x": 57,
+      "y": 51,
+      "w": 10,
+      "h": 9,
+      "fill": "#f0b98a",
+      "labels": [],
+      "placement_confidence": "MEDIUM"
+    }
+  ]
+}

@@ -149,7 +149,7 @@ def test_master_plan_source_is_registered_with_limitations(data):
     assert s["document_date"] == "2020-10"
     assert s["source_type"] == "historical architectural master plan"
     assert "not current satellite imagery" in s["limitations"] and "not surveyed GIS" in s["limitations"]
-    assert any(r.startswith("6") for r in s["page_refs"])
+    assert any(r.startswith("printed p.6") for r in s["page_refs"])
 
 
 def test_master_plan_adds_no_geometry(data):
@@ -157,7 +157,7 @@ def test_master_plan_adds_no_geometry(data):
 
 
 def test_reference_files_contain_no_coordinates():
-    for name in ("aiu-master-plan-inventory.json", "aiu-facility-matching.json"):
+    for name in ("aiu-master-plan-inventory.json", "aiu-facility-matching.json", "aiu-master-plan-schematic.json"):
         text = (_DATA / name).read_text(encoding="utf-8")
         for banned in ('"coordinates"', '"geometry"', '"lat"', '"lng"', '"lon"'):
             assert banned not in text, f"{name} must not carry {banned}"
@@ -176,3 +176,43 @@ def test_inventory_does_not_claim_built_status():
         assert f["built_status"] in ("UNCONFIRMED", "CONFIRMED_BUILT")
         if f["built_status"] == "CONFIRMED_BUILT":
             assert f["evidence"] != "page heading (text layer)"
+
+
+# ---- master plan read from the page image, and the schematic layer ----
+def test_inventory_has_the_23_printed_labels_exactly():
+    inv = _ref("aiu-master-plan-inventory.json")
+    names = [f["original_name"] for f in inv["facilities"]]
+    assert len(names) == 23 and len(set(f["id"] for f in inv["facilities"])) == 23
+    for must in ("FACULTY OF TOURISM AND HOSPITABILITY", "STAFF AND POSTGRAD ACCOMODATION (FEMALE)",
+                 "STUDENTS ACCOMODATION (MALE)", "CENTRAL LIBRARY & STUDENTS FACILITIES", "UNIVERSITY HOSPITAL"):
+        assert must in names  # source spellings preserved, not corrected
+    assert all(f["built_status"] == "UNCONFIRMED" for f in inv["facilities"])
+
+
+def test_matching_covers_every_inventory_label_and_verifies_none():
+    inv_ids = {f["id"] for f in _ref("aiu-master-plan-inventory.json")["facilities"]}
+    rows = _ref("aiu-facility-matching.json")["rows"]
+    assert inv_ids <= {r["master_plan_id"] for r in rows}
+    assert all(r["verification_status"] == "UNVERIFIED" and r["backend_building"] is None for r in rows)
+
+
+def test_schematic_is_labelled_and_non_geographic():
+    sch = _ref("aiu-master-plan-schematic.json")
+    assert sch["banner"] == "HISTORICAL MASTER PLAN \u2014 NOT GEOGRAPHICALLY VERIFIED"
+    assert sch["coordinate_space"] == "SCHEMATIC_PAGE_UNITS"
+    inv_ids = {f["id"] for f in _ref("aiu-master-plan-inventory.json")["facilities"]}
+    used = [l for b in sch["blocks"] for l in b["labels"]]
+    assert sorted(used) == sorted(inv_ids)            # every label placed exactly once
+    for b in sch["blocks"]:
+        assert 0 <= b["x"] <= 100 and 0 <= b["y"] <= 100
+
+
+def test_schematic_never_enters_the_geojson(data):
+    text = geo.DATASET_PATH.read_text(encoding="utf-8")
+    assert "SCHEMATIC_PAGE_UNITS" not in text and "site_outline_page_units" not in text
+    assert geo.validate(data) == []
+
+
+def test_page_numbering_offset_is_documented(data):
+    s = next(x for x in data["dataset"]["sources"] if x["id"] == "aiu-faculties-pdf-2020")
+    assert "offset" in s["page_numbering_note"] and len(s["file_sha256"]) == 64

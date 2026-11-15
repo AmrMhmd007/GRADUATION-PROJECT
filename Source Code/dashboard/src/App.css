@@ -1150,3 +1150,17 @@ button.danger-highrisk:disabled { background: var(--border-strong); border-color
 .twin-sources { position: absolute; left: 12px; bottom: 8px; z-index: 500; max-width: 460px; font-size: 11.5px; background: rgba(20,18,58,.92); border: 1px solid rgba(255,255,255,.12); border-radius: var(--radius-sm); padding: 6px 10px; }
 .twin-sources ul { margin: 6px 0 0; padding-left: 16px; max-height: 180px; overflow-y: auto; }
 @media (max-width: 900px) { .twin { grid-template-columns: 1fr; height: auto; } .twin-stage { height: 70vh; } }
+
+/* ---- Historical master plan schematic (not geographic) ---- */
+.hmp { background: #14123a; color: #e8e9f5; border-radius: var(--radius-lg); padding: 16px; box-shadow: var(--shadow-card); }
+.hmp-banner { display: inline-block; padding: 6px 12px; font-weight: 700; letter-spacing: .04em; font-size: 13px; color: #1c1a4e; background: #f2c14e; border-radius: var(--radius-sm); }
+.hmp-sub { font-size: 12.5px; color: #b9bcdc; margin: 8px 0 12px; }
+.hmp-body { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 16px; }
+.hmp-svg { width: 100%; max-height: 72vh; background: #0f0e2b; border-radius: var(--radius-sm); }
+.hmp-site { fill: #1b1a45; stroke: #6d7094; stroke-width: .4; stroke-dasharray: 1.5 1; }
+.hmp-block { stroke: #fff; stroke-opacity: .5; stroke-width: .3; cursor: pointer; }
+.hmp-block.sel { stroke: #fff; stroke-opacity: 1; stroke-width: .8; }
+.hmp-mark { fill: #f2c14e; font-size: 3px; font-weight: 700; }
+.hmp-list { list-style: none; margin: 6px 0; padding: 0; max-height: 52vh; overflow-y: auto; display: flex; flex-direction: column; gap: 2px; }
+.hmp-list .twin-row { font-size: 11.5px; padding: 5px 8px; }
+@media (max-width: 900px) { .hmp-body { grid-template-columns: 1fr; } }

@@ -4,7 +4,7 @@
   "crs_note": "RFC 7946 GeoJSON: WGS 84 (EPSG:4326), coordinates are [longitude, latitude] in decimal degrees.",
   "dataset": {
     "schema_version": 1,
-    "dataset_version": "2026-11-15.2",
+    "dataset_version": "2026-11-15.3",
     "crs": "EPSG:4326",
     "policy": "No coordinate is invented. A feature with geometry_status UNMAPPED has geometry null. VERIFIED requires a polygon, a source, a source_date and MEDIUM/HIGH confidence.",
     "sources": [
@@ -47,14 +47,17 @@
         "accessed": "2026-11-15",
         "document_date": "2020-10",
         "page_refs": [
-          "4 (General view, aerial rendering)",
-          "6 (Master plan)",
-          "7-11 (facility pages)"
+          "printed p.4 (PDF p.6): General view, aerial rendering",
+          "printed p.6 (PDF p.8): Master plan",
+          "printed p.7-11 (PDF p.9-13): facility pages (headings read from text layer only)"
         ],
         "source_type": "historical architectural master plan",
-        "limitations": "Dated October 2020. Architectural/planning material, not current satellite imagery and not surveyed GIS geometry. Shows planned facilities; none is assumed built or operational. Pages 4 and 6 are images: only their headings were read (text extraction); the labels on page 6 were NOT read.",
-        "provides": "Facility page headings (text layer): Administration Building, Conference Hall, Library, University Hospital, Student Entertainment. Page 6 labels and arrangement: not yet read.",
-        "licence_note": "Official university publication. Used only as a textual reference; no image or drawing is copied or traced into the dataset."
+        "limitations": "Dated October 2020. Architectural/planning material: not current satellite imagery and not surveyed GIS geometry. The plan has no scale bar and no north arrow, so orientation, scale and position on the ground are unknown. It shows planned facilities; none is assumed built or operational.",
+        "provides": "23 facility label lines on the master plan (read from the page image) and their relative arrangement, recorded in aiu-master-plan-inventory.json. No coordinates.",
+        "licence_note": "Official university publication. Page images are not copied into the repository; only label text and an original abstract schematic are recorded.",
+        "page_numbering_note": "Printed page numbers are offset by 2 from PDF page indices.",
+        "file_sha256": "a76f09009c40f4e2dba9d7ed5489d601ccce3b1834901d604126e5f4a3b122cc",
+        "file_note": "290-page PDF supplied by the project owner (downloaded through their browser). Not committed to the repository."
       }
     ]
   },

@@ -86,20 +86,21 @@ The detail panel reads the existing `GET /api/rooms-intel/campus-map` (unrestric
 
 Not verified in a browser or with screenshots. No test covers the React view or the browser-side validator (there is no frontend test runner). The Python and JavaScript validators are separate copies of the same rules.
 
-## 11. Historical master plan (added 2026-11-15)
+## 11. Historical master plan (read from the page image, 2026-11-15)
 
-Registered as source `aiu-faculties-pdf-2020`: *Faculties & Scientific Departments, Vol. 2*, October 2020, `https://aiu.edu.eg/wp-content/uploads/2023/05/Faculties-ScientificDepartments.pdf`. Type: historical architectural master plan. Limitations: not current satellite imagery, not surveyed GIS geometry, shows planned facilities.
+Source `aiu-faculties-pdf-2020`: *Faculties & Scientific Departments, Vol. 2*, October 2020, 290 pages, supplied by the project owner (SHA-256 `a76f0900...4a122cc`; not committed). Type: historical architectural master plan. **Printed page numbers are 2 less than PDF page indices**: printed p.4 (General view) is PDF p.6, printed p.6 (Master plan) is PDF p.8.
 
-**What was and was not read.** The PDF text was fetched. Page 4 ("GENERAL VIEW"), 5 ("ALAMEIN CITY") and 6 ("MASTER PLAN") are images: only their headings came through. **The labels and relative arrangement on page 6 have not been read.** The sandbox cannot download the file (proxy returns 403 for `aiu.edu.eg`), and no workaround was used. Page headings 7 to 11 name: ADMINISTRATION BUILDING, CONFERENCE HALL, LIBRARY, UNIVERSITY HOSPITAL, STUDENT ENTERTAINMENT.
-
-Reference files (no coordinates; tests forbid them; never merge into the GeoJSON):
+Limitations: the plan has **no scale bar and no north arrow**; it is not current satellite imagery and not surveyed GIS geometry; it shows planned facilities, none assumed built.
 
 | File | Content |
 |---|---|
-| `dashboard/src/data/aiu-master-plan-inventory.json` | Original names, page, evidence, built status (all `UNCONFIRMED`) |
-| `dashboard/src/data/aiu-facility-matching.json` | Matching table: backend record, satellite match, confidence, status, missing evidence. All `UNVERIFIED` |
+| `dashboard/src/data/aiu-master-plan-inventory.json` | 23 label lines exactly as printed (source spellings kept, e.g. ACCOMODATION, HOSPITABILITY), relative arrangement, leader-line caveats, page-heading facilities |
+| `dashboard/src/data/aiu-facility-matching.json` | One row per label: backend building, satellite match, confidence, status, missing evidence. All `UNVERIFIED` |
+| `dashboard/src/data/aiu-master-plan-schematic.json` | Abstract sketch in 100x100 page units, banner "HISTORICAL MASTER PLAN — NOT GEOGRAPHICALLY VERIFIED"; shown in the "Historical Plan" tab |
 
-The seed creates no `Building` rows (only doors labelled "Building A/B"); the real database was not inspected, so a backend match is unknown rather than absent. No schematic layer was built: it needs page 6.
+None of these contains latitude/longitude or geometry, and tests fail if one does or if schematic terms enter the GeoJSON. Page 4 (General view) is an unlabelled aerial rendering; it was inspected and used for nothing beyond noting a "MAIN CONFERENCE HALL" sign on a drawn building.
+
+Reading limits: leader lines were followed on a low-resolution raster. Several labels share one leader (Law/Business; each Accommodation pair) or point into one cluster (Sciences, Postgrad, Dentistry, Medical School in the yellow cluster; Computer Science and Engineering 1; Art & Design and Engineering 2). Those splits are marked `LOW` and drawn dashed. The "facility page headings" (Administration Building, Conference Hall, Library, University Hospital, Student Entertainment) are not assumed equal to any master-plan label except the identical "UNIVERSITY HOSPITAL".
 
 ## 12. Current imagery: investigation
 
